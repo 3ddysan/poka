@@ -6,11 +6,13 @@ export interface User {
   voted: boolean;
 }
 
+export type Results = Record<string, number> | null;
+
 export interface UserState {
   name: string;
   vote: string | null;
   userList: User[];
-  voteResults: Record<string, number> | null;
+  voteResults: Results;
 }
 
 const API_URL = import.meta.env.VITE_API_URL;

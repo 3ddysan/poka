@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
+import type { Results } from '@/stores/user';
+import type { PropType } from 'vue';
 
-const user = useUserStore();
-const values = ['0', '1', '2', '3', '5', '8', '13', '20', '?', '☕'];
-const highestVote = computed(() =>
-  user.voteResults == null
-    ? ''
-    : Object.keys(user.voteResults).reduce((prev: string, current: string) => {
-        console.log(user.voteResults?.[prev], user.voteResults?.[current]);
-        return (user.voteResults?.[prev] ?? 0) >
-          (user.voteResults?.[current] ?? 0)
-          ? prev
-          : current;
-      }, ''),
-);
+const values = ['0', '1', '2', '3', '5', '8', '13', '20', '?', '☕'] as const;
+// type Vote = typeof values[number] | null;
+defineProps({
+  selected: {
+    type: String as PropType<string | null>,
+    default: null,
+  },
+  results: {
+    type: Object as PropType<Results>,
+    default: null,
+  },
+  marked: {
+    type: String as PropType<string>,
+    default: '',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+});
+defineEmits<{
+  (e: 'select', value: string): void;
+}>();
 </script>
 
 <template>
@@ -23,11 +34,11 @@ const highestVote = computed(() =>
     <Card
       v-for="value in values"
       :key="value"
-      :selected="user.vote === value"
-      :votes="user.voteResults?.[value] ?? 0"
-      :mark="highestVote === value"
-      :disabled="user.voteResults != null"
-      @click="user.setVote(value)"
+      :selected="selected === value"
+      :votes="results?.[value] ?? 0"
+      :mark="marked === value"
+      :disabled="disabled"
+      @click="$emit('select', value)"
       >{{ value }}</Card
     >
   </div>
