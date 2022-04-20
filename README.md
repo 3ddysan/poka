@@ -1,1 +1,3 @@
 # poka
+
+Planning Poker App
