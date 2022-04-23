@@ -18,7 +18,7 @@ fastify.setNotFoundHandler(function (request, reply) {
   reply.sendFile('index.html');
 });
 
-const allowedOrigins = ['localhost'];
+const allowedOrigins = ['localhost', '127.0.0.1'];
 fastify.register(FastifyCors, {
   origin: (origin, cb) => {
     if (!origin || allowedOrigins.includes(new URL(origin).hostname)) {
@@ -98,12 +98,13 @@ fastify.get('/events', function (req, res) {
 fastify.post('/vote', async (req, res) => {
   const { name, vote } = req.body;
   const user = users.get(name);
+  if (vote.length > 3) return res.code(400).send();
   if (user) {
     user.vote = vote;
     broadcastUsers();
     res.code(204).send();
   } else {
-    res.code(404).send({ error: 'unknown user' });
+    res.code(404).send();
   }
 });
 
