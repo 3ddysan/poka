@@ -2,9 +2,6 @@
 import { useUserStore } from '@/stores/user';
 
 const user = useUserStore();
-const votingNotFinished = computed(() =>
-  user.userList.some(({ voted }) => !voted),
-);
 const highestVote = computed(() =>
   user.voteResults == null
     ? ''
@@ -22,7 +19,6 @@ const highestVote = computed(() =>
   <Layout>
     <template #sidebar>
       <UserList
-        :disabled-result-action="votingNotFinished"
         :show-result-action="user.voteResults == null"
         :user-name="user.name"
         :users="user.userList"

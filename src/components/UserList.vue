@@ -2,11 +2,7 @@
 import type { User } from '@/stores/user';
 import type { PropType } from 'vue';
 
-defineProps({
-  disabledResultAction: {
-    type: Boolean,
-    default: false,
-  },
+const props = defineProps({
   userName: {
     type: String,
     default: '',
@@ -21,6 +17,9 @@ defineProps({
   },
 });
 defineEmits(['show-results', 'reset-results', 'logout']);
+const votingNotFinished = computed(
+  () => props.users.length === 1 || props.users.some(({ voted }) => !voted),
+);
 </script>
 
 <template>
@@ -40,7 +39,7 @@ defineEmits(['show-results', 'reset-results', 'logout']);
       v-if="showResultAction"
       class="btn mr-2 mt-4"
       @click="$emit('show-results')"
-      :disabled="disabledResultAction"
+      :disabled="votingNotFinished"
     >
       Results
     </button>
