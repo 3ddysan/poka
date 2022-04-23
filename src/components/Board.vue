@@ -11,7 +11,7 @@ defineProps({
   },
   results: {
     type: Object as PropType<Results>,
-    default: null,
+    default: undefined,
   },
   marked: {
     type: String as PropType<string>,
@@ -23,7 +23,7 @@ defineProps({
   },
 });
 defineEmits<{
-  (e: 'select', value: string): void;
+  (e: 'update:selected', value: string): void;
 }>();
 </script>
 
@@ -38,7 +38,7 @@ defineEmits<{
       :votes="results?.[value] ?? 0"
       :mark="marked === value"
       :disabled="disabled"
-      @click="$emit('select', value)"
+      @click="$emit('update:selected', value)"
       >{{ value }}</Card
     >
   </div>

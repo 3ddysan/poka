@@ -4,15 +4,24 @@ export default {
   title: 'Board',
   component: Board,
   argTypes: {
-    // onClick: {},
+    selected: { control: 'text' },
+    'update:selected': { action: 'update:selected' },
   },
 };
 
-const Template = (args, { argTypes }) => ({
+export const Playground = (args) => ({
   components: { Board },
-  props: Object.keys(argTypes),
-  template: '<Board v-bind="$props"></Board>',
+  setup() {
+    return {
+      args,
+      selection: ref(args.selected),
+    };
+  },
+  template: `<Board 
+      v-model:selected="selection" 
+      :results="args.results" 
+      :marked="args.marked" 
+      :disabled="args.disabled"
+      @update:selected="args['update:selected']"
+    />`,
 });
-
-export const Empty = Template.bind({});
-Empty.args = {};

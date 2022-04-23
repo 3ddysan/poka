@@ -37,7 +37,7 @@ const highestVote = computed(() =>
         :marked="highestVote"
         :selected="user.vote"
         :results="user.voteResults"
-        @select="user.setVote($event)"
+        @update:selected="user.setVote($event)"
       />
     </template>
   </Layout>

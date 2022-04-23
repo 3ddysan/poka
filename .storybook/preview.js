@@ -5,6 +5,11 @@ import 'virtual:windi.css';
 app.use(createPinia());
 
 export const parameters = {
+  previewTabs: {
+    'storybook/docs/panel': {
+      hidden: true,
+    },
+  },
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {
@@ -13,3 +18,10 @@ export const parameters = {
     },
   },
 }
+
+export const decorators = [
+  (story) => ({
+    components: { story },
+    template: '<div style="display: flex; align-items: center; justify-content: center;"><story /></div>',
+  }),
+];
