@@ -15,6 +15,7 @@ const go = () => {
     <div>
       <input
         v-model="name"
+        v-focus
         type="text"
         equired
         :class="{ 'border-red-300': user.connected == null }"
