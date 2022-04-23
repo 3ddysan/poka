@@ -29,6 +29,7 @@
     "@storybook/addon-actions": "6.5.0-alpha.64",
     "@storybook/addon-essentials": "6.5.0-alpha.64",
     "@storybook/addon-links": "6.5.0-alpha.64",
+    "@storybook/addon-storysource": "6.5.0-alpha.64",
     "@storybook/builder-vite": "^0.1.30",
     "@storybook/vue3": "6.5.0-alpha.64",
     "@types/jsdom": "^16.2.14",
