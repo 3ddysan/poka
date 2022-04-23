@@ -5,6 +5,9 @@ export default {
   component: Card,
   argTypes: {
     click: { action: 'click' },
+    default: {
+      defaultValue: '10',
+    },
   },
 };
 
@@ -21,6 +24,22 @@ export const Playground = (args) => ({
     </Card>`,
 });
 
-Playground.args = {
-  default: '10',
+export const Selected = Playground.bind({});
+Selected.args = {
+  selected: true,
+};
+
+export const Marked = Playground.bind({});
+Marked.args = {
+  mark: true,
+};
+
+export const Disabled = Playground.bind({});
+Disabled.args = {
+  disabled: true,
+};
+
+export const Votes = Playground.bind({});
+Votes.args = {
+  votes: 3,
 };

@@ -7,6 +7,9 @@ export default {
     'show-results': { action: 'show-results' },
     'reset-results': { action: 'reset-results' },
     logout: { action: 'logout' },
+    userName: {
+      defaultValue: 'Joe',
+    },
     users: {
       control: {
         type: 'array',

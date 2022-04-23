@@ -25,3 +25,26 @@ export const Playground = (args) => ({
       @update:selected="args['update:selected']"
     />`,
 });
+
+export const Selected = Playground.bind({});
+Selected.args = {
+  selected: '3',
+};
+
+export const Marked = Playground.bind({});
+Marked.args = {
+  marked: '3',
+};
+
+export const Disabled = Playground.bind({});
+Disabled.args = {
+  disabled: true,
+};
+
+export const Votes = Playground.bind({});
+Votes.args = {
+  results: {
+    3: 2,
+    5: 1,
+  },
+};
