@@ -1,8 +1,4 @@
-import {
-  render as mount,
-  type RenderOptions,
-  fireEvent,
-} from '@testing-library/vue';
+import { render as mount, type RenderOptions } from '@testing-library/vue';
 import UserList from '@/components/UserList.vue';
 
 const buildUsers = (voted = false) =>
