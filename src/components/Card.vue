@@ -21,7 +21,7 @@ defineEmits(['click']);
 const classes = computed(() =>
   (props.selected
     ? ['text-white', 'bg-blue-400']
-    : ['bg-white', 'text-gray-700']
+    : [props.disabled ? 'text-gray-400' : 'text-gray-700', 'bg-white']
   ).concat(props.mark ? ['shadow-lg', 'shadow-blue-400'] : []),
 );
 </script>
