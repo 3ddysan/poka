@@ -1,6 +1,6 @@
 import Fastify from 'fastify';
-import FastifyCors from 'fastify-cors';
-import FastifyStatic from 'fastify-static';
+import FastifyCors from '@fastify/cors';
+import FastifyStatic from '@fastify/static';
 import { URL, fileURLToPath } from 'url';
 
 const fastify = Fastify({
