@@ -1,7 +1,8 @@
-import Fastify from 'fastify';
+import Fastify, { type FastifyRequest } from 'fastify';
 import FastifyCors from '@fastify/cors';
 import FastifyStatic from '@fastify/static';
 import { URL, fileURLToPath } from 'url';
+import type { ServerResponse } from 'http';
 
 const fastify = Fastify({
   logger: {
@@ -26,15 +27,20 @@ fastify.register(FastifyCors, {
     if (!origin || allowedOrigins.includes(new URL(origin).hostname)) {
       cb(null, true);
     } else {
-      cb(new Error('Not allowed'));
+      cb(new Error('Not allowed'), false);
     }
   },
 });
 
-const users = new Map();
+type User = {
+  vote?: string;
+  response: ServerResponse;
+};
+
+const users = new Map<string, User>();
 
 function calcResults() {
-  const results = {};
+  const results: Record<string, number> = {};
   for (const [, { vote }] of users) {
     if (!vote) return null;
     results[vote] = (results[vote] ?? 0) + 1;
@@ -42,7 +48,7 @@ function calcResults() {
   return results;
 }
 
-function send(response, type, data) {
+function send(response: ServerResponse, type: string, data: unknown) {
   response.write(`event: ${type}\n`);
   if (typeof data === 'object') {
     response.write(`data: ${JSON.stringify(data)}\n\n`);
@@ -53,7 +59,7 @@ function send(response, type, data) {
   }
 }
 
-function broadcast(type = 'message', data) {
+function broadcast(type = 'message', data?: unknown) {
   fastify.log.info(`Broadcast '${type}': ${JSON.stringify(data)}`);
   users.forEach(({ response }) => {
     send(response, type, data);
@@ -67,7 +73,7 @@ function broadcastUsers() {
   );
 }
 
-function setup(req, response) {
+function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
   const { heartbeat = 5000, name } = req.query;
   fastify.log.info(`Client '${name}' connected`);
   response.writeHead(200, {
@@ -83,7 +89,7 @@ function setup(req, response) {
     () => response.write(': heartbeat\n'),
     heartbeat,
   );
-  users.set(name, { vote: '', response, heartbeatInterval });
+  users.set(name, { vote: '', response });
   req.raw.setTimeout(0);
   req.socket.setNoDelay(true);
   req.socket.setKeepAlive(true);
@@ -95,7 +101,11 @@ function setup(req, response) {
   });
 }
 
-fastify.get('/events', function (req, res) {
+type EventsRequest = {
+  Querystring: { name: string; heartbeat?: number };
+};
+
+fastify.get<EventsRequest>('/events', function (req, res) {
   const { name } = req.query;
   const { raw: response } = res;
   if (!name?.trim() || users.has(name)) {
@@ -106,7 +116,9 @@ fastify.get('/events', function (req, res) {
   broadcastUsers();
 });
 
-fastify.post('/vote', async (req, res) => {
+fastify.post<{
+  Body: { name: string; vote: string };
+}>('/vote', async (req, res) => {
   const { name, vote } = req.body;
   const user = users.get(name);
   if (vote.length > 3) return res.code(400).send();

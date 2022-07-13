@@ -9,7 +9,7 @@
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006 -h localhost",
-    "server": "node server/index.mjs",
+    "server": "tsx server/index.ts",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
@@ -46,6 +46,7 @@
     "eslint-plugin-vue": "^9.2.0",
     "happy-dom": "^6.0.3",
     "prettier": "^2.7.1",
+    "tsx": "^3.8.0",
     "typescript": "~4.7.4",
     "unplugin-auto-import": "^0.9.2",
     "unplugin-vue-components": "^0.21.1",
