@@ -2,7 +2,6 @@ import type { PiniaPlugin, Store } from 'pinia';
 import type { Ref } from 'vue';
 
 declare module 'pinia' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   export interface DefineStoreOptionsBase<S extends StateTree, Store> {
     sse?: string[];
   }
@@ -14,7 +13,7 @@ declare module 'pinia' {
 }
 
 let eventSource: EventSource | undefined;
-const connected = ref<boolean | undefined>(false);
+const connected = ref<boolean>(false);
 const subscriptions: Map<string, Record<string, unknown>[]> = new Map();
 
 function addEventListener() {
@@ -26,7 +25,7 @@ function addEventListener() {
         if (typeof fn === 'function') {
           fn(data);
         } else {
-          console.log('Missing handler:', event, data);
+          console.warn('Missing handler:', event, data);
         }
       });
     });
@@ -35,7 +34,6 @@ function addEventListener() {
 
 export function createSSEPlugin(): PiniaPlugin {
   return ({ options: { sse }, store }) => {
-    console.log('sse', store.$id);
     if (sse == null) return;
     sse.forEach((event) => {
       if (subscriptions.has(event)) {
@@ -52,7 +50,7 @@ export function createSSEPlugin(): PiniaPlugin {
           connected.value = true;
         };
         eventSource.onerror = () => {
-          connected.value = undefined;
+          connected.value = false;
         };
         addEventListener();
       },
