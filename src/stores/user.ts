@@ -1,31 +1,24 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { useFetch } from '@vueuse/core';
 
 export interface User {
   name: string;
   voted: boolean;
 }
 
-export type Results = Record<string, number> | null;
-
 export interface UserState {
   name: string;
-  vote: string | null;
   userList: User[];
-  voteResults: Results;
 }
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const useUserStore = defineStore({
   id: 'user',
-  sse: ['users', 'results', 'reset'],
+  sse: ['users'],
   state: () =>
     <UserState>{
       name: '',
-      vote: null,
       userList: [],
-      voteResults: null,
     },
   actions: {
     setName(name: string) {
@@ -36,33 +29,8 @@ export const useUserStore = defineStore({
         this.disconnect();
       }
     },
-    async setVote(value: string) {
-      const vote = this.vote === value ? '' : value;
-      await useFetch(`${API_URL}/vote`, {
-        afterFetch: (ctx) => {
-          this.vote = vote;
-          return ctx;
-        },
-      }).post({
-        name: this.name,
-        vote,
-      });
-    },
-    async showResults() {
-      await useFetch(`${API_URL}/results`);
-    },
-    async resetResults() {
-      await useFetch(`${API_URL}/results`).delete();
-    },
     users(usersMessage: string) {
       this.userList = JSON.parse(usersMessage);
-    },
-    results(resultsMessage: string) {
-      this.voteResults = JSON.parse(resultsMessage);
-    },
-    reset() {
-      this.vote = '';
-      this.voteResults = null;
     },
   },
 });

@@ -1,4 +1,4 @@
-import type { PiniaPlugin } from 'pinia';
+import type { PiniaPlugin, Store } from 'pinia';
 import type { Ref } from 'vue';
 
 declare module 'pinia' {
@@ -13,11 +13,38 @@ declare module 'pinia' {
   }
 }
 
+let eventSource: EventSource | undefined;
+const connected = ref<boolean | undefined>(false);
+const subscriptions: Map<string, Record<string, unknown>[]> = new Map();
+
+function addEventListener() {
+  if (eventSource == null) return;
+  subscriptions.forEach((stores, event) => {
+    eventSource?.addEventListener(event, ({ data }) => {
+      stores.forEach((s) => {
+        const fn = s[event];
+        if (typeof fn === 'function') {
+          fn(data);
+        } else {
+          console.log('Missing handler:', event, data);
+        }
+      });
+    });
+  });
+}
+
 export function createSSEPlugin(): PiniaPlugin {
   return ({ options: { sse }, store }) => {
-    if (!sse) return;
-    let eventSource: EventSource | undefined;
-    const connected = ref<boolean | undefined>(false);
+    console.log('sse', store.$id);
+    if (sse == null) return;
+    sse.forEach((event) => {
+      if (subscriptions.has(event)) {
+        subscriptions.get(event)?.push(store);
+      } else {
+        subscriptions.set(event, [store]);
+      }
+    });
+    addEventListener();
     return {
       connect(url: string) {
         eventSource = new EventSource(url);
@@ -27,11 +54,7 @@ export function createSSEPlugin(): PiniaPlugin {
         eventSource.onerror = () => {
           connected.value = undefined;
         };
-        sse.forEach((event) => {
-          eventSource?.addEventListener(event, ({ data }) => {
-            store[event]?.(data);
-          });
-        });
+        addEventListener();
       },
       disconnect() {
         eventSource?.close();
