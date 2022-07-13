@@ -6,7 +6,9 @@ import { URL, fileURLToPath } from 'url';
 const fastify = Fastify({
   logger: {
     level: 'info',
-    prettyPrint: true,
+    transport: {
+      target: 'pino-pretty',
+    },
   },
 });
 
@@ -30,6 +32,15 @@ fastify.register(FastifyCors, {
 });
 
 const users = new Map();
+
+function calcResults() {
+  const results = {};
+  for (const [, { vote }] of users) {
+    if (!vote) return null;
+    results[vote] = (results[vote] ?? 0) + 1;
+  }
+  return results;
+}
 
 function send(response, type, data) {
   response.write(`event: ${type}\n`);
@@ -109,10 +120,7 @@ fastify.post('/vote', async (req, res) => {
 });
 
 fastify.get('/results', async (req, res) => {
-  const results = {};
-  for (const [, { vote }] of users) {
-    results[vote] = (results[vote] ?? 0) + 1;
-  }
+  const results = calcResults();
   broadcast('results', results);
   res.code(200).send(results);
 });
@@ -128,7 +136,7 @@ fastify.delete('/results', async (req, res) => {
 
 (async () => {
   try {
-    await fastify.listen(3000);
+    await fastify.listen({ port: 3000 });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
