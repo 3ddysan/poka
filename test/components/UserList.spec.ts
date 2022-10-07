@@ -1,8 +1,8 @@
 import { render as mount, type RenderOptions } from '@testing-library/vue';
 import UserList from '@/components/UserList.vue';
 
-const buildUsers = (voted = false) =>
-  Array.from({ length: 3 }, (_, i) => ({
+const buildUsers = (voted = false, length = 3) =>
+  Array.from({ length }, (_, i) => ({
     name: `user${i}`,
     voted,
   }));
@@ -50,10 +50,7 @@ describe('UserList', () => {
       },
     });
 
-    expect(getByTestId('user-list-results-action')).toHaveAttribute(
-      'disabled',
-      'false',
-    );
+    expect(getByTestId('user-list-results-action')).toBeEnabled();
   });
 
   test('should render actions for finished voting', () => {
