@@ -8,8 +8,8 @@ Planning Poker App
 
 1.  Install dependencies `pnpm i`
 
-2.  Build frontend `pnpm build`
+2.  Start server `pnpm run server`
 
-3.  Start server and serve files `pnpm run server`
+3.  Start frontend `pnpm run dev`
 
-4.  Open `http://localhost:5173/`
+4.  Open `https://localhost:5173/`

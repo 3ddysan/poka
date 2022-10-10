@@ -105,7 +105,7 @@ type EventsRequest = {
   Querystring: { name: string; heartbeat?: number };
 };
 
-fastify.get<EventsRequest>('/events', function (req, res) {
+fastify.get<EventsRequest>('/api/events', function (req, res) {
   const { name } = req.query;
   const { raw: response } = res;
   if (!name?.trim() || users.has(name)) {
@@ -118,7 +118,7 @@ fastify.get<EventsRequest>('/events', function (req, res) {
 
 fastify.post<{
   Body: { name: string; vote: string };
-}>('/vote', async (req, res) => {
+}>('/api/vote', async (req, res) => {
   const { name, vote } = req.body;
   const user = users.get(name);
   if (vote.length > 3) return res.code(400).send();
@@ -131,13 +131,13 @@ fastify.post<{
   }
 });
 
-fastify.get('/results', async (req, res) => {
+fastify.get('/api/results', async (req, res) => {
   const results = calcResults();
   broadcast('results', results);
   res.code(200).send(results);
 });
 
-fastify.delete('/results', async (req, res) => {
+fastify.delete('/api/results', async (req, res) => {
   users.forEach((user) => {
     user.vote = '';
   });

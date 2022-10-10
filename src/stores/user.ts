@@ -10,8 +10,6 @@ export interface UserState {
   userList: User[];
 }
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 export const useUserStore = defineStore({
   id: 'user',
   sse: ['users'],
@@ -24,7 +22,7 @@ export const useUserStore = defineStore({
     setName(name: string) {
       this.name = name;
       if (name) {
-        this.connect(`${API_URL}/events?name=${name}`);
+        this.connect(`/api/events?name=${name}`);
       } else {
         this.disconnect();
       }

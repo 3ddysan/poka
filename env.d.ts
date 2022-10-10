@@ -1,9 +1,8 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-pages/client" />
 
-interface ImportMetaEnv {
-  readonly VITE_API_URL: string;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface ImportMetaEnv {}
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;

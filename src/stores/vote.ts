@@ -9,7 +9,6 @@ export interface VoteState {
   voteResults: Results;
 }
 
-const API_URL = import.meta.env.VITE_API_URL;
 const user = useUserStore();
 
 export const useVoteStore = defineStore({
@@ -36,7 +35,7 @@ export const useVoteStore = defineStore({
   actions: {
     async setVote(value: string) {
       const vote = this.vote === value ? '' : value;
-      await useFetch(`${API_URL}/vote`, {
+      await useFetch('/api/vote', {
         afterFetch: (ctx) => {
           this.vote = vote;
           return ctx;
@@ -47,10 +46,10 @@ export const useVoteStore = defineStore({
       });
     },
     async showResults() {
-      await useFetch(`${API_URL}/results`);
+      await useFetch('/api/results');
     },
     async resetResults() {
-      await useFetch(`${API_URL}/results`).delete();
+      await useFetch('/api/results').delete();
     },
     results(resultsMessage: string) {
       this.voteResults = JSON.parse(resultsMessage);
