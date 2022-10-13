@@ -22,8 +22,11 @@ export default defineConfig({
   plugins: [
     mkcert(),
     vue(),
-    Components(),
+    Components({
+      dts: 'src/components.d.ts',
+    }),
     AutoImport({
+      dts: 'src/auto-imports.d.ts',
       eslintrc: {
         enabled: true,
       },
