@@ -6,6 +6,7 @@ import Components from 'unplugin-vue-components/vite';
 import AutoImport from 'unplugin-auto-import/vite';
 import Pages from 'vite-plugin-pages';
 import WindiCSS from 'vite-plugin-windicss';
+import Inspect from 'vite-plugin-inspect';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -34,6 +35,7 @@ export default defineConfig({
     }),
     Pages(),
     WindiCSS(),
+    Inspect(),
   ],
   resolve: {
     alias: {

@@ -39,6 +39,7 @@ specifiers:
   unplugin-auto-import: ^0.11.2
   unplugin-vue-components: ^0.22.8
   vite: 3.1.8
+  vite-plugin-inspect: ^0.7.5
   vite-plugin-mkcert: ^1.10.1
   vite-plugin-pages: ^0.26.0
   vite-plugin-windicss: ^1.8.8
@@ -92,6 +93,7 @@ devDependencies:
   unplugin-auto-import: 0.11.2_xprgaq42dappzfhggpxgvdf43y
   unplugin-vue-components: 0.22.8_vue@3.2.40
   vite: 3.1.8
+  vite-plugin-inspect: 0.7.5_vite@3.1.8
   vite-plugin-mkcert: 1.10.1_vite@3.1.8
   vite-plugin-pages: 0.26.0_vite@3.1.8
   vite-plugin-windicss: 1.8.8_vite@3.1.8
@@ -2483,6 +2485,13 @@ packages:
       }
     dependencies:
       '@octokit/openapi-types': 13.13.1
+    dev: true
+
+  /@polka/url/1.0.0-next.21:
+    resolution:
+      {
+        integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==,
+      }
     dev: true
 
   /@rollup/pluginutils/4.2.1:
@@ -10471,6 +10480,13 @@ packages:
       }
     dev: true
 
+  /kolorist/1.6.0:
+    resolution:
+      {
+        integrity: sha512-dLkz37Ab97HWMx9KTes3Tbi3D1ln9fCAy2zr2YVExJasDRPGRaKcoE4fycWNtnCAJfjFqe0cnY+f8KT2JePEXQ==,
+      }
+    dev: true
+
   /latest-version/5.1.0:
     resolution:
       {
@@ -11641,6 +11657,14 @@ packages:
         integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==,
       }
     engines: { node: '>=4' }
+    dev: true
+
+  /mrmime/1.0.1:
+    resolution:
+      {
+        integrity: sha512-hzzEagAgDyoU1Q6yg5uI+AorQgdvMCur3FcKf7NhMKWsaYg+RnbTyHRa/9IlLF9rf455MOCtcqqrQQ83pPP7Uw==,
+      }
+    engines: { node: '>=10' }
     dev: true
 
   /ms/2.0.0:
@@ -14092,6 +14116,18 @@ packages:
       }
     dev: true
 
+  /sirv/2.0.2:
+    resolution:
+      {
+        integrity: sha512-4Qog6aE29nIjAOKe/wowFTxOdmbEZKb+3tsLljaBRzJwtqto0BChD2zzH0LhgCSXiI+V7X+Y45v14wBZQ1TK3w==,
+      }
+    engines: { node: '>= 10' }
+    dependencies:
+      '@polka/url': 1.0.0-next.21
+      mrmime: 1.0.1
+      totalist: 3.0.0
+    dev: true
+
   /sisteransi/1.0.5:
     resolution:
       {
@@ -14820,6 +14856,14 @@ packages:
       }
     dev: true
 
+  /totalist/3.0.0:
+    resolution:
+      {
+        integrity: sha512-eM+pCBxXO/njtF7vdFsHuqb+ElbxqtI4r5EAvk6grfAFyJ6IvWlSkfZ5T9ozC6xWw3Fj1fGoSmrl0gUs46JVIw==,
+      }
+    engines: { node: '>=6' }
+    dev: true
+
   /tr46/0.0.3:
     resolution:
       {
@@ -15002,6 +15046,13 @@ packages:
       }
     engines: { node: '>=4.2.0' }
     hasBin: true
+
+  /ufo/0.8.5:
+    resolution:
+      {
+        integrity: sha512-e4+UtA5IRO+ha6hYklwj6r7BjiGMxS0O+UaSg9HbaTefg4kMkzj4tXzEBajRR+wkxf+golgAWKzLbytCUDMJAA==,
+      }
+    dev: true
 
   /uglify-js/3.16.2:
     resolution:
@@ -15638,6 +15689,26 @@ packages:
       is-buffer: 2.0.5
       unist-util-stringify-position: 3.0.2
       vfile-message: 3.1.2
+    dev: true
+
+  /vite-plugin-inspect/0.7.5_vite@3.1.8:
+    resolution:
+      {
+        integrity: sha512-O8xq6dbvD1G7le75u6BfQTXJDUMXcRYlMVPzUpRjSB6hLyqH6BNnNkNrb/cVgCNNmKwk7dX+H2I+XVU2xpJk9Q==,
+      }
+    engines: { node: '>=14' }
+    peerDependencies:
+      vite: ^3.1.0
+    dependencies:
+      '@rollup/pluginutils': 4.2.1
+      debug: 4.3.4
+      fs-extra: 10.1.0
+      kolorist: 1.6.0
+      sirv: 2.0.2
+      ufo: 0.8.5
+      vite: 3.1.8
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /vite-plugin-mkcert/1.10.1_vite@3.1.8:
