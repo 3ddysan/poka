@@ -1,0 +1,11 @@
+node_modules
+.github
+.git
+.gitignore
+.husky
+.storybook
+.vscode
+dist
+.dockerignore
+Dockerfile
+Dockerfile*.*
