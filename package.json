@@ -4,13 +4,13 @@
   "scripts": {
     "serve": "npm-run-all -l -p server dev",
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit && vite build && esbuild server/index.ts --outfile=server/index.mjs",
     "preview": "vite preview --port 5050",
     "test": "vitest run",
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "storybook": "storybook dev -p 6006 -h localhost",
-    "server": "tsx server/index.ts",
+    "server": "tsx watch server/index.ts",
     "build-storybook": "storybook build",
     "prepare": "husky install"
   },
