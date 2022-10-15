@@ -5,16 +5,19 @@ import { URL, fileURLToPath } from 'url';
 import type { ServerResponse } from 'http';
 
 const fastify = Fastify({
-  logger: {
-    level: 'info',
-    transport: {
-      target: 'pino-pretty',
-    },
-  },
+  logger:
+    process.env.NODE_ENV === 'dev'
+      ? {
+          level: 'info',
+          transport: {
+            target: 'pino-pretty',
+          },
+        }
+      : true,
 });
 
 fastify.register(FastifyStatic, {
-  root: fileURLToPath(new URL('../dist', import.meta.url)),
+  root: fileURLToPath(new URL('./dist', import.meta.url)),
 });
 
 fastify.setNotFoundHandler(function (request, reply) {
@@ -148,7 +151,7 @@ fastify.delete('/api/results', async (req, res) => {
 
 (async () => {
   try {
-    await fastify.listen({ port: 3000 });
+    await fastify.listen({ host: '0.0.0.0', port: 3000 });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

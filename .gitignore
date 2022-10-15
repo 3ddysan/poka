@@ -25,4 +25,4 @@ coverage
 *.sln
 *.sw?
 
-server/index.mjs
+server.mjs
