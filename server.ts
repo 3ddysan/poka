@@ -5,6 +5,7 @@ import { URL, fileURLToPath } from 'url';
 import type { ServerResponse } from 'http';
 
 const fastify = Fastify({
+  trustProxy: true,
   logger:
     process.env.NODE_ENV === 'dev'
       ? {
