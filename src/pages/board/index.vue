@@ -4,6 +4,10 @@ import { useVoteStore } from '@/stores/vote';
 
 const user = useUserStore();
 const vote = useVoteStore();
+const logout = () => {
+  vote.reset();
+  user.disconnect();
+};
 </script>
 
 <template>
@@ -15,7 +19,7 @@ const vote = useVoteStore();
         :users="user.userList"
         @show-results="vote.showResults()"
         @reset-results="vote.resetResults()"
-        @logout="user.disconnect()"
+        @logout="logout()"
       />
     </template>
     <template #main>
