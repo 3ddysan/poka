@@ -31,6 +31,9 @@ fastify.register(FastifyCors, {
     if (!origin || ORIGIN === new URL(origin).hostname) {
       cb(null, true);
     } else {
+      fastify.log.warn(
+        `CORS: request origin "${origin}" mismatches with "${ORIGIN}"`,
+      );
       cb(new Error('Not allowed'), false);
     }
   },
