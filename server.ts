@@ -4,6 +4,7 @@ import FastifyStatic from '@fastify/static';
 import { URL, fileURLToPath } from 'url';
 import type { ServerResponse } from 'http';
 
+const ORIGIN = process.env.ORIGIN || 'localhost';
 const isDev = process.env.NODE_ENV === 'dev';
 const fastify = Fastify({
   trustProxy: true,
@@ -25,10 +26,9 @@ fastify.setNotFoundHandler(function (request, reply) {
   reply.sendFile('index.html');
 });
 
-const allowedOrigins = ['localhost', '127.0.0.1'];
 fastify.register(FastifyCors, {
   origin: (origin, cb) => {
-    if (!origin || allowedOrigins.includes(new URL(origin).hostname)) {
+    if (!origin || ORIGIN === new URL(origin).hostname) {
       cb(null, true);
     } else {
       cb(new Error('Not allowed'), false);
