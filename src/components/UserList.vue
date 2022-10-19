@@ -44,6 +44,7 @@ const votingNotFinished = computed(
     </div>
     <button
       v-if="showResultAction"
+      key="results"
       data-testid="user-list-results-action"
       class="btn mr-2 mt-4"
       @click="$emit('show-results')"
@@ -53,6 +54,7 @@ const votingNotFinished = computed(
     </button>
     <button
       v-else
+      key="restart"
       data-testid="user-list-restart-action"
       class="btn mr-2 mt-4"
       @click="$emit('reset-results')"
@@ -60,6 +62,7 @@ const votingNotFinished = computed(
       Restart
     </button>
     <button
+      key="logout"
       data-testid="user-list-logout-action"
       class="btn"
       @click="$emit('logout')"
