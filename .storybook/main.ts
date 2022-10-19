@@ -35,6 +35,9 @@ const config: StorybookViteConfig = {
     '@storybook/addon-storysource',
   ],
   framework: '@storybook/vue3-vite',
+  core: {
+    disableTelemetry: true,
+  },
 };
 
 export default config;
