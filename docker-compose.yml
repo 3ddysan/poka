@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  poka:
+    image: poka
+    container_name: poka
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      ORIGIN: ${ORIGIN:-localhost}
+    ports:
+      - 3000:3000
