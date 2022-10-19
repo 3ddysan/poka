@@ -21,3 +21,4 @@ coverage
 *.sw?
 server.mjs
 .eslintcache
+docker-compose.override.yml
