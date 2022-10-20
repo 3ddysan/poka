@@ -14,7 +14,7 @@ specifiers:
   '@testing-library/jest-dom': ^5.16.5
   '@testing-library/vue': ^6.6.1
   '@types/jsdom': ^20.0.0
-  '@types/node': ^18.11.2
+  '@types/node': 18.8.0
   '@types/testing-library__jest-dom': ^5.14.5
   '@vitejs/plugin-vue': ^3.1.2
   '@vue/eslint-config-prettier': ^7.0.0
@@ -75,12 +75,12 @@ devDependencies:
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/vue': 6.6.1_vue@3.2.41
   '@types/jsdom': 20.0.0
-  '@types/node': 18.11.2
+  '@types/node': 18.8.0
   '@types/testing-library__jest-dom': 5.14.5
   '@vitejs/plugin-vue': 3.1.2_vite@3.1.8+vue@3.2.41
   '@vue/eslint-config-prettier': 7.0.0_znq2sm4m5bonjw4qqm6mwhbe2q
   '@vue/eslint-config-typescript': 11.0.2_qsmcthc5ijamuzfurbvbpwqwnm
-  '@vue/tsconfig': 0.1.3_@types+node@18.11.2
+  '@vue/tsconfig': 0.1.3_@types+node@18.8.0
   babel-loader: 8.2.5_@babel+core@7.19.3
   esbuild: 0.15.12
   eslint: 8.25.0
@@ -4186,6 +4186,13 @@ packages:
       }
     dev: true
 
+  /@types/node/18.8.0:
+    resolution:
+      {
+        integrity: sha512-u+h43R6U8xXDt2vzUaVP3VwjjLyOJk6uEciZS8OSyziUQGOwmk+l+4drxcsDboHXwyTaqS1INebghmWMRxq3LA==,
+      }
+    dev: true
+
   /@types/node/8.10.66:
     resolution:
       {
@@ -4764,7 +4771,7 @@ packages:
       vue: 3.2.41
     dev: true
 
-  /@vue/tsconfig/0.1.3_@types+node@18.11.2:
+  /@vue/tsconfig/0.1.3_@types+node@18.8.0:
     resolution:
       {
         integrity: sha512-kQVsh8yyWPvHpb8gIc9l/HIDiiVUy1amynLNpCy8p+FoCiZXCo6fQos5/097MmnNZc9AtseDsCrfkhqCrJ8Olg==,
@@ -4775,7 +4782,7 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@types/node': 18.11.2
+      '@types/node': 18.8.0
     dev: true
 
   /@vueuse/core/9.3.1_vue@3.2.41:
