@@ -17,6 +17,15 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
+        configure: (proxy) => {
+          proxy.on('proxyRes', (proxyRes, req, res) => {
+            res.on('close', () => {
+              if (!res.writableEnded) {
+                proxyRes.destroy();
+              }
+            });
+          });
+        },
       },
     },
   },
