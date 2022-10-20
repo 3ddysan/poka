@@ -1,13 +1,22 @@
+import { z } from 'zod';
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { useFetch } from '@vueuse/core';
 
-export interface User {
-  name: string;
-  vote: string;
-  voted: boolean;
-}
+const User = z.object({
+  name: z.string(),
+  vote: z.string(),
+  voted: z.boolean(),
+});
+export type User = z.infer<typeof User>;
 
-export type Results = Record<string, number> | null;
+const Results = z.record(z.string(), z.number()).nullable();
+export type Results = z.infer<typeof Results>;
+
+const ServerState = z.object({
+  users: z.array(User),
+  results: Results,
+});
+export type ServerState = z.infer<typeof ServerState>;
 
 export interface UserState {
   name: string;
@@ -40,7 +49,7 @@ export const useStateStore = defineStore({
   },
   actions: {
     state(stateMessage: string) {
-      const { users, results } = JSON.parse(stateMessage);
+      const { users, results } = ServerState.parse(JSON.parse(stateMessage));
       if (this.results != null && results == null) {
         this.vote = '';
       }
