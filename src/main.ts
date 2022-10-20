@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import { router } from './plugins/router';
 import { pinia } from './plugins/pinia';
+import { createRouter } from './plugins/router';
 import 'virtual:windi.css';
 
 createApp(App)
@@ -9,5 +9,5 @@ createApp(App)
     mounted: (el) => el.focus(),
   })
   .use(pinia)
-  .use(router)
+  .use(createRouter())
   .mount('#app');

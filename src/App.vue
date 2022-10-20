@@ -1,34 +1,3 @@
-<script lang="ts" setup>
-import { useStateStore } from '@/stores/state';
-
-const state = useStateStore();
-const router = useRouter();
-
-router.beforeEach(async (to, from, next) => {
-  if (to.name === 'index') {
-    state.setName('');
-    next();
-    return;
-  }
-  if (state.connected) {
-    next();
-  } else {
-    next({ name: 'index' });
-  }
-});
-
-watch(
-  () => state.connected,
-  (connected) => {
-    if (connected) {
-      router.push({ name: 'plan' });
-    } else {
-      router.push({ name: 'index' });
-    }
-  },
-);
-</script>
-
 <template>
   <router-view v-slot="{ Component }">
     <transition name="fade" mode="out-in">

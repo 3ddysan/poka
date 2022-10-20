@@ -8,7 +8,7 @@ declare module 'pinia' {
   export interface PiniaCustomProperties {
     connect: (name: string) => void;
     disconnect: () => void;
-    connected: Ref<boolean | undefined>;
+    connected: Ref<boolean>;
   }
 }
 
