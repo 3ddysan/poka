@@ -24,6 +24,9 @@ export default defineConfig({
                 proxyRes.destroy();
               }
             });
+            proxyRes.on('close', () => {
+              res.destroy();
+            });
           });
         },
       },
