@@ -90,7 +90,7 @@ function broadcastState() {
   const state: State = {
     users: Array.from(users, ([name, { vote }]) => ({
       name,
-      vote,
+      vote: showResults ? vote : '',
       voted: !!vote,
     })),
     results: showResults ? calcResults() : null,
