@@ -13,7 +13,7 @@ router.beforeEach(async (to, from, next) => {
   if (state.connected) {
     next();
   } else {
-    next('/');
+    next({ name: 'index' });
   }
 });
 
@@ -21,9 +21,9 @@ watch(
   () => state.connected,
   (connected) => {
     if (connected) {
-      router.push('/board');
+      router.push({ name: 'plan' });
     } else {
-      router.push('/');
+      router.push({ name: 'index' });
     }
   },
 );

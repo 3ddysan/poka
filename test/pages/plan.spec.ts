@@ -1,8 +1,9 @@
 import { fireEvent, screen } from '@testing-library/vue';
-import Board from '@/pages/board/index.vue';
+import Plan from '@/pages/plan.vue';
 import { useStateStore } from '@/stores/state';
 
 const state = useStateStore();
+const render = () => mount(Plan);
 
 describe('Page -> Board', () => {
   beforeEach(() => {
@@ -18,21 +19,21 @@ describe('Page -> Board', () => {
   });
 
   test('should show user count', () => {
-    mount(Board);
+    render();
     expect(screen.getByTestId('user-list-title')).toHaveTextContent(
       'User (' + state.users.length + ')',
     );
   });
 
   test('should show user list', () => {
-    mount(Board);
+    render();
     expect(
       screen.getAllByTestId('user-list-entry').map((el) => el.textContent),
     ).toEqual(expect.arrayContaining(['User (✓) ', 'AnotherUser (×) ']));
   });
 
   test('should show disabled results action', () => {
-    mount(Board);
+    render();
     expect(screen.getByTestId('user-list-results-action')).toBeDisabled();
   });
 
@@ -43,23 +44,23 @@ describe('Page -> Board', () => {
         { name: 'AnotherUser', voted: true },
       ],
     });
-    mount(Board);
+    render();
     expect(screen.getByTestId('user-list-results-action')).toBeEnabled();
   });
 
   test('should show restart action', () => {
     state.$patch({ results: { '0': 1 } });
-    mount(Board);
+    render();
     expect(screen.getByTestId('user-list-restart-action')).toBeEnabled();
   });
 
   test('should show logout action', () => {
-    mount(Board);
+    render();
     expect(screen.getByTestId('user-list-logout-action')).not.toBeDisabled();
   });
 
   test('should cleanup state after logout action', async () => {
-    mount(Board);
+    render();
 
     await fireEvent.click(screen.getByTestId('user-list-logout-action'));
 
