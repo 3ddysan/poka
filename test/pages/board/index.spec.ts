@@ -1,27 +1,26 @@
 import { fireEvent, screen } from '@testing-library/vue';
 import Board from '@/pages/board/index.vue';
-import { useUserStore } from '@/stores/user';
-import { useVoteStore } from '@/stores/vote';
+import { useStateStore } from '@/stores/state';
 
-const user = useUserStore();
-const vote = useVoteStore();
+const state = useStateStore();
 
 describe('Page -> Board', () => {
   beforeEach(() => {
-    user.$patch({
+    state.$patch({
       name: 'User',
-      userList: [
+      users: [
         { name: 'User', voted: true },
         { name: 'AnotherUser', voted: false },
       ],
+      vote: '0',
+      results: null,
     });
-    vote.$patch({ vote: '0', voteResults: null });
   });
 
   test('should show user count', () => {
     mount(Board);
     expect(screen.getByTestId('user-list-title')).toHaveTextContent(
-      'User (' + user.userList.length + ')',
+      'User (' + state.users.length + ')',
     );
   });
 
@@ -29,7 +28,7 @@ describe('Page -> Board', () => {
     mount(Board);
     expect(
       screen.getAllByTestId('user-list-entry').map((el) => el.textContent),
-    ).toEqual(expect.arrayContaining(['User ✓', 'AnotherUser ×']));
+    ).toEqual(expect.arrayContaining(['User (✓) ', 'AnotherUser (×) ']));
   });
 
   test('should show disabled results action', () => {
@@ -38,8 +37,8 @@ describe('Page -> Board', () => {
   });
 
   test('should show results action', () => {
-    user.$patch({
-      userList: [
+    state.$patch({
+      users: [
         { name: 'User', voted: true },
         { name: 'AnotherUser', voted: true },
       ],
@@ -49,7 +48,7 @@ describe('Page -> Board', () => {
   });
 
   test('should show restart action', () => {
-    vote.$patch({ voteResults: { '0': 1 } });
+    state.$patch({ results: { '0': 1 } });
     mount(Board);
     expect(screen.getByTestId('user-list-restart-action')).toBeEnabled();
   });
@@ -64,7 +63,6 @@ describe('Page -> Board', () => {
 
     await fireEvent.click(screen.getByTestId('user-list-logout-action'));
 
-    expect(vote.reset).toHaveBeenCalled();
-    expect(user.disconnect).toHaveBeenCalled();
+    expect(state.logout).toHaveBeenCalled();
   });
 });

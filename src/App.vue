@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/user';
+import { useStateStore } from '@/stores/state';
 
-const user = useUserStore();
+const state = useStateStore();
 const router = useRouter();
 
 router.beforeEach(async (to, from, next) => {
   if (to.name === 'index') {
-    user.setName('');
+    state.setName('');
     next();
     return;
   }
-  if (user.connected) {
+  if (state.connected) {
     next();
   } else {
     next('/');
@@ -18,7 +18,7 @@ router.beforeEach(async (to, from, next) => {
 });
 
 watch(
-  () => user.connected,
+  () => state.connected,
   (connected) => {
     if (connected) {
       router.push('/board');

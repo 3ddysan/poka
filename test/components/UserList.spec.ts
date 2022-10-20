@@ -5,6 +5,7 @@ const buildUsers = (voted = false, length = 3) =>
   Array.from({ length }, (_, i) => ({
     name: `user${i}`,
     voted,
+    vote: '1',
   }));
 const render = (options?: RenderOptions) => mount(UserList, options);
 
@@ -16,6 +17,7 @@ describe('UserList', () => {
     const { getByTestId, getAllByTestId } = render({
       props: {
         users,
+        showResultAction: true,
       },
     });
 
@@ -24,7 +26,7 @@ describe('UserList', () => {
     );
     const entries = getAllByTestId('user-list-entry');
     entries.forEach((entry, i) => {
-      expect(entry).toHaveTextContent(`${users[i].name} ${voted}`);
+      expect(entry).toHaveTextContent(`${users[i].name} (${voted})`);
     });
     expect(entries).toHaveLength(users.length);
   });

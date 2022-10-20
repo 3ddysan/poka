@@ -39,14 +39,27 @@ fastify.register(FastifyCors, {
   },
 });
 
+type EventsRequest = {
+  Querystring: { name: string; heartbeat?: number };
+};
+
 type User = {
-  vote?: string;
+  name: string;
+  vote: string;
+  voted: boolean;
   response: ServerResponse;
 };
 
-const users = new Map<string, User>();
+type Results = Record<string, number>;
 
-function calcResults() {
+type State = {
+  users: Omit<User, 'response'>[];
+  results: Results | null;
+};
+
+const users = new Map<string, Omit<User, 'name'>>();
+let showResults = false;
+function calcResults(): Results | null {
   const results: Record<string, number> = {};
   for (const [, { vote }] of users) {
     if (!vote) return null;
@@ -73,11 +86,16 @@ function broadcast(type = 'message', data?: unknown) {
   });
 }
 
-function broadcastUsers() {
-  broadcast(
-    'users',
-    Array.from(users, ([name, { vote }]) => ({ name, voted: !!vote })),
-  );
+function broadcastState() {
+  const state: State = {
+    users: Array.from(users, ([name, { vote }]) => ({
+      name,
+      vote,
+      voted: !!vote,
+    })),
+    results: showResults ? calcResults() : null,
+  };
+  broadcast('state', state);
 }
 
 function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
@@ -96,7 +114,7 @@ function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     () => response.write(': heartbeat\n'),
     heartbeat,
   );
-  users.set(name, { vote: '', response });
+  users.set(name, { vote: '', voted: false, response });
   req.raw.setTimeout(0);
   req.socket.setNoDelay(true);
   req.socket.setKeepAlive(true);
@@ -104,13 +122,9 @@ function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     fastify.log.info(`Client '${name}' disconnect`);
     clearInterval(heartbeatInterval);
     users.delete(name);
-    broadcastUsers();
+    broadcastState();
   });
 }
-
-type EventsRequest = {
-  Querystring: { name: string; heartbeat?: number };
-};
 
 fastify.get<EventsRequest>('/api/events', function (req, res) {
   const { name } = req.query;
@@ -120,7 +134,8 @@ fastify.get<EventsRequest>('/api/events', function (req, res) {
     return;
   }
   setup(req, response);
-  broadcastUsers();
+  showResults = false;
+  broadcastState();
 });
 
 fastify.post<{
@@ -131,7 +146,7 @@ fastify.post<{
   if (vote.length > 3) return res.code(400).send();
   if (user) {
     user.vote = vote;
-    broadcastUsers();
+    broadcastState();
     res.code(204).send();
   } else {
     res.code(404).send();
@@ -139,18 +154,19 @@ fastify.post<{
 });
 
 fastify.get('/api/results', async (req, res) => {
-  const results = calcResults();
-  broadcast('results', results);
-  res.code(200).send(results);
+  showResults = true;
+  res.code(204).send();
+  broadcastState();
 });
 
 fastify.delete('/api/results', async (req, res) => {
+  showResults = false;
   users.forEach((user) => {
     user.vote = '';
+    user.voted = false;
   });
-  broadcast('reset');
-  broadcastUsers();
   res.code(204).send();
+  broadcastState();
 });
 
 (async () => {

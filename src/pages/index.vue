@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
+import { useStateStore } from '@/stores/state';
 
-const user = useUserStore();
-const name = ref(user.name);
+const state = useStateStore();
+const name = ref(state.name);
 const go = () => {
   if (name.value) {
-    user.setName(name.value);
+    state.setName(name.value);
   }
 };
 </script>
@@ -18,7 +18,7 @@ const go = () => {
         v-focus
         type="text"
         equired
-        :class="{ 'border-red-300': user.connected == null }"
+        :class="{ 'border-red-300': state.connected == null }"
         class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:(outline-none ring-indigo-500 border-indigo-500)"
         placeholder="Username"
         autocomplete="false"

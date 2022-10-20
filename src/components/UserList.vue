@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { User } from '@/stores/user';
+import type { User } from '@/stores/state';
 import type { PropType } from 'vue';
 
 const props = defineProps({
@@ -34,11 +34,13 @@ const votingNotFinished = computed(
       <ul class="mt-2 text-gray-600">
         <li
           data-testid="user-list-entry"
-          v-for="{ name, voted } in users"
+          v-for="{ name, voted, vote } in users"
           :key="name"
         >
           <span :class="{ 'font-bold': userName === name }">{{ name }}</span>
-          {{ voted ? '✓' : '×' }}
+          <span class="text-sm">
+            ({{ showResultAction ? (voted ? '✓' : '×') : vote }})
+          </span>
         </li>
       </ul>
     </div>
