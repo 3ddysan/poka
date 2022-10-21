@@ -32,6 +32,23 @@ describe('Index', () => {
     render();
     await fireEvent.update(screen.getByTestId('login-name'), name);
     await fireEvent.click(screen.getByTestId('login-action'));
-    expect(state.setName).toHaveBeenCalledWith(name);
+    expect(state.login).toHaveBeenCalledWith(name);
+  });
+
+  test.each(['  ', ''])(
+    'should not accept invalid name (%#)',
+    async (invalidName) => {
+      render();
+      await fireEvent.update(screen.getByTestId('login-name'), invalidName);
+      await fireEvent.click(screen.getByTestId('login-action'));
+      expect(state.login).not.toHaveBeenCalled();
+    },
+  );
+
+  test('should trim name', async () => {
+    render();
+    await fireEvent.update(screen.getByTestId('login-name'), `  ${name} `);
+    await fireEvent.click(screen.getByTestId('login-action'));
+    expect(state.login).toHaveBeenCalledWith(name);
   });
 });

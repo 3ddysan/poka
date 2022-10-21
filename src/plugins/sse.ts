@@ -6,7 +6,7 @@ declare module 'pinia' {
     sse?: string[];
   }
   export interface PiniaCustomProperties {
-    connect: (name: string) => void;
+    connect: (name: string) => Promise<void>;
     disconnect: () => void;
     connected: Ref<boolean>;
   }
@@ -44,21 +44,24 @@ export function createSSEPlugin(): PiniaPlugin {
     });
     addEventListener();
     return {
-      connect(url: string) {
-        eventSource = new EventSource(url);
-        eventSource.onopen = () => {
-          connected.value = true;
-        };
-        eventSource.onerror = () => {
-          connected.value = false;
-        };
-        addEventListener();
-      },
+      connect: async (url: string) =>
+        new Promise((resolve, reject) => {
+          eventSource = new EventSource(url);
+          eventSource.onopen = () => {
+            resolve();
+            connected.value = true;
+          };
+          eventSource.onerror = (e) => {
+            reject(e);
+            connected.value = false;
+          };
+          addEventListener();
+        }),
       disconnect() {
         eventSource?.close();
         connected.value = false;
       },
-      connected,
+      connected: readonly(connected),
     };
   };
 }

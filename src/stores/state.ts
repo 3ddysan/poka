@@ -56,14 +56,6 @@ export const useStateStore = defineStore({
       this.users = users;
       this.results = results;
     },
-    setName(name: string) {
-      this.name = name;
-      if (name) {
-        this.connect(`/api/events?name=${name}`);
-      } else {
-        this.disconnect();
-      }
-    },
     async setVote(value: string) {
       const vote = this.vote === value ? '' : value;
       await useFetch('/api/vote', {
@@ -82,8 +74,15 @@ export const useStateStore = defineStore({
     async resetResults() {
       await useFetch('/api/results').delete();
     },
+    async login(name: string) {
+      if (!name) return;
+      await this.connect(`/api/events?name=${name}`);
+      this.name = name;
+    },
     logout() {
       this.disconnect();
+      this.name = '';
+      this.vote = '';
     },
   },
 });

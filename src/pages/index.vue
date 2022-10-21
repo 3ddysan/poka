@@ -4,8 +4,9 @@ import { useStateStore } from '@/stores/state';
 const state = useStateStore();
 const name = ref(state.name);
 const login = () => {
-  if (name.value) {
-    state.setName(name.value);
+  const userName = name.value?.trim();
+  if (userName) {
+    state.login(userName);
   }
 };
 </script>

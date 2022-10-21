@@ -18,7 +18,6 @@ export const createRouter = () => {
 
   router.beforeEach(async (to, from, next) => {
     if (to.name === 'index') {
-      state.setName('');
       next();
       return;
     }

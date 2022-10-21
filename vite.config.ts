@@ -74,5 +74,6 @@ export default defineConfig({
     globals: true,
     environment: 'happy-dom',
     setupFiles: ['test/setup.ts'],
+    clearMocks: true,
   },
 });
