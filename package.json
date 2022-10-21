@@ -14,6 +14,7 @@
     "serve:build": "node server.mjs",
     "serve:storybook": "storybook dev -p 6006 -h localhost",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "upgrade": "taze"
   },
@@ -44,6 +45,7 @@
     "@types/node": "18.8.0",
     "@types/testing-library__jest-dom": "^5.14.5",
     "@vitejs/plugin-vue": "^3.1.2",
+    "@vitest/coverage-c8": "^0.24.3",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
     "@vue/tsconfig": "^0.1.3",
