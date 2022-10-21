@@ -16,12 +16,8 @@ const router = create({
 export const createRouter = () => {
   const state = useStateStore();
 
-  router.beforeEach(async (to, from, next) => {
-    if (to.name === 'index') {
-      next();
-      return;
-    }
-    if (state.connected) {
+  router.beforeEach((to, from, next) => {
+    if (state.connected || to.name === 'index') {
       next();
     } else {
       next({ name: 'index' });
