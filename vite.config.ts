@@ -7,6 +7,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Pages from 'vite-plugin-pages';
 import WindiCSS from 'vite-plugin-windicss';
 import Inspect from 'vite-plugin-inspect';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -48,6 +49,18 @@ export default defineConfig({
     Pages(),
     WindiCSS(),
     Inspect(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
+      manifest: {
+        name: 'Poka',
+        short_name: 'Poka',
+        description: 'Agile Planning Poker',
+        theme_color: '#e5e7eb',
+      },
+    }),
   ],
   resolve: {
     alias: {
