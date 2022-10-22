@@ -65,7 +65,7 @@ function calcResults(): Results | null {
     if (!voted) continue;
     results[vote] = (results[vote] ?? 0) + 1;
   }
-  return results;
+  return Object.keys(results).length === 0 ? null : results;
 }
 
 function send(response: ServerResponse, type: string, data: unknown) {
@@ -122,6 +122,7 @@ function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     fastify.log.info(`Client '${name}' disconnect`);
     clearInterval(heartbeatInterval);
     users.delete(name);
+    if (showResults && users.size <= 1) showResults = false;
     broadcastState();
   });
 }
@@ -134,6 +135,7 @@ fastify.get<EventsRequest>('/api/events', function (req, res) {
     return;
   }
   setup(req, response);
+  if (showResults && users.size === 1) showResults = false;
   broadcastState();
 });
 
