@@ -12,7 +12,7 @@ const emit = defineEmits<{
 
 const name = ref('');
 const login = () => {
-  if (name.value) emit('login', encodeURIComponent(name.value));
+  if (name.value) emit('login', name.value);
 };
 const { t } = useI18n();
 </script>

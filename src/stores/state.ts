@@ -65,7 +65,7 @@ export const useStateStore = defineStore({
           return ctx;
         },
       }).post({
-        name: this.name,
+        name: encodeURIComponent(this.name),
         vote,
       });
     },
@@ -79,7 +79,7 @@ export const useStateStore = defineStore({
       if (!name) return;
       try {
         this.error = false;
-        await this.connect(`/api/events?name=${name}`);
+        await this.connect(`/api/events?name=${encodeURIComponent(name)}`);
         this.name = name;
       } catch (e: unknown) {
         this.error = true;
