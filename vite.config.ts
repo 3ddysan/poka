@@ -8,6 +8,7 @@ import Pages from 'vite-plugin-pages';
 import WindiCSS from 'vite-plugin-windicss';
 import Inspect from 'vite-plugin-inspect';
 import { VitePWA } from 'vite-plugin-pwa';
+import VueI18n from '@intlify/vite-plugin-vue-i18n';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -44,7 +45,7 @@ export default defineConfig({
       eslintrc: {
         enabled: true,
       },
-      imports: ['vue', 'vue-router'],
+      imports: ['vue', 'vue-router', 'vue-i18n', '@vueuse/core'],
     }),
     Pages(),
     WindiCSS(),
@@ -60,6 +61,9 @@ export default defineConfig({
         description: 'Agile Planning Poker',
         theme_color: '#e5e7eb',
       },
+    }),
+    VueI18n({
+      defaultSFCLang: 'yml',
     }),
   ],
   resolve: {

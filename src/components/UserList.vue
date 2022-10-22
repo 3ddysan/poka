@@ -17,6 +17,7 @@ const props = defineProps({
   },
 });
 defineEmits(['show-results', 'reset-results', 'logout']);
+const { t } = useI18n();
 </script>
 
 <template>
@@ -26,7 +27,7 @@ defineEmits(['show-results', 'reset-results', 'logout']);
         data-testid="user-list-title"
         class="text-gray-800 font-semibold text-center"
       >
-        User ({{ users.length }})
+        {{ t('title') }} ({{ users.length }})
       </h2>
       <ul class="mt-2 text-gray-600">
         <li
@@ -53,7 +54,7 @@ defineEmits(['show-results', 'reset-results', 'logout']);
         class="btn"
         @click="$emit('reset-results')"
       >
-        Restart
+        {{ t('restart') }}
       </button>
       <button
         v-else
@@ -63,7 +64,7 @@ defineEmits(['show-results', 'reset-results', 'logout']);
         @click="$emit('show-results')"
         :disabled="mode !== 'ready'"
       >
-        Results
+        {{ t('results') }}
       </button>
       <button
         key="logout"
@@ -71,7 +72,7 @@ defineEmits(['show-results', 'reset-results', 'logout']);
         class="btn"
         @click="$emit('logout')"
       >
-        Logout
+        {{ t('logout') }}
       </button>
     </div>
   </div>
@@ -85,3 +86,16 @@ defineEmits(['show-results', 'reset-results', 'logout']);
   max-width: 200px;
 }
 </style>
+
+<i18n>
+en:
+  title: 'User'
+  logout: 'Logout'
+  results: 'Result'
+  restart: 'Restart'
+de:
+  title: 'Benutzer'
+  logout: 'Abmelden'
+  results: 'Ergebnis'
+  restart: 'Neustart'
+</i18n>

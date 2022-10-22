@@ -1,8 +1,4 @@
-import {
-  render as mount,
-  type RenderOptions,
-  fireEvent,
-} from '@testing-library/vue';
+import { type RenderOptions, fireEvent } from '@testing-library/vue';
 import Board from '@/components/Board.vue';
 
 const render = (options?: RenderOptions) => mount(Board, options);

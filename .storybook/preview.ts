@@ -1,4 +1,10 @@
 import 'virtual:windi.css';
+import { setup } from '@storybook/vue3';
+import { createI18n } from 'vue-i18n';
+
+setup((app) => {
+  app.use(createI18n({}));
+});
 
 export const parameters = {
   previewTabs: {

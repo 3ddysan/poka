@@ -1,9 +1,4 @@
-import {
-  render as mount,
-  type RenderOptions,
-  fireEvent,
-  screen,
-} from '@testing-library/vue';
+import { type RenderOptions, fireEvent, screen } from '@testing-library/vue';
 import Login from '@/components/Login.vue';
 
 const render = (options?: RenderOptions) => mount(Login, options);

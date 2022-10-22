@@ -6,23 +6,6 @@ import WindiCSS from 'vite-plugin-windicss';
 import type { StorybookViteConfig } from '@storybook/builder-vite';
 
 const config: StorybookViteConfig = {
-  async viteFinal(config, { configType }) {
-    return mergeConfig(config, {
-      plugins: [
-        Components({ dts: false }),
-        AutoImport({
-          dts: false,
-          imports: ['vue', 'vue-router'],
-        }),
-        WindiCSS(),
-      ],
-      resolve: {
-        alias: {
-          '@': path.join(__dirname, '../src'),
-        },
-      },
-    });
-  },
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',

@@ -1,8 +1,4 @@
-import {
-  render as mount,
-  type RenderOptions,
-  fireEvent,
-} from '@testing-library/vue';
+import { type RenderOptions, fireEvent } from '@testing-library/vue';
 import Card from '@/components/Card.vue';
 
 const value = 'V';

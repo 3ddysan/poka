@@ -14,6 +14,7 @@ const name = ref('');
 const login = () => {
   if (name.value) emit('login', name.value);
 };
+const { t } = useI18n();
 </script>
 <template>
   <div>
@@ -24,7 +25,7 @@ const login = () => {
       equired
       :class="error ? 'border-red-300' : 'border-gray-300'"
       class="w-full px-3 py-2 border placeholder-gray-500 text-gray-900 rounded-t-md focus:(outline-none ring-indigo-500 border-indigo-500)"
-      placeholder="Username"
+      :placeholder="t('username')"
       autocomplete="false"
       @keydown.enter="login()"
     />
@@ -34,7 +35,16 @@ const login = () => {
       data-testid="login-action"
       @click="login()"
     >
-      Login
+      {{ t('login') }}
     </button>
   </div>
 </template>
+
+<i18n>
+en:
+  login: 'Login'
+  username: 'Username'
+de:
+  login: 'Anmelden'
+  username: 'Benutzername'
+</i18n>

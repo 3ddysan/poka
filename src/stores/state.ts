@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { useFetch } from '@vueuse/core';
 
 const User = z.object({
   name: z.string(),

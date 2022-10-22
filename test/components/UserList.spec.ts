@@ -1,4 +1,4 @@
-import { render as mount, type RenderOptions } from '@testing-library/vue';
+import type { RenderOptions } from '@testing-library/vue';
 import UserList from '@/components/UserList.vue';
 
 const buildUsers = (voted = false, length = 3) =>
