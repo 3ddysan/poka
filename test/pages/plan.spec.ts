@@ -29,7 +29,7 @@ describe('Page -> Board', () => {
     render();
     expect(
       screen.getAllByTestId('user-list-entry').map((el) => el.textContent),
-    ).toEqual(expect.arrayContaining(['User (✓) ', 'AnotherUser (×) ']));
+    ).toEqual(expect.arrayContaining(['User✓', 'AnotherUser×']));
   });
 
   test('should show disabled results action', () => {

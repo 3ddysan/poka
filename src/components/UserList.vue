@@ -30,49 +30,58 @@ defineEmits(['show-results', 'reset-results', 'logout']);
       </h2>
       <ul class="mt-2 text-gray-600">
         <li
+          class="flex"
           data-testid="user-list-entry"
           v-for="{ name, voted, vote } in users"
           :key="name"
         >
-          <span :class="{ 'font-bold': userName === name }">{{ name }}</span>
-          <span class="text-sm">
-            ({{ mode === 'results' ? vote : voted ? '✓' : '×' }})
-          </span>
+          <span
+            :class="{ 'font-bold': userName === name }"
+            class="user-list-entry-name truncate flex-grow"
+            :title="name"
+            >{{ name }}</span
+          >
+          <span>{{ mode === 'results' ? vote : voted ? '✓' : '×' }}</span>
         </li>
       </ul>
     </div>
-    <button
-      v-if="mode === 'results'"
-      key="restart"
-      data-testid="user-list-restart-action"
-      class="btn mr-2 mt-4"
-      @click="$emit('reset-results')"
-    >
-      Restart
-    </button>
-    <button
-      v-else
-      key="results"
-      data-testid="user-list-results-action"
-      class="btn mr-2 mt-4"
-      @click="$emit('show-results')"
-      :disabled="mode !== 'ready'"
-    >
-      Results
-    </button>
-    <button
-      key="logout"
-      data-testid="user-list-logout-action"
-      class="btn"
-      @click="$emit('logout')"
-    >
-      Logout
-    </button>
+    <div class="flex space-x-2 justify-around mt-4">
+      <button
+        v-if="mode === 'results'"
+        key="restart"
+        data-testid="user-list-restart-action"
+        class="btn"
+        @click="$emit('reset-results')"
+      >
+        Restart
+      </button>
+      <button
+        v-else
+        key="results"
+        data-testid="user-list-results-action"
+        class="btn"
+        @click="$emit('show-results')"
+        :disabled="mode !== 'ready'"
+      >
+        Results
+      </button>
+      <button
+        key="logout"
+        data-testid="user-list-logout-action"
+        class="btn"
+        @click="$emit('logout')"
+      >
+        Logout
+      </button>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .btn {
   @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded disabled:(bg-gray-200 text-gray-500 shadow-none);
+}
+.user-list-entry-name {
+  max-width: 200px;
 }
 </style>

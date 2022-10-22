@@ -26,7 +26,7 @@ describe('UserList', () => {
     );
     const entries = getAllByTestId('user-list-entry');
     entries.forEach((entry, i) => {
-      expect(entry).toHaveTextContent(`${users[i].name} (${voted})`);
+      expect(entry).toHaveTextContent(`${users[i].name}${voted}`);
     });
     expect(entries).toHaveLength(users.length);
   });
