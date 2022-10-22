@@ -10,14 +10,17 @@ export default {
     userName: {
       defaultValue: 'Joe',
     },
+    mode: {
+      control: 'select',
+      options: ['voting', 'ready', 'results'],
+      defaultValue: 'voting',
+    },
     users: {
-      control: {
-        type: 'array',
-      },
+      control: 'object',
       defaultValue: [
-        { name: 'Ted', voted: false },
-        { name: 'Joe', voted: true },
-        { name: 'Bob', voted: false },
+        { name: 'Ted', vote: '', voted: false },
+        { name: 'Joe', vote: '1', voted: true },
+        { name: 'Bob', vote: '', voted: false },
       ],
     },
   },
@@ -28,7 +31,7 @@ export const Playground = (args) => ({
   setup() {
     return { args };
   },
-  template: `<UserList 
+  template: `<UserList
       v-bind="args"
       @show-results="args['show-results']"
       @reset-results="args['reset-results']"

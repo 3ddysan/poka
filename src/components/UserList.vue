@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { User } from '@/stores/state';
 import type { PropType } from 'vue';
-
+type Mode = 'results' | 'voting' | 'ready';
 const props = defineProps({
   userName: {
     type: String,
@@ -11,15 +11,12 @@ const props = defineProps({
     type: Array as PropType<User[]>,
     default: () => [],
   },
-  showResultAction: {
-    type: Boolean,
-    default: false,
+  mode: {
+    type: String as PropType<Mode>,
+    default: 'voting',
   },
 });
 defineEmits(['show-results', 'reset-results', 'logout']);
-const votingNotFinished = computed(
-  () => props.users.length === 1 || props.users.some(({ voted }) => !voted),
-);
 </script>
 
 <template>
@@ -39,29 +36,29 @@ const votingNotFinished = computed(
         >
           <span :class="{ 'font-bold': userName === name }">{{ name }}</span>
           <span class="text-sm">
-            ({{ showResultAction ? (voted ? '✓' : '×') : vote }})
+            ({{ mode === 'results' ? vote : voted ? '✓' : '×' }})
           </span>
         </li>
       </ul>
     </div>
     <button
-      v-if="showResultAction"
-      key="results"
-      data-testid="user-list-results-action"
-      class="btn mr-2 mt-4"
-      @click="$emit('show-results')"
-      :disabled="votingNotFinished"
-    >
-      Results
-    </button>
-    <button
-      v-else
+      v-if="mode === 'results'"
       key="restart"
       data-testid="user-list-restart-action"
       class="btn mr-2 mt-4"
       @click="$emit('reset-results')"
     >
       Restart
+    </button>
+    <button
+      v-else
+      key="results"
+      data-testid="user-list-results-action"
+      class="btn mr-2 mt-4"
+      @click="$emit('show-results')"
+      :disabled="mode !== 'ready'"
+    >
+      Results
     </button>
     <button
       key="logout"

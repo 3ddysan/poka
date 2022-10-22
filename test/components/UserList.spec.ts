@@ -17,7 +17,7 @@ describe('UserList', () => {
     const { getByTestId, getAllByTestId } = render({
       props: {
         users,
-        showResultAction: true,
+        mode: 'voting',
       },
     });
 
@@ -35,7 +35,7 @@ describe('UserList', () => {
     const { getByTestId, queryByTestId } = render({
       props: {
         users: buildUsers(),
-        showResultAction: true,
+        mode: 'voting',
       },
     });
 
@@ -48,7 +48,7 @@ describe('UserList', () => {
     const { getByTestId } = render({
       props: {
         users: buildUsers(true),
-        showResultAction: true,
+        mode: 'ready',
       },
     });
 
@@ -59,7 +59,7 @@ describe('UserList', () => {
     const { getByTestId, queryByTestId } = render({
       props: {
         users: buildUsers(true),
-        showResultAction: false,
+        mode: 'results',
       },
     });
 
