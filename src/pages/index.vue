@@ -4,9 +4,8 @@ import { useStateStore } from '@/stores/state';
 const state = useStateStore();
 const name = ref(state.name);
 const login = () => {
-  const userName = name.value?.trim();
-  if (userName) {
-    state.login(userName);
+  if (name.value) {
+    state.login(name.value);
   }
 };
 </script>
@@ -15,7 +14,7 @@ const login = () => {
   <div class="h-full flex justify-center items-center">
     <div>
       <input
-        v-model="name"
+        v-model.trim="name"
         v-focus
         type="text"
         data-testid="login-name"
