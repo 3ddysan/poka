@@ -61,8 +61,8 @@ const users = new Map<string, Omit<User, 'name'>>();
 let showResults = false;
 function calcResults(): Results | null {
   const results: Record<string, number> = {};
-  for (const [, { vote }] of users) {
-    if (!vote) return null;
+  for (const [, { vote, voted }] of users) {
+    if (!voted) continue;
     results[vote] = (results[vote] ?? 0) + 1;
   }
   return results;
@@ -88,10 +88,10 @@ function broadcast(type = 'message', data?: unknown) {
 
 function broadcastState() {
   const state: State = {
-    users: Array.from(users, ([name, { vote }]) => ({
+    users: Array.from(users, ([name, { vote, voted }]) => ({
       name,
       vote: showResults ? vote : '',
-      voted: !!vote,
+      voted,
     })),
     results: showResults ? calcResults() : null,
   };
@@ -134,7 +134,6 @@ fastify.get<EventsRequest>('/api/events', function (req, res) {
     return;
   }
   setup(req, response);
-  showResults = false;
   broadcastState();
 });
 
@@ -146,6 +145,7 @@ fastify.post<{
   if (vote.length > 3) return res.code(400).send();
   if (user) {
     user.vote = vote;
+    user.voted = !!vote;
     broadcastState();
     res.code(204).send();
   } else {

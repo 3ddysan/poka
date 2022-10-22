@@ -38,11 +38,15 @@ const { t } = useI18n();
         >
           <span
             :class="{ 'font-bold': userName === name }"
+            data-testid="user-list-entry-name"
             class="user-list-entry-name truncate flex-grow"
             :title="name"
-            >{{ name }}</span
           >
-          <span>{{ mode === 'results' ? vote : voted ? '✓' : '×' }}</span>
+            {{ name }}
+          </span>
+          <span data-testid="user-list-entry-vote">{{
+            voted ? (mode === 'results' ? vote : '✓') : '×'
+          }}</span>
         </li>
       </ul>
     </div>

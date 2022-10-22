@@ -1,6 +1,11 @@
 import type { RenderOptions } from '@testing-library/vue';
 import UserList from '@/components/UserList.vue';
 
+const buildUser = (id: string | number, vote = '1', voted = !!vote) => ({
+  name: `user${id}`,
+  vote,
+  voted,
+});
 const buildUsers = (voted = false, length = 3) =>
   Array.from({ length }, (_, i) => ({
     name: `user${i}`,
@@ -66,5 +71,17 @@ describe('UserList', () => {
     expect(queryByTestId('user-list-results-action')).toBeNull();
     expect(getByTestId('user-list-restart-action')).toBeVisible();
     expect(getByTestId('user-list-logout-action')).toBeVisible();
+  });
+
+  test('should show voting results including missing votes', () => {
+    const { getAllByTestId } = render({
+      props: {
+        users: [buildUser(1, ''), buildUser(2, '1')],
+        mode: 'results',
+      },
+    });
+    const votes = getAllByTestId('user-list-entry-vote');
+    expect(votes[0]).toHaveTextContent('×');
+    expect(votes[1]).toHaveTextContent('1');
   });
 });
