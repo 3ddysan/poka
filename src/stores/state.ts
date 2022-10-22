@@ -65,7 +65,7 @@ export const useStateStore = defineStore({
           return ctx;
         },
       }).post({
-        name: encodeURIComponent(this.name),
+        name: this.name,
         vote,
       });
     },
