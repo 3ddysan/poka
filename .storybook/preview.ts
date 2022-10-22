@@ -1,4 +1,3 @@
-import { createPinia } from 'pinia';
 import 'virtual:windi.css';
 
 export const parameters = {

@@ -5,17 +5,8 @@ import { useStateStore } from '@/stores/state';
 const state = useStateStore();
 
 describe('Index', () => {
-  const focus = vi.fn();
   const name = 'anon';
-  const render = (options?: RenderOptions) =>
-    mount(Index, {
-      global: {
-        directives: {
-          focus,
-        },
-      },
-      ...options,
-    });
+  const render = (options?: RenderOptions) => mount(Index, options);
 
   beforeEach(() => {
     state.$patch({
@@ -23,31 +14,9 @@ describe('Index', () => {
     });
   });
 
-  test('should focus name field', async () => {
-    render();
-    expect(focus).toHaveBeenCalled();
-  });
-
   test('should login', async () => {
     render();
     await fireEvent.update(screen.getByTestId('login-name'), name);
-    await fireEvent.click(screen.getByTestId('login-action'));
-    expect(state.login).toHaveBeenCalledWith(name);
-  });
-
-  test.each(['  ', ''])(
-    'should not accept invalid name (%#)',
-    async (invalidName) => {
-      render();
-      await fireEvent.update(screen.getByTestId('login-name'), invalidName);
-      await fireEvent.click(screen.getByTestId('login-action'));
-      expect(state.login).not.toHaveBeenCalled();
-    },
-  );
-
-  test('should trim name', async () => {
-    render();
-    await fireEvent.update(screen.getByTestId('login-name'), `  ${name} `);
     await fireEvent.click(screen.getByTestId('login-action'));
     expect(state.login).toHaveBeenCalledWith(name);
   });

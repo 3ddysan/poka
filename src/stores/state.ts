@@ -23,6 +23,7 @@ export interface UserState {
   vote: string;
   users: User[];
   results: Results;
+  error: boolean;
 }
 
 export const useStateStore = defineStore({
@@ -34,6 +35,7 @@ export const useStateStore = defineStore({
       users: [],
       vote: '',
       results: null,
+      error: false,
     },
   getters: {
     highestVote: (state) =>
@@ -76,8 +78,13 @@ export const useStateStore = defineStore({
     },
     async login(name: string) {
       if (!name) return;
-      await this.connect(`/api/events?name=${name}`);
-      this.name = name;
+      try {
+        this.error = false;
+        await this.connect(`/api/events?name=${name}`);
+        this.name = name;
+      } catch (e: unknown) {
+        this.error = true;
+      }
     },
     logout() {
       this.disconnect();

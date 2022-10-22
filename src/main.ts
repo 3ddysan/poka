@@ -4,10 +4,4 @@ import { pinia } from './plugins/pinia';
 import { createRouter } from './plugins/router';
 import 'virtual:windi.css';
 
-createApp(App)
-  .directive('focus', {
-    mounted: (el) => el.focus(),
-  })
-  .use(pinia)
-  .use(createRouter())
-  .mount('#app');
+createApp(App).use(pinia).use(createRouter()).mount('#app');
