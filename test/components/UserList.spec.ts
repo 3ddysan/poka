@@ -1,17 +1,7 @@
 import type { RenderOptions } from '@testing-library/vue';
 import UserList from '@/components/UserList.vue';
+import { buildUsers, buildUser } from 'test/fixtures';
 
-const buildUser = (id: string | number, vote = '1', voted = !!vote) => ({
-  name: `user${id}`,
-  vote,
-  voted,
-});
-const buildUsers = (voted = false, length = 3) =>
-  Array.from({ length }, (_, i) => ({
-    name: `user${i}`,
-    voted,
-    vote: '1',
-  }));
 const render = (options?: RenderOptions) => mount(UserList, options);
 
 describe('UserList', () => {

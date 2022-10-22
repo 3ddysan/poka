@@ -2,19 +2,13 @@
 import { useStateStore } from '@/stores/state';
 
 const state = useStateStore();
-const mode = computed(() => {
-  if (state.results != null) return 'results';
-  if (state.users.length === 1 || state.users.some(({ voted }) => !voted))
-    return 'voting';
-  return 'ready';
-});
 </script>
 
 <template>
   <Layout>
     <template #sidebar>
       <UserList
-        :mode="mode"
+        :mode="state.mode"
         :user-name="state.name"
         :users="state.users"
         @show-results="state.showResults()"

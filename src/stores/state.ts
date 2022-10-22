@@ -47,6 +47,13 @@ export const useStateStore = defineStore({
                 : current,
             '',
           ),
+    mode: (state) => {
+      if (!state.name) return 'login';
+      if (state.results != null) return 'results';
+      if (state.users.length === 1 || state.users.some(({ voted }) => !voted))
+        return 'voting';
+      return 'ready';
+    },
   },
   actions: {
     state(stateMessage: string) {

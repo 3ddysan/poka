@@ -1,6 +1,7 @@
 import { setActivePinia, createPinia } from 'pinia';
 import { useStateStore } from '@/stores/state';
 import { createApp } from 'vue';
+import { buildUser } from 'test/fixtures';
 
 vi.mock('@vueuse/core', () => ({
   useFetch: vi.fn((url, options) => {
@@ -117,4 +118,34 @@ describe('State Store', () => {
 
     expect(state.vote).toEqual(VOTE_EMPTY);
   });
+
+  test('should be initially in "login" mode', () => {
+    const state = useStateStore();
+
+    expect(state.mode).toEqual('login');
+  });
+
+  test('should be in "results" mode', () => {
+    const state = useStateStore();
+    state.$patch({
+      name: 'user',
+      results: {},
+    });
+
+    expect(state.mode).toEqual('results');
+  });
+
+  test.each([[[buildUser(1, '1')]], [[[buildUser(1, '1'), buildUser(2, '')]]]])(
+    'should be in "ready" mode %#',
+    (users) => {
+      const state = useStateStore();
+      // @ts-expect-error type
+      state.$patch({
+        name: 'user',
+        users,
+      });
+
+      expect(state.mode).toEqual('voting');
+    },
+  );
 });
