@@ -82,6 +82,12 @@ export const useStateStore = defineStore({
     async resetResults() {
       await useFetch('/api/results').delete();
     },
+    async isNameTaken(name: string) {
+      const { statusCode } = await useFetch(
+        `/api/users/${encodeURIComponent(name)}`,
+      );
+      return statusCode.value === 204;
+    },
     async login(name: string) {
       if (!name) return;
       try {

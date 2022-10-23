@@ -139,6 +139,14 @@ fastify.get<EventsRequest>('/api/events', function (req, res) {
   broadcastState();
 });
 
+fastify.get<{ Params: { name: string } }>(
+  '/api/users/:name',
+  function (req, res) {
+    if (users.has(req.params.name)) res.code(204).send();
+    else res.code(404).send();
+  },
+);
+
 fastify.post<{
   Body: { name: string; vote: string };
 }>('/api/vote', async (req, res) => {

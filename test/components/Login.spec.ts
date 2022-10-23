@@ -29,4 +29,23 @@ describe('Login', () => {
     await fireEvent.click(screen.getByTestId('login-action'));
     expect(emitted().login).toEqual([[name]]);
   });
+
+  test('should show error', async () => {
+    const errorMessage = 'error';
+    render({
+      props: {
+        errorMessage,
+      },
+    });
+    expect(screen.getByTestId('login-error')).toHaveTextContent(errorMessage);
+  });
+
+  test('should render disabled', async () => {
+    render({
+      props: {
+        disabledAction: true,
+      },
+    });
+    expect(screen.getByTestId('login-action')).toBeDisabled();
+  });
 });
