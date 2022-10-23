@@ -51,41 +51,38 @@ const { t } = useI18n();
       </ul>
     </div>
     <div class="flex space-x-2 justify-around mt-4">
-      <button
+      <Btn
         v-if="mode === 'results'"
         key="restart"
+        dense
         data-testid="user-list-restart-action"
-        class="btn"
         @click="$emit('reset-results')"
       >
         {{ t('restart') }}
-      </button>
-      <button
+      </Btn>
+      <Btn
         v-else
         key="results"
+        dense
         data-testid="user-list-results-action"
-        class="btn"
         @click="$emit('show-results')"
         :disabled="mode !== 'ready'"
       >
         {{ t('results') }}
-      </button>
-      <button
+      </Btn>
+      <Btn
         key="logout"
+        dense
         data-testid="user-list-logout-action"
-        class="btn"
         @click="$emit('logout')"
       >
         {{ t('logout') }}
-      </button>
+      </Btn>
     </div>
   </div>
 </template>
 
 <style scoped>
-.btn {
-  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded disabled:(bg-gray-200 text-gray-500 shadow-none);
-}
 .user-list-entry-name {
   max-width: 200px;
 }

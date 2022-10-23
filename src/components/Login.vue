@@ -38,14 +38,15 @@ const { t } = useI18n();
       autocomplete="false"
       @keydown.enter="login()"
     />
-    <button
+    <Btn
       :disabled="disabledAction"
-      class="w-full py-2 bg-blue-600 text-white font-medium uppercase rounded-b-md shadow-md hover:(bg-blue-700 shadow-lg) focus:(bg-blue-700 shadow-lg outline-none ring-0) active:(bg-blue-800 shadow-lg) disabled:(bg-gray-200 text-gray-500 shadow-none)"
+      :rounded="false"
+      class="w-full rounded-b-md uppercase"
       data-testid="login-action"
       @click="login()"
     >
       {{ t('login') }}
-    </button>
+    </Btn>
   </div>
 </template>
 
