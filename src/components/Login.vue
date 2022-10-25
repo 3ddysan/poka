@@ -35,11 +35,11 @@ const { t } = useI18n();
       autocomplete="false"
       @keydown.enter="name && $emit('login', name)"
     />
-    <div class="w-full flex">
+    <div class="flex">
       <Btn
         :disabled="disabledAction"
         :rounded="false"
-        class="rounded-bl-md uppercase flex-1"
+        class="w-full rounded-bl-md uppercase"
         data-testid="login-action"
         @click="name && $emit('login', name)"
       >
@@ -47,7 +47,7 @@ const { t } = useI18n();
       </Btn>
       <Btn
         :rounded="false"
-        class="w-full rounded-br-md uppercase flex-1"
+        class="w-full rounded-br-md uppercase"
         data-testid="spectate-action"
         @click="name && $emit('spectate', name)"
       >
