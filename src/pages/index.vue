@@ -4,9 +4,9 @@ import { useStateStore } from '@/stores/state';
 const state = useStateStore();
 const { t } = useI18n();
 const isNameTaken = ref(false);
-const login = async (name: string) => {
+const login = async (name: string, spectate = false) => {
   isNameTaken.value = await state.isNameTaken(name);
-  if (!isNameTaken.value) state.login(name);
+  if (!isNameTaken.value) state.login(name, spectate);
 };
 </script>
 
@@ -22,6 +22,7 @@ const login = async (name: string) => {
           : undefined
       "
       @login="login"
+      @spectate="login($event, true)"
     />
   </div>
 </template>

@@ -5,6 +5,7 @@ const User = z.object({
   name: z.string(),
   vote: z.string(),
   voted: z.boolean(),
+  spectate: z.boolean(),
 });
 export type User = z.infer<typeof User>;
 
@@ -22,6 +23,7 @@ export interface UserState {
   vote: string;
   users: User[];
   results: Results;
+  spectate: boolean;
   error: boolean;
 }
 
@@ -34,6 +36,7 @@ export const useStateStore = defineStore({
       users: [],
       vote: '',
       results: null,
+      spectate: false,
       error: false,
     },
   getters: {
@@ -47,10 +50,11 @@ export const useStateStore = defineStore({
                 : current,
             '',
           ),
-    mode: (state) => {
+    voters: (state) => state.users.filter(({ spectate }) => !spectate),
+    mode(state) {
       if (!state.name) return 'login';
       if (state.results != null) return 'results';
-      if (state.users.length === 1 || state.users.some(({ voted }) => !voted))
+      if (this.voters.length === 1 || this.voters.some(({ voted }) => !voted))
         return 'voting';
       return 'ready';
     },
@@ -88,20 +92,28 @@ export const useStateStore = defineStore({
       );
       return statusCode.value === 204;
     },
-    async login(name: string) {
+    async login(name: string, spectate: boolean) {
       if (!name) return;
       try {
         this.error = false;
-        await this.connect(`/api/events?name=${encodeURIComponent(name)}`);
-        this.name = name;
+        await this.connect(
+          `/api/events?name=${encodeURIComponent(name)}&spectate=${spectate}`,
+        );
+        this.$patch({
+          name,
+          spectate,
+        });
       } catch (e: unknown) {
         this.error = true;
       }
     },
     logout() {
       this.disconnect();
-      this.name = '';
-      this.vote = '';
+      this.$patch({
+        name: '',
+        spectate: false,
+        vote: '',
+      });
     },
   },
 });

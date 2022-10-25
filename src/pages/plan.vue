@@ -18,7 +18,7 @@ const state = useStateStore();
     </template>
     <template #main>
       <Board
-        :disabled="state.results != null"
+        :disabled="state.spectate || state.results != null"
         :marked="state.highestVote"
         :selected="state.vote"
         :results="state.results"

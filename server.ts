@@ -40,13 +40,18 @@ fastify.register(FastifyCors, {
 });
 
 type EventsRequest = {
-  Querystring: { name: string; heartbeat?: number };
+  Querystring: {
+    name: string;
+    heartbeat?: number;
+    spectate: boolean;
+  };
 };
 
 type User = {
   name: string;
   vote: string;
   voted: boolean;
+  spectate: boolean;
   response: ServerResponse;
 };
 
@@ -88,19 +93,28 @@ function broadcast(type = 'message', data?: unknown) {
 
 function broadcastState() {
   const state: State = {
-    users: Array.from(users, ([name, { vote, voted }]) => ({
+    users: Array.from(users, ([name, { vote, voted, spectate }]) => ({
       name,
       vote: showResults ? vote : '',
       voted,
+      spectate,
     })),
     results: showResults ? calcResults() : null,
   };
   broadcast('state', state);
 }
 
+const parseBool = (params: unknown) => {
+  return !(
+    params === 'false' ||
+    params === '0' ||
+    params === '' ||
+    params == undefined
+  );
+};
+
 function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
-  const { heartbeat = 5000, name } = req.query;
-  fastify.log.info(`Client '${name}' connected`);
+  const { heartbeat = 5000, name, spectate = false } = req.query;
   response.writeHead(200, {
     'Access-Control-Allow-Origin': '*',
     'Cache-Control': 'no-cache, no-transform',
@@ -114,7 +128,12 @@ function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     () => response.write(': heartbeat\n'),
     heartbeat,
   );
-  users.set(name, { vote: '', voted: false, response });
+  users.set(name, {
+    vote: '',
+    voted: false,
+    response,
+    spectate: parseBool(spectate),
+  });
   req.raw.setTimeout(0);
   req.socket.setNoDelay(true);
   req.socket.setKeepAlive(true);

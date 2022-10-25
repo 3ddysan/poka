@@ -1,6 +1,6 @@
 import type { RenderOptions } from '@testing-library/vue';
 import UserList from '@/components/UserList.vue';
-import { buildUsers, buildUser } from 'test/fixtures';
+import { buildUsers, buildUser, buildSpectator } from 'test/fixtures';
 
 const render = (options?: RenderOptions) => mount(UserList, options);
 
@@ -8,6 +8,7 @@ describe('UserList', () => {
   test.each([
     ['×', buildUsers()],
     ['✓', buildUsers(true)],
+    ['-', [buildSpectator()]],
   ])('should render list with votes %s', (voted, users) => {
     const { getByTestId, getAllByTestId } = render({
       props: {

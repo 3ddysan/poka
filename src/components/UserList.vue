@@ -33,7 +33,7 @@ const { t } = useI18n();
         <li
           class="flex"
           data-testid="user-list-entry"
-          v-for="{ name, voted, vote } in users"
+          v-for="{ name, voted, vote, spectate } in users"
           :key="name"
         >
           <span
@@ -45,7 +45,7 @@ const { t } = useI18n();
             {{ name }}
           </span>
           <span data-testid="user-list-entry-vote">{{
-            voted ? (mode === 'results' ? vote : '✓') : '×'
+            voted ? (mode === 'results' ? vote : '✓') : spectate ? '-' : '×'
           }}</span>
         </li>
       </ul>

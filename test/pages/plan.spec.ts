@@ -1,21 +1,46 @@
 import { fireEvent, screen } from '@testing-library/vue';
 import Plan from '@/pages/plan.vue';
 import { useStateStore } from '@/stores/state';
+import { buildUser, VOTE, NO_VOTE, buildSpectator } from 'test/fixtures';
 
 const state = useStateStore();
 const render = () => mount(Plan);
+
+const getCard = () =>
+  screen
+    .getAllByTestId('card-value')
+    .find(({ textContent }) => textContent === VOTE);
 
 describe('Page -> Board', () => {
   beforeEach(() => {
     state.$patch({
       name: 'User',
-      users: [
-        { name: 'User', voted: true },
-        { name: 'AnotherUser', voted: false },
-      ],
+      users: [buildUser('User', VOTE), buildUser('AnotherUser', NO_VOTE)],
       vote: '0',
       results: null,
     });
+  });
+
+  test('should vote', async () => {
+    render();
+
+    // @ts-expect-error type
+    await fireEvent.click(getCard());
+
+    expect(state.setVote).toHaveBeenCalledWith(VOTE);
+  });
+
+  test('should not allow voting for spectator', async () => {
+    state.$patch({
+      users: [buildSpectator()],
+      spectate: true,
+    });
+    render();
+
+    // @ts-expect-error type
+    await fireEvent.click(getCard());
+
+    expect(state.setVote).not.toHaveBeenCalledWith(VOTE);
   });
 
   test('should show user count', () => {
@@ -39,27 +64,24 @@ describe('Page -> Board', () => {
 
   test('should show results action', () => {
     state.$patch({
-      users: [
-        { name: 'User', voted: true },
-        { name: 'AnotherUser', voted: true },
-      ],
+      users: [buildUser('User', VOTE), buildUser('AnotherUser', VOTE)],
     });
     render();
     expect(screen.getByTestId('user-list-results-action')).toBeEnabled();
   });
 
   test('should show restart action', () => {
-    state.$patch({ results: { '0': 1 } });
+    state.$patch({ results: { [VOTE]: 1 } });
     render();
     expect(screen.getByTestId('user-list-restart-action')).toBeEnabled();
   });
 
   test('should show logout action', () => {
     render();
-    expect(screen.getByTestId('user-list-logout-action')).not.toBeDisabled();
+    expect(screen.getByTestId('user-list-logout-action')).toBeEnabled();
   });
 
-  test('should cleanup state after logout action', async () => {
+  test('should logout', async () => {
     render();
 
     await fireEvent.click(screen.getByTestId('user-list-logout-action'));

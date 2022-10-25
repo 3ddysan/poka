@@ -11,12 +11,10 @@ const props = defineProps({
 });
 const emit = defineEmits<{
   (event: 'login', name: string): void;
+  (event: 'spectate', name: string): void;
 }>();
 
 const name = ref('');
-const login = () => {
-  if (name.value) emit('login', name.value);
-};
 const { t } = useI18n();
 </script>
 <template>
@@ -31,22 +29,31 @@ const { t } = useI18n();
       v-model.trim="name"
       type="text"
       data-testid="login-name"
-      equired
       :class="!!errorMessage ? 'border-red-300' : 'border-gray-300'"
       class="w-full px-3 py-2 border placeholder-gray-500 text-gray-900 rounded-t-md focus:(outline-none ring-indigo-500 border-indigo-500)"
       :placeholder="t('username')"
       autocomplete="false"
-      @keydown.enter="login()"
+      @keydown.enter="name && $emit('login', name)"
     />
-    <Btn
-      :disabled="disabledAction"
-      :rounded="false"
-      class="w-full rounded-b-md uppercase"
-      data-testid="login-action"
-      @click="login()"
-    >
-      {{ t('login') }}
-    </Btn>
+    <div class="w-full flex">
+      <Btn
+        :disabled="disabledAction"
+        :rounded="false"
+        class="rounded-bl-md uppercase flex-1"
+        data-testid="login-action"
+        @click="name && $emit('login', name)"
+      >
+        {{ t('login') }}
+      </Btn>
+      <Btn
+        :rounded="false"
+        class="w-full rounded-br-md uppercase flex-1"
+        data-testid="spectate-action"
+        @click="name && $emit('spectate', name)"
+      >
+        {{ t('spectate') }}
+      </Btn>
+    </div>
   </div>
 </template>
 
@@ -79,8 +86,10 @@ const { t } = useI18n();
 <i18n>
 en:
   login: 'Login'
+  spectate: 'Spectate'
   username: 'Username'
 de:
   login: 'Anmelden'
+  spectate: 'Zuschauen'
   username: 'Benutzername'
 </i18n>

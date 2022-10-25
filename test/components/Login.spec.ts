@@ -13,6 +13,20 @@ describe('Login', () => {
     expect(emitted().login).toEqual([[name]]);
   });
 
+  test('should login on enter', async () => {
+    const { emitted } = render();
+    await fireEvent.update(screen.getByTestId('login-name'), name);
+    await fireEvent.keyDown(screen.getByTestId('login-name'), { key: 'Enter' });
+    expect(emitted().login).toEqual([[name]]);
+  });
+
+  test('should spectate', async () => {
+    const { emitted } = render();
+    await fireEvent.update(screen.getByTestId('login-name'), name);
+    await fireEvent.click(screen.getByTestId('spectate-action'));
+    expect(emitted().spectate).toEqual([[name]]);
+  });
+
   test.each(['  ', ''])(
     'should not accept invalid name (%#)',
     async (invalidName) => {

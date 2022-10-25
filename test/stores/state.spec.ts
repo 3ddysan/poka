@@ -35,7 +35,7 @@ describe('State Store', () => {
   it('should login and set name', async () => {
     const name = 'test';
     const state = useStateStore();
-    await state.login(name);
+    await state.login(name, false);
     expect(connect).toHaveBeenCalled();
     expect(state.name).toEqual(name);
   });
@@ -76,6 +76,7 @@ describe('State Store', () => {
       name: 'user',
       vote: '',
       voted: false,
+      spectate: false,
     };
     const results = {
       VOTE: 1,

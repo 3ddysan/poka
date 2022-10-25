@@ -1,13 +1,22 @@
-import { type RenderOptions, screen, fireEvent } from '@testing-library/vue';
+import {
+  type RenderOptions,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/vue';
 import Index from '@/pages/index.vue';
 import { useStateStore } from '@/stores/state';
 
 const state = useStateStore();
+const render = (options?: RenderOptions) => mount(Index, options);
+
+const USERNAME = 'anon';
+const login = async (name = USERNAME) => {
+  await fireEvent.update(screen.getByTestId('login-name'), name);
+  await fireEvent.click(screen.getByTestId('login-action'));
+};
 
 describe('Index', () => {
-  const name = 'anon';
-  const render = (options?: RenderOptions) => mount(Index, options);
-
   beforeEach(() => {
     state.$patch({
       name: '',
@@ -16,8 +25,38 @@ describe('Index', () => {
 
   test('should login', async () => {
     render();
-    await fireEvent.update(screen.getByTestId('login-name'), name);
-    await fireEvent.click(screen.getByTestId('login-action'));
-    expect(state.login).toHaveBeenCalledWith(name);
+    await login();
+    expect(state.login).toHaveBeenCalledWith(USERNAME, false);
+  });
+
+  test('should show name error', async () => {
+    vi.mocked(state.isNameTaken).mockReturnValueOnce(Promise.resolve(true));
+    render();
+
+    await login();
+
+    expect(state.login).not.toHaveBeenCalled();
+    await waitFor(() =>
+      expect(screen.getByTestId('login-error')).toHaveTextContent(
+        'Please, choose a different name!',
+      ),
+    );
+  });
+
+  test('should show server error', async () => {
+    vi.mocked(state.isNameTaken).mockReturnValueOnce(Promise.resolve(false));
+    vi.mocked(state.login).mockImplementationOnce(async () => {
+      state.error = true;
+    });
+    render();
+
+    await login();
+
+    expect(state.login).toHaveBeenCalled();
+    await waitFor(() =>
+      expect(screen.getByTestId('login-error')).toHaveTextContent(
+        'Server does not responde.',
+      ),
+    );
   });
 });
