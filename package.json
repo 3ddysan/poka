@@ -79,6 +79,9 @@
     "windicss": "^3.5.6"
   },
   "lint-staged": {
-    "*.{ts,vue}": "eslint --cache --fix --ignore-path .eslintignore"
+    "*.{ts,vue}": "eslint --cache --fix --ignore-path .eslintignore",
+    "*.{css,html,json,md,yml}": [
+      "prettier --cache --write"
+    ]
   }
 }
