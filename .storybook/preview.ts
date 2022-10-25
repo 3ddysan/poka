@@ -1,12 +1,13 @@
 import 'virtual:windi.css';
 import { setup } from '@storybook/vue3';
+import type { DecoratorFunction, Parameters } from '@storybook/csf';
 import { createI18n } from 'vue-i18n';
 
 setup((app) => {
   app.use(createI18n({}));
 });
 
-export const parameters = {
+export const parameters: Parameters = {
   previewTabs: {
     'storybook/docs/panel': {
       hidden: true,
@@ -21,7 +22,7 @@ export const parameters = {
   },
 };
 
-export const decorators = [
+export const decorators: DecoratorFunction[] = [
   (story) => ({
     components: { story },
     template:
