@@ -1,7 +1,13 @@
 import { setActivePinia, createPinia } from 'pinia';
 import { useStateStore } from '@/stores/state';
 import { createApp } from 'vue';
-import { buildUser } from 'test/fixtures';
+import {
+  buildSpectator,
+  buildUser,
+  buildUsers,
+  NO_VOTE,
+  VOTE,
+} from 'test/fixtures';
 
 vi.mock('@vueuse/core', () => ({
   useFetch: vi.fn((url, options) => {
@@ -18,9 +24,6 @@ const connect = vi.fn();
 const disconnect = vi.fn();
 const connected = ref(false);
 
-const VOTE = '1';
-const VOTE_EMPTY = '';
-
 describe('State Store', () => {
   beforeEach(() => {
     const pinia = createPinia().use(() => ({
@@ -32,7 +35,7 @@ describe('State Store', () => {
     setActivePinia(pinia);
   });
 
-  it('should login and set name', async () => {
+  test('should login and set name', async () => {
     const name = 'test';
     const state = useStateStore();
     await state.login(name, false);
@@ -40,7 +43,7 @@ describe('State Store', () => {
     expect(state.name).toEqual(name);
   });
 
-  it('should logout and reset state', async () => {
+  test('should logout and reset state', async () => {
     const state = useStateStore();
     state.$patch({
       name: 'test',
@@ -68,7 +71,7 @@ describe('State Store', () => {
 
     state.setVote(VOTE);
 
-    expect(state.vote).toEqual(VOTE_EMPTY);
+    expect(state.vote).toEqual(NO_VOTE);
   });
 
   test('should receive state event', () => {
@@ -117,7 +120,7 @@ describe('State Store', () => {
       }),
     );
 
-    expect(state.vote).toEqual(VOTE_EMPTY);
+    expect(state.vote).toEqual(NO_VOTE);
   });
 
   test('should be initially in "login" mode', () => {
@@ -136,17 +139,29 @@ describe('State Store', () => {
     expect(state.mode).toEqual('results');
   });
 
-  test.each([[[buildUser(1, '1')]], [[[buildUser(1, '1'), buildUser(2, '')]]]])(
-    'should be in "ready" mode %#',
-    (users) => {
-      const state = useStateStore();
-      // @ts-expect-error type
-      state.$patch({
-        name: 'user',
-        users,
-      });
+  test.each([
+    [[buildSpectator()]],
+    [[buildUser(1, VOTE)]],
+    [[buildUser(1, VOTE), buildUser(2, NO_VOTE)]],
+  ])('should be in "voting" mode %#', (users) => {
+    const state = useStateStore();
 
-      expect(state.mode).toEqual('voting');
-    },
-  );
+    state.$patch({
+      name: 'user',
+      users,
+    });
+
+    expect(state.mode).toEqual('voting');
+  });
+
+  test('should be in "ready" mode', () => {
+    const state = useStateStore();
+
+    state.$patch({
+      name: 'user',
+      users: buildUsers(true, 2),
+    });
+
+    expect(state.mode).toEqual('ready');
+  });
 });

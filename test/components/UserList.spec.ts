@@ -1,6 +1,12 @@
 import type { RenderOptions } from '@testing-library/vue';
 import UserList from '@/components/UserList.vue';
-import { buildUsers, buildUser, buildSpectator } from 'test/fixtures';
+import {
+  buildUsers,
+  buildUser,
+  buildSpectator,
+  VOTE,
+  NO_VOTE,
+} from 'test/fixtures';
 
 const render = (options?: RenderOptions) => mount(UserList, options);
 
@@ -67,12 +73,12 @@ describe('UserList', () => {
   test('should show voting results including missing votes', () => {
     const { getAllByTestId } = render({
       props: {
-        users: [buildUser(1, ''), buildUser(2, '1')],
+        users: [buildUser(1, NO_VOTE), buildUser(2, VOTE)],
         mode: 'results',
       },
     });
     const votes = getAllByTestId('user-list-entry-vote');
     expect(votes[0]).toHaveTextContent('×');
-    expect(votes[1]).toHaveTextContent('1');
+    expect(votes[1]).toHaveTextContent(VOTE);
   });
 });

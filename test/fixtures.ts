@@ -4,19 +4,22 @@ const buildName = (id: string | number, prefix: string) =>
 export const VOTE = '1';
 export const NO_VOTE = '';
 
+const PREFIX_USER = 'user';
+const PREFIX_SPECTATOR = 'spectator';
+
 export const buildUser = (
-  id: string | number = 'user',
+  id: string | number = PREFIX_USER,
   vote = VOTE,
   voted = !!vote,
 ) => ({
-  name: buildName(id, 'user'),
+  name: buildName(id, PREFIX_USER),
   vote,
   voted,
   spectate: false,
 });
 
-export const buildSpectator = (id: string | number = '') => ({
-  name: buildName(id, 'spectator'),
+export const buildSpectator = (id: string | number = PREFIX_SPECTATOR) => ({
+  name: buildName(id, PREFIX_SPECTATOR),
   vote: NO_VOTE,
   voted: false,
   spectate: true,

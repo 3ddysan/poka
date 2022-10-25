@@ -54,7 +54,7 @@ export const useStateStore = defineStore({
     mode(state) {
       if (!state.name) return 'login';
       if (state.results != null) return 'results';
-      if (this.voters.length === 1 || this.voters.some(({ voted }) => !voted))
+      if (this.voters.length <= 1 || this.voters.some(({ voted }) => !voted))
         return 'voting';
       return 'ready';
     },
