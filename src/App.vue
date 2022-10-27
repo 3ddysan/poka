@@ -36,4 +36,11 @@ watch(
 .fade-leave-to {
   opacity: 0;
 }
+
+:global(#app) {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
 </style>

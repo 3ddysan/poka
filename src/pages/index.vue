@@ -27,14 +27,6 @@ const login = async (name: string, spectate = false) => {
   </div>
 </template>
 
-<style>
-html,
-body,
-#app {
-  height: 100%;
-}
-</style>
-
 <i18n>
   en:
     error:
