@@ -16,9 +16,11 @@ watch(
 </script>
 
 <template>
-  <div class="absolute top-0 left-3">
-    <Logo :animate="state.mode === 'ready'" />
-  </div>
+  <Teleport to="body">
+    <div class="absolute top-0 left-3">
+      <Logo :animate="state.mode === 'ready'" />
+    </div>
+  </Teleport>
   <router-view v-slot="{ Component }">
     <transition name="fade" mode="out-in">
       <component :is="Component" />
@@ -36,11 +38,11 @@ watch(
 .fade-leave-to {
   opacity: 0;
 }
-
-:global(#app) {
-  position: fixed;
-  width: 100%;
+</style>
+<style>
+html,
+body,
+#app {
   height: 100%;
-  overflow-x: hidden;
 }
 </style>
