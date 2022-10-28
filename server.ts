@@ -22,6 +22,10 @@ fastify.register(FastifyStatic, {
   root: fileURLToPath(new URL('./dist', import.meta.url)),
 });
 
+fastify.get('/health', function (req, res) {
+  res.code(200).send({ statusCode: 200, status: 'ok' });
+});
+
 fastify.setNotFoundHandler(function (request, reply) {
   reply.sendFile('index.html');
 });
