@@ -15,7 +15,6 @@ declare module '@vue/runtime-core' {
     Logo: typeof import('./components/Logo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Textfield: typeof import('./components/common/Textfield.vue')['default']
     UserList: typeof import('./components/UserList.vue')['default']
   }
 }
