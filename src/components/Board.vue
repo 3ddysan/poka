@@ -28,9 +28,7 @@ defineEmits<{
 </script>
 
 <template>
-  <div
-    class="grid <sm:grid-cols-3 sm:grid-cols-4 grid-rows-4 gap-5 lg:max-w-1/2"
-  >
+  <div class="grid <sm:grid-cols-3 grid-cols-4 gap-5">
     <Card
       v-for="value in values"
       :key="value"

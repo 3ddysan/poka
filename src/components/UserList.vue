@@ -21,7 +21,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div class="py-4 px-8 bg-light-200 shadow-lg rounded-md">
+  <div class="py-4 px-8 bg-light-200 shadow-lg rounded-md max-w-70 max-h-180">
     <div>
       <h2
         data-testid="user-list-title"
@@ -44,7 +44,7 @@ const { t } = useI18n();
           >
             {{ name }}
           </span>
-          <span data-testid="user-list-entry-vote">{{
+          <span class="w-3" data-testid="user-list-entry-vote">{{
             voted ? (mode === 'results' ? vote : '✓') : spectate ? '-' : '×'
           }}</span>
         </li>

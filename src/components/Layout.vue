@@ -1,12 +1,14 @@
 <template>
-  <div class="flex flex-col md:flex-row">
-    <aside
-      class="flex items-center justify-center p-4 bg-gray-200 md:flex-none md:w-1/3 lg:w-1/5"
+  <div class="h-full grid md:grid-rows-1 md:grid-flow-col">
+    <div
+      class="bg-gray-200 flex md:justify-end justify-center items-center p-5"
     >
       <slot name="sidebar" />
-    </aside>
-    <main class="min-h-screen p-4 bg-gray-100 w-full flex-row">
+    </div>
+    <div
+      class="bg-gray-100 p-5 flex md:justify-start justify-center items-center"
+    >
       <slot name="main" />
-    </main>
+    </div>
   </div>
 </template>
