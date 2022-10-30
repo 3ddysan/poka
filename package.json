@@ -9,7 +9,7 @@
     "dev": "vite",
     "dev:server": "NODE_ENV=dev tsx watch server.ts",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path <(cat .eslintignore;cat .gitignore)",
-    "postinstall": "rm -r ./node_modules/@types/react",
+    "postinstall": "rm -rf ./node_modules/@types/react",
     "prepare": "husky install",
     "serve": "npm-run-all -l -p dev:server dev",
     "serve:build": "node server.mjs",
