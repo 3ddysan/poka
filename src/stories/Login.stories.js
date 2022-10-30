@@ -5,6 +5,7 @@ export default {
   component: Login,
   argTypes: {
     login: { action: 'login' },
+    spectate: { action: 'spectate' },
   },
 };
 
@@ -16,5 +17,6 @@ export const Playground = (args) => ({
   template: `<Login
       v-bind="args"
       @login="args.login"
+      @spectate="args.spectate"
     />`,
 });
