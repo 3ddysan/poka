@@ -9,6 +9,7 @@
     "dev": "vite",
     "dev:server": "NODE_ENV=dev tsx watch server.ts",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path <(cat .eslintignore;cat .gitignore)",
+    "postinstall": "rm -r ./node_modules/@types/react",
     "prepare": "husky install",
     "serve": "npm-run-all -l -p dev:server dev",
     "serve:build": "node server.mjs",
@@ -16,7 +17,7 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "upgrade": "taze major -f -w -x @types/node"
+    "upgrade": "taze major -f -w"
   },
   "dependencies": {
     "@fastify/cors": "^8.1.1",
@@ -44,7 +45,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/vue": "^6.6.1",
     "@types/jsdom": "^20.0.0",
-    "@types/node": "18.8.0",
+    "@types/node": "18.11.8",
     "@types/testing-library__jest-dom": "^5.14.5",
     "@vitejs/plugin-vue": "^3.2.0",
     "@vitest/coverage-c8": "^0.24.3",
