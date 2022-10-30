@@ -6,7 +6,7 @@
       <slot name="sidebar" />
     </div>
     <div
-      class="bg-gray-100 p-5 flex md:justify-start justify-center items-center"
+      class="bg-gray-100 p-5 flex md:justify-start justify-center vmd:items-center <vmd:overflow-y-auto"
     >
       <slot name="main" />
     </div>
