@@ -1,9 +1,17 @@
 import Fastify, { type FastifyRequest } from 'fastify';
 import FastifyCors from '@fastify/cors';
 import FastifyStatic from '@fastify/static';
-import { URL, fileURLToPath } from 'url';
-import type { ServerResponse } from 'http';
+import { URL, fileURLToPath } from 'node:url';
+import type { ServerResponse } from 'node:http';
+import crypto from 'node:crypto';
 
+declare module 'fastify' {
+  interface FastifyRequest {
+    cookies: { [cookieName: string]: string | undefined };
+  }
+}
+
+const COOKIE_NAME = process.env.COOKIE_NAME || '_poka_session';
 const ORIGIN = process.env.ORIGIN || 'localhost';
 const isDev = process.env.NODE_ENV === 'dev';
 const fastify = Fastify({
@@ -17,6 +25,21 @@ const fastify = Fastify({
       }
     : true,
 });
+
+fastify.addHook(
+  'onRequest',
+  function fastifyCookieHandler(fastifyReq, fastifyRes, done) {
+    fastifyReq.cookies = {};
+    const cookieHeader = fastifyReq.raw.headers.cookie;
+    if (cookieHeader) {
+      cookieHeader
+        .split(';')
+        .map((str) => str.replace('=', '\u0000').split('\u0000'))
+        .forEach(([key, value]) => (fastifyReq.cookies[key] = value));
+    }
+    done();
+  },
+);
 
 fastify.register(FastifyStatic, {
   root: fileURLToPath(new URL('./dist', import.meta.url)),
@@ -56,13 +79,14 @@ type User = {
   vote: string;
   voted: boolean;
   spectate: boolean;
+  token: string;
   response: ServerResponse;
 };
 
 type Results = Record<string, number>;
 
 type State = {
-  users: Omit<User, 'response'>[];
+  users: Omit<User, 'response' | 'token'>[];
   results: Results | null;
 };
 
@@ -119,6 +143,7 @@ const parseBool = (params: unknown) => {
 
 function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
   const { heartbeat = 5000, name, spectate = false } = req.query;
+  const token = crypto.randomUUID();
   response.writeHead(200, {
     'Access-Control-Allow-Origin': '*',
     'Cache-Control': 'no-cache, no-transform',
@@ -126,6 +151,7 @@ function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     'Content-Type': 'text/event-stream',
     'X-Accel-Buffering': 'no',
     'x-no-compression': 1,
+    'set-cookie': `${COOKIE_NAME}=${token}; Domain=${ORIGIN}; Secure; HttpOnly`,
   });
   response.write('retry: 3000\n\n');
   const heartbeatInterval = setInterval(
@@ -133,6 +159,7 @@ function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     heartbeat,
   );
   users.set(name, {
+    token,
     vote: '',
     voted: false,
     response,
@@ -173,10 +200,15 @@ fastify.get<{ Params: { name: string } }>(
 fastify.post<{
   Body: { name: string; vote: string };
 }>('/api/vote', async (req, res) => {
+  const token = req.cookies[COOKIE_NAME];
   const { name, vote } = req.body;
   const user = users.get(name);
-  if (vote.length > 3) return res.code(400).send();
   if (user) {
+    if (user.token !== token) {
+      res.code(403).send();
+      return;
+    }
+    if (vote.length > 3) return res.code(400).send();
     user.vote = vote;
     user.voted = !!vote;
     broadcastState();
