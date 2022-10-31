@@ -8,6 +8,7 @@ import {
   NO_VOTE,
   VOTE,
 } from 'test/fixtures';
+import { useFetch } from '@vueuse/core';
 
 vi.mock('@vueuse/core', () => ({
   useFetch: vi.fn((url, options) => {
@@ -15,6 +16,10 @@ vi.mock('@vueuse/core', () => ({
       post() {
         options.afterFetch();
       },
+      delete() {
+        return Promise.resolve();
+      },
+      statusCode: ref(204),
     };
   }),
 }));
@@ -35,12 +40,30 @@ describe('State Store', () => {
     setActivePinia(pinia);
   });
 
-  test('should login and set name', async () => {
+  test('should not login without valid name', async () => {
+    const state = useStateStore();
+    await state.login('', false);
+    expect(connect).not.toHaveBeenCalled();
+  });
+
+  test('should login', async () => {
     const name = 'test';
     const state = useStateStore();
+
     await state.login(name, false);
+
     expect(connect).toHaveBeenCalled();
     expect(state.name).toEqual(name);
+  });
+
+  test('should try login and handle error', async () => {
+    connect.mockRejectedValueOnce(new Error());
+    const state = useStateStore();
+
+    await state.login('ignore', false);
+
+    expect(state.error).toBeTruthy();
+    expect(state.name).toEqual('');
   });
 
   test('should logout and reset state', async () => {
@@ -106,6 +129,23 @@ describe('State Store', () => {
     expect(state.highestVote).toEqual(VOTE);
   });
 
+  test('should show fallback vote without results', () => {
+    const state = useStateStore();
+
+    state.results = null;
+
+    expect(state.highestVote).toEqual(NO_VOTE);
+  });
+
+  test('should seperate spectators from voters', () => {
+    const voter = buildUser();
+    const state = useStateStore();
+
+    state.users = [buildSpectator(), voter];
+
+    expect(state.voters).toEqual([voter]);
+  });
+
   test('should reset current vote if state event resets results', () => {
     const state = useStateStore();
     state.$patch({
@@ -164,4 +204,39 @@ describe('State Store', () => {
 
     expect(state.mode).toEqual('ready');
   });
+
+  test('should trigger showing results', async () => {
+    const state = useStateStore();
+
+    await state.showResults();
+
+    expect(useFetch).toHaveBeenCalledWith('/api/results');
+  });
+
+  test('should trigger hiding results', async () => {
+    const state = useStateStore();
+
+    await state.resetResults();
+
+    expect(useFetch).toHaveBeenCalledWith('/api/results');
+  });
+
+  test.each([
+    [204, 'toBeTruthy'],
+    [404, 'toBeFalsy'],
+  ])(
+    'should check name availability (http %s)',
+    async (statusCode, matcherName) => {
+      vi.mocked(useFetch, { partial: true }).mockReturnValueOnce({
+        statusCode: ref(statusCode),
+      });
+      const name = 'new_user';
+      const state = useStateStore();
+
+      const isTaken = await state.isNameTaken(name);
+
+      expect(useFetch).toHaveBeenCalledWith(`/api/users/${name}`);
+      expect(isTaken)[matcherName]();
+    },
+  );
 });
