@@ -1,37 +1,13 @@
 import { z } from 'zod';
 import { defineStore, acceptHMRUpdate } from 'pinia';
-
-const User = z.object({
-  name: z.string(),
-  vote: z.string(),
-  voted: z.boolean(),
-  spectate: z.boolean(),
-});
-export type User = z.infer<typeof User>;
-
-const Results = z.record(z.string(), z.number()).nullable();
-export type Results = z.infer<typeof Results>;
-
-const ServerState = z.object({
-  users: z.array(User),
-  results: Results,
-});
-export type ServerState = z.infer<typeof ServerState>;
-
-export interface UserState {
-  name: string;
-  vote: string;
-  users: User[];
-  results: Results;
-  spectate: boolean;
-  error: boolean;
-}
+import type { Store } from '@/types';
+import { StateValidator } from '@/validation';
 
 export const useStateStore = defineStore({
   id: 'state',
   sse: ['state'],
   state: () =>
-    <UserState>{
+    <Store>{
       name: '',
       users: [],
       vote: '',
@@ -61,7 +37,7 @@ export const useStateStore = defineStore({
   },
   actions: {
     state(stateMessage: string) {
-      const { users, results } = ServerState.parse(JSON.parse(stateMessage));
+      const { users, results } = StateValidator.parse(JSON.parse(stateMessage));
       if (this.results != null && results == null) {
         this.vote = '';
       }

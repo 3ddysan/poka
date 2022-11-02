@@ -4,6 +4,7 @@ import FastifyStatic from '@fastify/static';
 import { URL, fileURLToPath } from 'node:url';
 import type { ServerResponse } from 'node:http';
 import crypto from 'node:crypto';
+import type { User, StateEvent, Results } from './src/types';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -74,26 +75,15 @@ type EventsRequest = {
   };
 };
 
-type User = {
-  name: string;
-  vote: string;
-  voted: boolean;
-  spectate: boolean;
+type ServerUser = Omit<User, 'name'> & {
   token: string;
   response: ServerResponse;
 };
 
-type Results = Record<string, number>;
-
-type State = {
-  users: Omit<User, 'response' | 'token'>[];
-  results: Results | null;
-};
-
-const users = new Map<string, Omit<User, 'name'>>();
+const users = new Map<string, ServerUser>();
 let showResults = false;
-function calcResults(): Results | null {
-  const results: Record<string, number> = {};
+function calcResults(): Results {
+  const results: Results = {};
   for (const [, { vote, voted }] of users) {
     if (!voted) continue;
     results[vote] = (results[vote] ?? 0) + 1;
@@ -120,7 +110,7 @@ function broadcast(type = 'message', data?: unknown) {
 }
 
 function broadcastState() {
-  const state: State = {
+  const state: StateEvent = {
     users: Array.from(users, ([name, { vote, voted, spectate }]) => ({
       name,
       vote: showResults ? vote : '',
