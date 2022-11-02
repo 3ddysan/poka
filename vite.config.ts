@@ -9,6 +9,8 @@ import WindiCSS from 'vite-plugin-windicss';
 import Inspect from 'vite-plugin-inspect';
 import { VitePWA } from 'vite-plugin-pwa';
 import VueI18n from '@intlify/vite-plugin-vue-i18n';
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -39,6 +41,7 @@ export default defineConfig({
     vue(),
     Components({
       dts: 'src/components.d.ts',
+      resolvers: [IconsResolver()],
     }),
     AutoImport({
       dts: 'src/auto-imports.d.ts',
@@ -65,6 +68,7 @@ export default defineConfig({
     VueI18n({
       defaultSFCLang: 'yml',
     }),
+    Icons(),
   ],
   resolve: {
     alias: {

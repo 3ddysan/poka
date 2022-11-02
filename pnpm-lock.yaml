@@ -4,6 +4,7 @@ specifiers:
   '@babel/core': ^7.19.6
   '@fastify/cors': ^8.1.1
   '@fastify/static': ^6.5.0
+  '@iconify-json/mdi': ^1.1.34
   '@intlify/vite-plugin-vue-i18n': ^6.0.3
   '@pinia/testing': ^0.0.14
   '@rushstack/eslint-patch': ^1.2.0
@@ -42,6 +43,7 @@ specifiers:
   tsx: ^3.11.0
   typescript: ~4.8.4
   unplugin-auto-import: ^0.11.4
+  unplugin-icons: ^0.14.13
   unplugin-vue-components: ^0.22.9
   vite: 3.2.2
   vite-plugin-inspect: ^0.7.7
@@ -73,6 +75,7 @@ dependencies:
 
 devDependencies:
   '@babel/core': 7.19.6
+  '@iconify-json/mdi': 1.1.34
   '@intlify/vite-plugin-vue-i18n': 6.0.3_vite@3.2.2+vue-i18n@9.2.2
   '@pinia/testing': 0.0.14_pinia@2.0.23+vue@3.2.41
   '@rushstack/eslint-patch': 1.2.0
@@ -106,6 +109,7 @@ devDependencies:
   tsx: 3.11.0
   typescript: 4.8.4
   unplugin-auto-import: 0.11.4_@vueuse+core@9.4.0
+  unplugin-icons: 0.14.13
   unplugin-vue-components: 0.22.9_vue@3.2.41
   vite: 3.2.2
   vite-plugin-inspect: 0.7.7_vite@3.2.2
@@ -132,6 +136,13 @@ packages:
       '@jridgewell/trace-mapping': 0.3.17
     dev: true
 
+  /@antfu/install-pkg/0.1.1:
+    resolution: {integrity: sha512-LyB/8+bSfa0DFGC06zpCEfs89/XoWZwws5ygEa5D+Xsm3OfI+aXQ86VgVG7Acyef+rSZ5HE7J8rrxzrQeM3PjQ==}
+    dependencies:
+      execa: 5.1.1
+      find-up: 5.0.0
+    dev: true
+
   /@antfu/ni/0.18.2:
     resolution: {integrity: sha512-OZalxEGupqCd8hKV2wyT5IHQTx1BR5/iXZEbseLpSdgcSn8fLjLOqi+LLhLly0a1XIkCAUeknV5/JXvMbjIstA==}
     hasBin: true
@@ -143,6 +154,10 @@ packages:
 
   /@antfu/utils/0.6.0:
     resolution: {integrity: sha512-VauUKmo22NYo3y6fIjGjVU7LJyhaedYL9kyabdvIIIl7P+qbNPbQiaLwwk4UOU4McFfA2eg+aIWpEYhkHzsE9Q==}
+    dev: true
+
+  /@antfu/utils/0.6.2:
+    resolution: {integrity: sha512-Qdwda+qE1KOKXuM8Gnn09zIJSA293J5putdHBx4J9sdbHzqp5QY4OmH77KgwJoi0PuY+kbddkVVdkSoZ9ruiug==}
     dev: true
 
   /@apideck/better-ajv-errors/0.3.6_ajv@8.11.0:
@@ -1614,6 +1629,29 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: true
+
+  /@iconify-json/mdi/1.1.34:
+    resolution: {integrity: sha512-Jle/BrVmaKMMPVitsO3lbJ8VpXUVCAhfMFAMo0VoxLDX8ZiKiQyVDHXPug9wGaXYb9mrFZE4UWVK63Cjx8L3rQ==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify/types/2.0.0:
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+    dev: true
+
+  /@iconify/utils/2.0.1:
+    resolution: {integrity: sha512-t8IyICk25wgZL4YKn/2kYfjG5MGA6EWZlaUJZ1OEIku4V+kX9V900T5E4HIqS3hLyD6/RJET0zY4vxO9pHLHHw==}
+    dependencies:
+      '@antfu/install-pkg': 0.1.1
+      '@antfu/utils': 0.5.2
+      '@iconify/types': 2.0.0
+      debug: 4.3.4
+      kolorist: 1.6.0
+      local-pkg: 0.4.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@intlify/bundle-utils/3.2.1_vue-i18n@9.2.2:
@@ -12324,6 +12362,34 @@ packages:
       unplugin: 0.10.2
     transitivePeerDependencies:
       - rollup
+    dev: true
+
+  /unplugin-icons/0.14.13:
+    resolution: {integrity: sha512-ZZCw9qZg/zNJeHWicaFYMfsfzMAXOHHnZt5tRxslhPE++/THvg5xGu5AsIRmMCtyNBCpC1Ly1MTb8CZmlqaQTA==}
+    peerDependencies:
+      '@svgr/core': '>=5.5.0'
+      '@vue/compiler-sfc': ^3.0.2
+      vue-template-compiler: ^2.6.12
+      vue-template-es2015-compiler: ^1.9.0
+    peerDependenciesMeta:
+      '@svgr/core':
+        optional: true
+      '@vue/compiler-sfc':
+        optional: true
+      vue-template-compiler:
+        optional: true
+      vue-template-es2015-compiler:
+        optional: true
+    dependencies:
+      '@antfu/install-pkg': 0.1.1
+      '@antfu/utils': 0.6.2
+      '@iconify/utils': 2.0.1
+      debug: 4.3.4
+      kolorist: 1.6.0
+      local-pkg: 0.4.2
+      unplugin: 0.10.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /unplugin-vue-components/0.22.9_vue@3.2.41:

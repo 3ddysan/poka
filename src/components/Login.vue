@@ -43,7 +43,7 @@ const { t } = useI18n();
         data-testid="login-action"
         @click="name && $emit('login', name)"
       >
-        {{ t('login') }}
+        <i-mdi-login /> {{ t('login') }}
       </Btn>
       <Btn
         :rounded="false"
@@ -51,7 +51,7 @@ const { t } = useI18n();
         data-testid="spectate-action"
         @click="name && $emit('spectate', name)"
       >
-        {{ t('spectate') }}
+        <i-mdi-glasses /> {{ t('spectate') }}
       </Btn>
     </div>
   </div>

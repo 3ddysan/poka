@@ -58,7 +58,7 @@ const { t } = useI18n();
         data-testid="user-list-restart-action"
         @click="$emit('reset-results')"
       >
-        {{ t('restart') }}
+        <i-mdi-restart /> {{ t('restart') }}
       </Btn>
       <Btn
         v-else
@@ -68,7 +68,7 @@ const { t } = useI18n();
         @click="$emit('show-results')"
         :disabled="mode !== 'ready'"
       >
-        {{ t('results') }}
+        <i-mdi-vote /> {{ t('results') }}
       </Btn>
       <Btn
         key="logout"
@@ -76,7 +76,7 @@ const { t } = useI18n();
         data-testid="user-list-logout-action"
         @click="$emit('logout')"
       >
-        {{ t('logout') }}
+        <i-mdi-logout /> {{ t('logout') }}
       </Btn>
     </div>
   </div>
