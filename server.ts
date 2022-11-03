@@ -60,7 +60,7 @@ fastify.register(FastifyCors, {
       cb(null, true);
     } else {
       fastify.log.warn(
-        `CORS: request origin "${origin}" mismatches with "${ORIGIN}"`,
+        `[security::cors] request origin "${origin}" mismatches with "${ORIGIN}"`,
       );
       cb(new Error('Not allowed'), false);
     }
@@ -91,21 +91,16 @@ function calcResults(): Results {
   return Object.keys(results).length === 0 ? null : results;
 }
 
-function send(response: ServerResponse, type: string, data: unknown) {
+function send(response: ServerResponse, type: string, msg: string) {
   response.write(`event: ${type}\n`);
-  if (typeof data === 'object') {
-    response.write(`data: ${JSON.stringify(data)}\n\n`);
-  } else if (typeof data === 'function') {
-    response.write(`data: ${JSON.stringify(data())}\n\n`);
-  } else {
-    response.write(`data: ${data}\n\n`);
-  }
+  response.write(`data: ${msg}\n\n`);
 }
 
-function broadcast(type = 'message', data?: unknown) {
-  fastify.log.info(`Broadcast '${type}': ${JSON.stringify(data)}`);
+function broadcast(type = 'message', data: unknown) {
+  const msg = typeof data === 'object' ? JSON.stringify(data) : String(data);
+  fastify.log.info(`[broadcast::${type}] ${msg}`);
   users.forEach(({ response }) => {
-    send(response, type, data);
+    send(response, type, msg);
   });
 }
 
@@ -143,6 +138,7 @@ function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     'x-no-compression': 1,
     'set-cookie': `${COOKIE_NAME}=${token}; Domain=${ORIGIN}; Secure; HttpOnly`,
   });
+  fastify.log.info(`[session::${name}] connected`);
   response.write('retry: 3000\n\n');
   const heartbeatInterval = setInterval(
     () => response.write(': heartbeat\n'),
@@ -159,7 +155,7 @@ function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
   req.socket.setNoDelay(true);
   req.socket.setKeepAlive(true);
   req.raw.on('close', () => {
-    fastify.log.info(`Client '${name}' disconnect`);
+    fastify.log.info(`[session::${name}] disconnected`);
     clearInterval(heartbeatInterval);
     users.delete(name);
     if (showResults && users.size <= 1) showResults = false;
