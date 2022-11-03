@@ -35,7 +35,7 @@ fastify.addHook(
     if (cookieHeader) {
       cookieHeader
         .split(';')
-        .map((str) => str.replace('=', '\u0000').split('\u0000'))
+        .map((str) => str.trim().replace('=', '\u0000').split('\u0000'))
         .forEach(([key, value]) => (fastifyReq.cookies[key] = value));
     }
     done();
