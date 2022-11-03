@@ -12,9 +12,21 @@ declare module 'fastify' {
   }
 }
 
-const COOKIE_NAME = process.env.COOKIE_NAME || '_poka_session';
+const COOKIE_NAME_PREFIX = process.env.COOKIE_NAME_PREFIX || '_poka_session_';
+const SECRET_KEY = process.env.SECRET_KEY || 'secret-key';
 const ORIGIN = process.env.ORIGIN || 'localhost';
 const isDev = process.env.NODE_ENV === 'dev';
+const encode = (value: string) =>
+  crypto
+    .createHmac('sha256', SECRET_KEY)
+    .update(value)
+    .digest('hex')
+    .slice(0, 11);
+const getCookieName = (userName: string) =>
+  COOKIE_NAME_PREFIX + encode(userName);
+const getCookieValue = (req: FastifyRequest, userName: string) =>
+  req.cookies[getCookieName(userName)] || '';
+
 const fastify = Fastify({
   trustProxy: true,
   logger: isDev
@@ -129,6 +141,7 @@ const parseBool = (params: unknown) => {
 function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
   const { heartbeat = 5000, name, spectate = false } = req.query;
   const token = crypto.randomUUID();
+  const cookieName = getCookieName(name);
   response.writeHead(200, {
     'Access-Control-Allow-Origin': '*',
     'Cache-Control': 'no-cache, no-transform',
@@ -136,7 +149,7 @@ function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     'Content-Type': 'text/event-stream',
     'X-Accel-Buffering': 'no',
     'x-no-compression': 1,
-    'set-cookie': `${COOKIE_NAME}=${token}; Domain=${ORIGIN}; Secure; HttpOnly`,
+    'set-cookie': `${cookieName}=${token}; Domain=${ORIGIN}; Secure; HttpOnly`,
   });
   fastify.log.info(`[session::${name}] connected`);
   response.write('retry: 3000\n\n');
@@ -186,10 +199,10 @@ fastify.get<{ Params: { name: string } }>(
 fastify.post<{
   Body: { name: string; vote: string };
 }>('/api/vote', async (req, res) => {
-  const token = req.cookies[COOKIE_NAME];
   const { name, vote } = req.body;
   const user = users.get(name);
   if (user) {
+    const token = getCookieValue(req, name);
     if (user.token !== token) {
       res.code(403).send();
       return;
