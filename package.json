@@ -15,6 +15,7 @@
     "serve:build": "node server.mjs",
     "serve:storybook": "storybook dev -p 6006 -h localhost",
     "test": "vitest run",
+    "test:server": "vitest run server/*",
     "test:coverage": "vitest run --coverage",
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "upgrade": "taze major -f -w"

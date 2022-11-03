@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.node.json",
-  "include": ["server.ts"],
+  "include": ["server/**/*", "server.ts"],
   "compilerOptions": {
     "composite": true,
     "skipLibCheck": false,
