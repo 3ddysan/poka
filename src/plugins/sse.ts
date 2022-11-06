@@ -8,7 +8,8 @@ declare module 'pinia' {
   export interface PiniaCustomProperties {
     connect: (name: string) => Promise<void>;
     disconnect: () => void;
-    connected: Ref<boolean>;
+    set connected(value: boolean | Ref<boolean>);
+    get connected(): boolean;
   }
 }
 
@@ -43,25 +44,24 @@ export function createSSEPlugin(): PiniaPlugin {
       }
     });
     addEventListener();
-    return {
-      connect: async (url: string) =>
-        new Promise((resolve, reject) => {
-          eventSource = new EventSource(url);
-          eventSource.onopen = () => {
-            resolve();
-            connected.value = true;
-          };
-          eventSource.onerror = (e) => {
-            reject(e);
-            connected.value = false;
-          };
-          addEventListener();
-        }),
-      disconnect() {
-        eventSource?.close();
-        connected.value = false;
-      },
-      connected: readonly(connected),
+    store.connect = async (url: string) =>
+      new Promise((resolve, reject) => {
+        eventSource = new EventSource(url);
+        eventSource.onopen = () => {
+          resolve();
+          connected.value = true;
+        };
+        eventSource.onerror = (e) => {
+          reject(e);
+          connected.value = false;
+        };
+        addEventListener();
+      });
+    store.disconnect = () => {
+      eventSource?.close();
+      connected.value = false;
     };
+    store.connected = connected;
+    store._customProperties.add('connect').add('disconnect').add('connected');
   };
 }

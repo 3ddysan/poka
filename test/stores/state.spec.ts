@@ -25,17 +25,15 @@ vi.mock('@vueuse/core', () => ({
 }));
 
 const app = createApp({});
-const connect = vi.fn();
-const disconnect = vi.fn();
-const connected = ref(false);
+const ssePluginMock = {
+  connect: vi.fn(),
+  disconnect: vi.fn(),
+  connected: false,
+};
 
 describe('State Store', () => {
   beforeEach(() => {
-    const pinia = createPinia().use(() => ({
-      connect,
-      disconnect,
-      connected,
-    }));
+    const pinia = createPinia().use(() => ssePluginMock);
     app.use(pinia);
     setActivePinia(pinia);
   });
@@ -43,7 +41,7 @@ describe('State Store', () => {
   test('should not login without valid name', async () => {
     const state = useStateStore();
     await state.login('', false);
-    expect(connect).not.toHaveBeenCalled();
+    expect(ssePluginMock.connect).not.toHaveBeenCalled();
   });
 
   test('should login', async () => {
@@ -52,12 +50,12 @@ describe('State Store', () => {
 
     await state.login(name, false);
 
-    expect(connect).toHaveBeenCalled();
+    expect(ssePluginMock.connect).toHaveBeenCalled();
     expect(state.name).toEqual(name);
   });
 
   test('should try login and handle error', async () => {
-    connect.mockRejectedValueOnce(new Error());
+    ssePluginMock.connect.mockRejectedValueOnce(new Error());
     const state = useStateStore();
 
     await state.login('ignore', false);
@@ -75,7 +73,7 @@ describe('State Store', () => {
 
     state.logout();
 
-    expect(disconnect).toHaveBeenCalled();
+    expect(ssePluginMock.disconnect).toHaveBeenCalled();
     expect(state.name).toEqual('');
     expect(state.vote).toEqual('');
   });

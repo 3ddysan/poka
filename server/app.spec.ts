@@ -25,7 +25,7 @@ describe('Mocks', () => {
     });
 
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual('index.html');
+    expect(response.body).toEqual(expect.stringContaining('index.html'));
   });
 });
 
