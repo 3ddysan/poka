@@ -1,5 +1,7 @@
 # poka
 
+[![CI](https://github.com/3ddysan/poka/actions/workflows/ci.yaml/badge.svg)](https://github.com/3ddysan/poka/actions/workflows/ci.yaml)
+
 Planning Poker App
 
 ![Poka Screenshot](.github/example.png)
@@ -7,8 +9,9 @@ Planning Poker App
 ## How to start
 
 Requirements:
-  - [pnpm](https://pnpm.io/)
-  - [mkcert](https://github.com/FiloSottile/mkcert)
+
+- [pnpm](https://pnpm.io/)
+- [mkcert](https://github.com/FiloSottile/mkcert)
 
 1.  Install dependencies `pnpm i`
 2.  Start server and frontend `pnpm run serve`
