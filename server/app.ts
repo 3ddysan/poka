@@ -41,7 +41,7 @@ const getCookieValue = (req: FastifyRequest, userName: string) =>
 export const build = (opts = {}, root: string) => {
   const fastify = Fastify(opts);
   const users = new Map<string, ServerUser>();
-  let showResults = false;
+  let results: Results = null;
 
   fastify.addHook(
     'onRequest',
@@ -109,11 +109,11 @@ export const build = (opts = {}, root: string) => {
     const state: StateEvent = {
       users: Array.from(users, ([name, { vote, voted, spectate }]) => ({
         name,
-        vote: showResults ? vote : '',
+        vote: results === null ? '' : vote,
         voted,
         spectate,
       })),
-      results: showResults ? calcResults() : null,
+      results,
     };
     broadcast('state', state);
   }
@@ -160,7 +160,6 @@ export const build = (opts = {}, root: string) => {
       fastify.log.info(`[session::${name}] disconnected`);
       clearInterval(heartbeatInterval);
       users.delete(name);
-      if (showResults && users.size <= 1) showResults = false;
       broadcastState();
     });
   }
@@ -173,7 +172,6 @@ export const build = (opts = {}, root: string) => {
       return;
     }
     setup(req, response);
-    if (showResults && users.size === 1) showResults = false;
     broadcastState();
   });
 
@@ -207,13 +205,13 @@ export const build = (opts = {}, root: string) => {
   });
 
   fastify.get('/api/results', async (req, res) => {
-    showResults = true;
+    results = calcResults();
     res.code(204).send();
     broadcastState();
   });
 
   fastify.delete('/api/results', async (req, res) => {
-    showResults = false;
+    results = null;
     users.forEach((user) => {
       user.vote = '';
       user.voted = false;
