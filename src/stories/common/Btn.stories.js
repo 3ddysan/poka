@@ -1,4 +1,5 @@
 import Btn from '@/components/common/Btn.vue';
+import IconAbacus from '~icons/mdi/abacus';
 
 export default {
   title: 'Btn',
@@ -12,7 +13,7 @@ export default {
 };
 
 export const Playground = (args) => ({
-  components: { Btn },
+  components: { Btn, IconAbacus },
   setup() {
     return { args };
   },
@@ -23,3 +24,8 @@ export const Playground = (args) => ({
         <template v-if="${'default' in args}" v-slot>${args.default}</template>
     </Btn>`,
 });
+
+export const Icon = Playground.bind({});
+Icon.args = {
+  default: `<IconAbacus /> Action`,
+};

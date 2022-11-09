@@ -28,7 +28,7 @@ const classes = computed(() => ({
   <button
     :disabled="disabled"
     :class="classes"
-    class="py-2 px-4 bg-blue-600 text-white font-medium shadow-md hover:(bg-blue-700 shadow-lg) focus:(bg-blue-700 shadow-lg outline-none ring-0) active:(bg-blue-800 shadow-lg) disabled:(bg-gray-200 text-gray-500 shadow-none) inline-flex items-center justify-center gap-1"
+    class="bg-blue-600 text-white font-medium shadow-md hover:(bg-blue-700 shadow-lg) focus:(bg-blue-700 shadow-lg outline-none ring-0) active:(bg-blue-800 shadow-lg) disabled:(bg-gray-200 text-gray-500 shadow-none) inline-flex items-center justify-center gap-1"
     data-testid="login-action"
     @click="$emit('click')"
   >
