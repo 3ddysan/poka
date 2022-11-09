@@ -160,7 +160,11 @@ export const build = (opts = {}, root: string) => {
       fastify.log.info(`[session::${name}] disconnected`);
       clearInterval(heartbeatInterval);
       users.delete(name);
-      broadcastState();
+      if (users.size > 0) {
+        broadcastState();
+      } else {
+        results = null;
+      }
     });
   }
 
