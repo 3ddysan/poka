@@ -20,7 +20,7 @@ test('should rout to /plan if connected', async () => {
   await router.push('/plan');
   await router.isReady();
 
-  expect(router.currentRoute.value.name).toEqual('plan');
+  expect(router.currentRoute.value.name).toEqual('/plan');
 });
 
 test('should not rout to /plan if not connected', async () => {
@@ -29,5 +29,5 @@ test('should not rout to /plan if not connected', async () => {
   router.push('/plan');
   await router.isReady();
 
-  expect(router.currentRoute.value.name).toEqual('index');
+  expect(router.currentRoute.value.name).toEqual('/');
 });

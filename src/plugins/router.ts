@@ -1,5 +1,5 @@
-import { createRouter as create, createWebHistory } from 'vue-router';
-import routes from '~pages';
+import { createRouter as create, createWebHistory } from 'vue-router/auto';
+import { routes } from 'vue-router/auto/routes';
 import { useStateStore } from '@/stores/state';
 
 export const createRouter = (history = createWebHistory()) => {
@@ -8,19 +8,18 @@ export const createRouter = (history = createWebHistory()) => {
   routes.push({
     path: '/:pathMatch(.*)*',
     name: '404',
-    redirect: { name: 'index' },
+    redirect: { name: '/' },
   });
 
   const router = create({
     history,
-    routes,
   });
 
   router.beforeEach((to, from, next) => {
-    if (state.connected || to.name === 'index') {
+    if (state.connected || to.name === '/') {
       next();
     } else {
-      next({ name: 'index' });
+      next({ name: '/' });
     }
   });
 

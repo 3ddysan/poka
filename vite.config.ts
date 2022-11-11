@@ -4,7 +4,8 @@ import mkcert from 'vite-plugin-mkcert';
 import vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';
 import AutoImport from 'unplugin-auto-import/vite';
-import Pages from 'vite-plugin-pages';
+import VueRouter from 'unplugin-vue-router/vite';
+import { VueRouterAutoImports } from 'unplugin-vue-router';
 import WindiCSS from 'vite-plugin-windicss';
 import Inspect from 'vite-plugin-inspect';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -37,6 +38,9 @@ export default defineConfig({
     },
   },
   plugins: [
+    VueRouter({
+      dts: './src/typed-router.d.ts',
+    }),
     mkcert(),
     vue(),
     Components({
@@ -48,9 +52,8 @@ export default defineConfig({
       eslintrc: {
         enabled: true,
       },
-      imports: ['vue', 'vue-router', 'vue-i18n', '@vueuse/core'],
+      imports: ['vue', VueRouterAutoImports, 'vue-i18n', '@vueuse/core'],
     }),
-    Pages(),
     WindiCSS(),
     Inspect(),
     VitePWA({

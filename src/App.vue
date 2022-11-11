@@ -18,9 +18,9 @@ watch(
   () => state.connected,
   async (connected) => {
     if (connected) {
-      await router.push({ name: 'plan' });
+      await router.push({ name: '/plan' });
     } else {
-      await router.push({ name: 'index' });
+      await router.push({ name: '/' });
     }
   },
 );
