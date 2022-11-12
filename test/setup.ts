@@ -4,18 +4,7 @@ import { createTestingPinia } from '@pinia/testing';
 import { render } from '@testing-library/vue';
 import { createI18n } from 'vue-i18n';
 
-const pinia = createTestingPinia({
-  plugins: [
-    ({ options: { sse } }) =>
-      sse == null
-        ? undefined
-        : {
-            connect: vi.fn(),
-            disconnect: vi.fn(),
-            connected: ref(false),
-          },
-  ],
-});
+const pinia = createTestingPinia();
 setActivePinia(pinia);
 
 // @ts-expect-error type

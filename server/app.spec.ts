@@ -2,7 +2,8 @@ import { build } from './app';
 import { fileURLToPath, URL } from 'node:url';
 import type { AddressInfo } from 'node:net';
 import type { FastifyInstance } from 'fastify';
-import type { Readable } from 'node:stream';
+import type { ReadableStream } from 'node:stream/web';
+import http, { type IncomingMessage } from 'node:http';
 
 const cwd = fileURLToPath(new URL('__fixtures__', import.meta.url));
 const run = () => build(undefined, cwd);
@@ -15,7 +16,7 @@ async function toString(readable: Iterable<ReadableStream> | null) {
   return result;
 }
 
-describe('Mocks', () => {
+describe('Mock Server', () => {
   test('should serve unknown path', async () => {
     const app = run();
 
@@ -29,14 +30,17 @@ describe('Mocks', () => {
   });
 });
 
-describe('Server', () => {
+describe('Real Server', () => {
   let app: FastifyInstance;
+
+  function getBaseUrl(path = '/'): string {
+    const address = app.server.address() as AddressInfo;
+    return `http://${address.address}:${address.port}${path}`;
+  }
 
   const listen = async () => {
     const app = run();
-    app.server.setTimeout(0);
-    app.server.keepAliveTimeout = 0;
-    await app.listen();
+    await app.listen({ host: '127.0.0.1', port: 0 });
     return app;
   };
 
@@ -48,14 +52,16 @@ describe('Server', () => {
     app.close();
   });
 
-  test('should login', async () => {
-    const response = await fetch(
-      `http://localhost:${
-        (app.server.address() as AddressInfo).port
-      }/api/events?name=test`,
-    );
-    expect(response.headers.get('set-cookie')).toEqual(
-      expect.stringContaining('_poka_session_db222de7a9b='),
+  test('should serve /events', async () => {
+    const response: IncomingMessage = await new Promise((resolve, reject) => {
+      http.get(getBaseUrl('/api/events?name=test'), { timeout: 100 }, (res) => {
+        resolve(res);
+      });
+    });
+    expect(response.headers['set-cookie']).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('_poka_session_db222de7a9b='),
+      ]),
     );
   });
 });
