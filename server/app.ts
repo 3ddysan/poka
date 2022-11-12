@@ -138,7 +138,7 @@ export const build = (opts = {}, root: string) => {
       'Content-Type': 'text/event-stream',
       'X-Accel-Buffering': 'no',
       'x-no-compression': 1,
-      'set-cookie': `${cookieName}=${token}; Domain=${ORIGIN}; Secure; HttpOnly`,
+      'set-cookie': `${cookieName}=${token}; Domain=${ORIGIN}; SameSite=Strict; Secure; HttpOnly`,
     });
     fastify.log.info(`[session::${name}] connected`);
     response.write('retry: 3000\n\n');
