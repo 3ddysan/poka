@@ -10,7 +10,6 @@ const config: StorybookConfig = {
         docs: false,
       },
     },
-    '@storybook/addon-storysource',
   ],
   framework: '@storybook/vue3-vite',
   core: {
