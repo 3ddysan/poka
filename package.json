@@ -4,7 +4,6 @@
   "scripts": {
     "build": "vue-tsc --noEmit && npm-run-all -l -p build:ui build:server",
     "build:server": "esbuild server.ts --bundle --format=esm --platform=node --banner:js=\"import {createRequire} from 'module';const require=createRequire(import.meta.url);\" --outfile=server.mjs",
-    "build:storybook": "storybook build",
     "build:ui": "vite build",
     "dev": "vite",
     "dev:server": "NODE_ENV=dev tsx watch server.ts",
