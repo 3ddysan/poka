@@ -128,7 +128,7 @@ export const build = (opts = {}, root: string) => {
   };
 
   function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
-    const { heartbeat = 5000, name, spectate = false } = req.query;
+    const { heartbeat = 3000, name, spectate = false } = req.query;
     const token = crypto.randomUUID();
     const cookieName = getCookieName(name);
     response.writeHead(200, {
@@ -141,7 +141,7 @@ export const build = (opts = {}, root: string) => {
       'set-cookie': `${cookieName}=${token}; Domain=${ORIGIN}; SameSite=Strict; Secure; HttpOnly`,
     });
     fastify.log.info(`[session::${name}] connected`);
-    response.write('retry: 3000\n\n');
+    response.write('retry: 5000\n\n');
     const heartbeatInterval = setInterval(
       () => response.write(': heartbeat\n'),
       heartbeat,
