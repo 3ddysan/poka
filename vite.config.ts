@@ -8,7 +8,6 @@ import VueRouter from 'unplugin-vue-router/vite';
 import { VueRouterAutoImports } from 'unplugin-vue-router';
 import WindiCSS from 'vite-plugin-windicss';
 import Inspect from 'vite-plugin-inspect';
-import { VitePWA } from 'vite-plugin-pwa';
 import VueI18n from '@intlify/vite-plugin-vue-i18n';
 import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
@@ -56,18 +55,6 @@ export default defineConfig({
     }),
     WindiCSS(),
     Inspect(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-      },
-      manifest: {
-        name: 'Poka',
-        short_name: 'Poka',
-        description: 'Agile Planning Poker',
-        theme_color: '#e5e7eb',
-      },
-    }),
     VueI18n({
       defaultSFCLang: 'yml',
     }),
