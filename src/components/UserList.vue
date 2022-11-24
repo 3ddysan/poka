@@ -21,7 +21,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div class="py-4 px-8 bg-light-200 shadow-lg rounded-md min-w-60 max-h-180">
+  <div class="py-4 px-8 bg-light-200 shadow-lg rounded-md min-w-65 max-h-180">
     <div>
       <h2
         data-testid="user-list-title"
