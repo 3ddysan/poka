@@ -1,8 +1,21 @@
-import UserList from '../components/UserList.vue';
+import type { Meta, StoryObj } from '@storybook/vue3';
+import UserList from '@/components/UserList.vue';
 
 export default {
-  title: 'UserList',
   component: UserList,
+  render: (args) => ({
+    components: { UserList },
+    setup() {
+      return { args };
+    },
+    template: `<UserList
+        v-bind="args"
+        @show-results="args['show-results']"
+        @reset-results="args['reset-results']"
+        @logout="args.logout"
+      >
+      </UserList>`,
+  }),
   argTypes: {
     'show-results': { action: 'show-results' },
     'reset-results': { action: 'reset-results' },
@@ -24,20 +37,6 @@ export default {
       ],
     },
   },
-};
+} as Meta<typeof UserList>;
 
-export const Playground = (args) => ({
-  components: { UserList },
-  setup() {
-    return { args };
-  },
-  template: `<UserList
-      v-bind="args"
-      @show-results="args['show-results']"
-      @reset-results="args['reset-results']"
-      @logout="args.logout"
-    >
-    </UserList>`,
-});
-
-Playground.args = {};
+export const Playground: StoryObj<typeof UserList> = {};
