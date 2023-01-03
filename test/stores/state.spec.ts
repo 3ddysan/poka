@@ -24,7 +24,6 @@ vi.mock('@vueuse/core', () => ({
   }),
 }));
 
-const app = createApp({});
 const ssePluginMock = {
   connect: vi.fn(),
   disconnect: vi.fn(),
@@ -33,6 +32,7 @@ const ssePluginMock = {
 
 describe('State Store', () => {
   beforeEach(() => {
+    const app = createApp({});
     const pinia = createPinia().use(() => ssePluginMock);
     app.use(pinia);
     setActivePinia(pinia);
