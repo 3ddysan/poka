@@ -24,19 +24,9 @@ type ServerUser = Omit<User, 'name'> & {
   response: ServerResponse;
 };
 
-const COOKIE_NAME_PREFIX = process.env.COOKIE_NAME_PREFIX || '_poka_session_';
-const SECRET_KEY = process.env.SECRET_KEY || 'secret-key';
+const COOKIE_NAME = process.env.COOKIE_NAME || '_poka_session';
 const ORIGIN = process.env.ORIGIN || 'localhost';
-const encode = (value: string) =>
-  crypto
-    .createHmac('sha256', SECRET_KEY)
-    .update(value)
-    .digest('hex')
-    .slice(0, 11);
-const getCookieName = (userName: string) =>
-  COOKIE_NAME_PREFIX + encode(userName);
-const getCookieValue = (req: FastifyRequest, userName: string) =>
-  req.cookies[getCookieName(userName)] || '';
+const getSessionToken = (req: FastifyRequest) => req.cookies[COOKIE_NAME] ?? '';
 
 export const build = (opts = {}, root: string) => {
   const fastify = Fastify(opts);
@@ -130,7 +120,6 @@ export const build = (opts = {}, root: string) => {
   function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     const { heartbeat = 3000, name, spectate = false } = req.query;
     const token = crypto.randomUUID();
-    const cookieName = getCookieName(name);
     response.writeHead(200, {
       'Access-Control-Allow-Origin': '*',
       'Cache-Control': 'no-cache, no-transform',
@@ -138,7 +127,7 @@ export const build = (opts = {}, root: string) => {
       'Content-Type': 'text/event-stream',
       'X-Accel-Buffering': 'no',
       'x-no-compression': 1,
-      'set-cookie': `${cookieName}=${token}; Domain=${ORIGIN}; SameSite=Strict; Secure; HttpOnly`,
+      'set-cookie': `${COOKIE_NAME}=${token}; Domain=${ORIGIN}; SameSite=Strict; Secure; HttpOnly`,
     });
     fastify.log.info(`[session::${name}] connected`);
     response.write('retry: 5000\n\n');
@@ -193,8 +182,7 @@ export const build = (opts = {}, root: string) => {
     const { name, vote } = req.body;
     const user = users.get(name);
     if (user) {
-      const token = getCookieValue(req, name);
-      if (user.token !== token) {
+      if (user.token !== getSessionToken(req)) {
         res.code(403).send();
         return;
       }

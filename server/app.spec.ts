@@ -59,9 +59,7 @@ describe('Real Server', () => {
       });
     });
     expect(response.headers['set-cookie']).toEqual(
-      expect.arrayContaining([
-        expect.stringContaining('_poka_session_db222de7a9b='),
-      ]),
+      expect.arrayContaining([expect.stringContaining('_poka_session=')]),
     );
   });
 });
