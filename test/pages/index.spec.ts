@@ -7,15 +7,15 @@ import {
 import Index from '@/pages/index.vue';
 import { useStateStore } from '@/stores/state';
 
+const USERNAME = 'anon';
+const STORED_USERNAME = 'previous name';
 const state = useStateStore();
 const render = (options?: RenderOptions) => mount(Index, options);
 
-const USERNAME = 'anon';
 const login = async (name = USERNAME) => {
   await fireEvent.update(screen.getByTestId('login-name'), name);
   await fireEvent.click(screen.getByTestId('login-action'));
 };
-
 describe('Index', () => {
   beforeEach(() => {
     state.$patch({
@@ -58,5 +58,14 @@ describe('Index', () => {
         'Server does not responde.',
       ),
     );
+  });
+
+  test('should reuse previous name', async () => {
+    // @ts-expect-error overwrite getter for testing
+    state.previousName = STORED_USERNAME;
+
+    render();
+
+    expect(screen.getByTestId('login-name')).toHaveValue(STORED_USERNAME);
   });
 });

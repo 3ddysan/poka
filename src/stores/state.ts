@@ -3,6 +3,8 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 import type { Store } from '@/types';
 import { StateValidator } from '@/validation';
 
+const previousName = useLocalStorage('poka', '');
+
 export const useStateStore = defineStore({
   id: 'state',
   sse: ['state'],
@@ -34,6 +36,7 @@ export const useStateStore = defineStore({
         return 'voting';
       return 'ready';
     },
+    previousName: () => previousName.value,
   },
   actions: {
     state(stateMessage: string) {
@@ -75,6 +78,7 @@ export const useStateStore = defineStore({
         await this.connect(
           `/api/events?name=${encodeURIComponent(name)}&spectate=${spectate}`,
         );
+        previousName.value = name;
         this.$patch({
           name,
           spectate,

@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 const props = defineProps({
+  name: {
+    type: String,
+    default: '',
+  },
   disabledAction: {
     type: Boolean,
     default: false,
@@ -14,7 +18,7 @@ const emit = defineEmits<{
   (event: 'spectate', name: string): void;
 }>();
 
-const name = ref('');
+const name = ref(props.name);
 const { t } = useI18n();
 </script>
 <template>
@@ -33,7 +37,7 @@ const { t } = useI18n();
       class="w-full px-3 py-2 border placeholder-gray-500 text-gray-900 rounded-t-md focus:(outline-none ring-indigo-500 border-indigo-500)"
       :placeholder="t('username')"
       autocomplete="false"
-      @keydown.enter="name && $emit('login', name)"
+      @keydown.enter="name && emit('login', name)"
     />
     <div class="flex">
       <Btn
@@ -41,7 +45,7 @@ const { t } = useI18n();
         :rounded="false"
         class="w-full rounded-bl-md uppercase"
         data-testid="login-action"
-        @click="name && $emit('login', name)"
+        @click="name && emit('login', name)"
       >
         <i-mdi-login /> {{ t('login') }}
       </Btn>
@@ -49,7 +53,7 @@ const { t } = useI18n();
         :rounded="false"
         class="w-full rounded-br-md uppercase"
         data-testid="spectate-action"
-        @click="name && $emit('spectate', name)"
+        @click="name && emit('spectate', name)"
       >
         <i-mdi-glasses /> {{ t('spectate') }}
       </Btn>

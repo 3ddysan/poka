@@ -10,20 +10,6 @@ import {
 } from 'test/fixtures';
 import { useFetch } from '@vueuse/core';
 
-vi.mock('@vueuse/core', () => ({
-  useFetch: vi.fn((url, options) => {
-    return {
-      post() {
-        options.afterFetch();
-      },
-      delete() {
-        return Promise.resolve();
-      },
-      statusCode: ref(204),
-    };
-  }),
-}));
-
 const ssePluginMock = {
   connect: vi.fn(),
   disconnect: vi.fn(),

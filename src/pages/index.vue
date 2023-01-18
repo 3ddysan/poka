@@ -21,6 +21,7 @@ const login = async (name: string, spectate = false) => {
           ? t('error.server')
           : undefined
       "
+      :name="state.previousName"
       @login="login"
       @spectate="login($event, true)"
     />
