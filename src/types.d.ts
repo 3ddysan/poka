@@ -5,7 +5,7 @@ export type User = z.infer<typeof UserValidator>;
 export type Results = z.infer<typeof ResultsValidator>;
 export type StateEvent = z.infer<typeof StateValidator>;
 
-export interface Store {
+export interface StoreState {
   name: string;
   vote: string;
   users: User[];

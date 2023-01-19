@@ -1,24 +1,26 @@
-import { z } from 'zod';
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import type { Store } from '@/types';
+import type { StoreState } from '@/types';
 import { StateValidator } from '@/validation';
+import { useSSE } from '@/plugins/sse';
 
 const previousName = useLocalStorage('poka', '');
 
-export const useStateStore = defineStore({
-  id: 'state',
-  sse: ['state'],
-  state: () =>
-    <Store>{
-      name: '',
-      users: [],
-      vote: '',
-      results: null,
-      spectate: false,
-      error: false,
-    },
-  getters: {
-    highestVote: (state) =>
+export const useStore = defineStore('state', () => {
+  const { connect, disconnect, connected } = useSSE();
+  const state = reactive<StoreState>({
+    name: '',
+    users: [],
+    vote: '',
+    results: null,
+    spectate: false,
+    error: false,
+  });
+  const voters = computed(() =>
+    state.users.filter(({ spectate }) => !spectate),
+  );
+  return {
+    ...toRefs(state),
+    highestVote: computed(() =>
       state.results == null
         ? ''
         : Object.keys(state.results).reduce(
@@ -28,34 +30,25 @@ export const useStateStore = defineStore({
                 : current,
             '',
           ),
-    voters: (state) => state.users.filter(({ spectate }) => !spectate),
-    mode(state) {
+    ),
+    voters,
+    mode: computed(() => {
       if (!state.name) return 'login';
       if (state.results != null) return 'results';
-      if (this.voters.length <= 1 || this.voters.some(({ voted }) => !voted))
+      if (voters.value.length <= 1 || voters.value.some(({ voted }) => !voted))
         return 'voting';
       return 'ready';
-    },
-    previousName: () => previousName.value,
-  },
-  actions: {
-    state(stateMessage: string) {
-      const { users, results } = StateValidator.parse(JSON.parse(stateMessage));
-      if (this.results != null && results == null) {
-        this.vote = '';
-      }
-      this.users = users;
-      this.results = results;
-    },
+    }),
+    previousName: computed(() => previousName.value),
     async setVote(value: string) {
-      const vote = this.vote === value ? '' : value;
+      const vote = state.vote === value ? '' : value;
       await useFetch('/api/vote', {
         afterFetch: (ctx) => {
-          this.vote = vote;
+          state.vote = vote;
           return ctx;
         },
       }).post({
-        name: this.name,
+        name: state.name,
         vote,
       });
     },
@@ -74,30 +67,39 @@ export const useStateStore = defineStore({
     async login(name: string, spectate: boolean) {
       if (!name) return;
       try {
-        this.error = false;
-        await this.connect(
+        state.error = false;
+        await connect(
           `/api/events?name=${encodeURIComponent(name)}&spectate=${spectate}`,
+          {
+            state(message: string) {
+              const { users, results } = StateValidator.parse(
+                JSON.parse(message),
+              );
+              if (state.results != null && results == null) {
+                state.vote = '';
+              }
+              state.users = users;
+              state.results = results;
+            },
+          },
         );
         previousName.value = name;
-        this.$patch({
-          name,
-          spectate,
-        });
+        state.name = name;
+        state.spectate = spectate;
       } catch (e: unknown) {
-        this.error = true;
+        state.error = true;
       }
     },
+    connected,
     logout() {
-      this.disconnect();
-      this.$patch({
-        name: '',
-        spectate: false,
-        vote: '',
-      });
+      disconnect();
+      state.name = '';
+      state.spectate = false;
+      state.vote = '';
     },
-  },
+  };
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useStateStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useStore, import.meta.hot));
 }

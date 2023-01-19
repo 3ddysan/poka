@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useStateStore } from '@/stores/state';
+import { useStore } from '@/stores/state';
 
-const state = useStateStore();
+const state = useStore();
 const { locale } = useI18n();
 const { language } = useNavigatorLanguage();
 const params = useUrlSearchParams('history');

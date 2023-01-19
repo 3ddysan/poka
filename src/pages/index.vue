@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useStateStore } from '@/stores/state';
+import { useStore } from '@/stores/state';
 
-const state = useStateStore();
+const state = useStore();
 const { t } = useI18n();
 const isNameTaken = ref(false);
 const login = async (name: string, spectate = false) => {

@@ -5,11 +5,11 @@ import {
   waitFor,
 } from '@testing-library/vue';
 import Index from '@/pages/index.vue';
-import { useStateStore } from '@/stores/state';
+import { useStore } from '@/stores/state';
 
 const USERNAME = 'anon';
 const STORED_USERNAME = 'previous name';
-const state = useStateStore();
+const state = useStore();
 const render = (options?: RenderOptions) => mount(Index, options);
 
 const login = async (name = USERNAME) => {

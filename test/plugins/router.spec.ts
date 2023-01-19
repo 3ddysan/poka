@@ -1,12 +1,12 @@
 import { createMemoryHistory, type Router } from 'vue-router';
 import { createRouter } from '@/plugins/router';
-import { useStateStore } from '@/stores/state';
+import { useStore } from '@/stores/state';
 
 vi.mock('@/stores/state');
 const stateStoreMock = {
   connected: false,
 };
-vi.mocked(useStateStore, { partial: true }).mockReturnValue(stateStoreMock);
+vi.mocked(useStore, { partial: true }).mockReturnValue(stateStoreMock);
 
 let router: Router;
 

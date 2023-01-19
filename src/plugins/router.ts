@@ -1,9 +1,9 @@
 import { createRouter as create, createWebHistory } from 'vue-router/auto';
 import { routes } from 'vue-router/auto/routes';
-import { useStateStore } from '@/stores/state';
+import { useStore } from '@/stores/state';
 
 export const createRouter = (history = createWebHistory()) => {
-  const state = useStateStore();
+  const state = useStore();
 
   routes.push({
     path: '/:pathMatch(.*)*',

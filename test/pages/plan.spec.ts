@@ -1,9 +1,9 @@
 import { fireEvent, screen } from '@testing-library/vue';
 import Plan from '@/pages/plan.vue';
-import { useStateStore } from '@/stores/state';
+import { useStore } from '@/stores/state';
 import { buildUser, VOTE, NO_VOTE, buildSpectator } from 'test/fixtures';
 
-const state = useStateStore();
+const state = useStore();
 const render = () => mount(Plan);
 
 const getCard = () =>
