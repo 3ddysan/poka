@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate, getActivePinia } from 'pinia';
 import type { StoreState } from '@/types';
 import { StateValidator } from '@/validation';
-import { useSSE } from '@/plugins/sse';
+import { useSSE } from '@/composables/sse';
 
 const previousName = useLocalStorage('poka', '');
 

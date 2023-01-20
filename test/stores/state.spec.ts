@@ -14,7 +14,7 @@ const sseMock = {
   disconnect: vi.fn(),
   connected: ref(false),
 };
-vi.mock('@/plugins/sse', () => ({
+vi.mock('@/composables/sse', () => ({
   useSSE: () => sseMock,
 }));
 
