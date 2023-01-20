@@ -17,21 +17,26 @@ const sseMock = {
 vi.mock('@/plugins/sse', () => ({
   useSSE: () => sseMock,
 }));
-// vi.mocked(useSSE).mockImplementation(() => {default: () => sseMock});
 
 describe('State Store', () => {
-  let store: ReturnType<typeof useStore>;
+  const routerMock = {
+    push: vi.fn(() => Promise.resolve()),
+  };
   beforeEach(() => {
-    store = useStore();
-    setActivePinia(createPinia());
+    const pinia = createPinia();
+    // @ts-expect-error ignore partial mock
+    pinia.router = routerMock;
+    setActivePinia(pinia);
   });
 
   test('should not login without valid name', async () => {
+    const store = useStore();
     await store.login('', false);
     expect(sseMock.connect).not.toHaveBeenCalled();
   });
 
   test('should login', async () => {
+    const store = useStore();
     const name = 'test';
 
     await store.login(name, false);
@@ -41,6 +46,7 @@ describe('State Store', () => {
   });
 
   test('should try login and handle error', async () => {
+    const store = useStore();
     sseMock.connect.mockRejectedValueOnce(new Error());
 
     await store.login('ignore', false);
@@ -49,6 +55,7 @@ describe('State Store', () => {
   });
 
   test('should logout and reset state', async () => {
+    const store = useStore();
     store.$patch({
       name: 'test',
       vote: VOTE,
@@ -62,12 +69,14 @@ describe('State Store', () => {
   });
 
   test('should set vote', () => {
+    const store = useStore();
     store.setVote(VOTE);
 
     expect(store.vote).toEqual(VOTE);
   });
 
   test('should unset vote', () => {
+    const store = useStore();
     store.vote = VOTE;
 
     store.setVote(VOTE);
@@ -75,42 +84,22 @@ describe('State Store', () => {
     expect(store.vote).toEqual(NO_VOTE);
   });
 
-  // test('should receive state event', () => {
-  //   const user = {
-  //     name: 'user',
-  //     vote: '',
-  //     voted: false,
-  //     spectate: false,
-  //   };
-  //   const results = {
-  //     VOTE: 1,
-  //   };
-  //   state.vote = VOTE;
-
-  //   state.state(
-  //     JSON.stringify({
-  //       users: [user],
-  //       results,
-  //     }),
-  //   );
-
-  //   expect(state.users).toEqual([user]);
-  //   expect(state.results).toEqual(results);
-  // });
-
   test('should calc highest voted result', () => {
+    const store = useStore();
     store.results = { ANOTHER: 1, [VOTE]: 2, YET_ANOTHER: 1 };
 
     expect(store.highestVote).toEqual(VOTE);
   });
 
   test('should show fallback vote without results', () => {
+    const store = useStore();
     store.results = null;
 
     expect(store.highestVote).toEqual(NO_VOTE);
   });
 
   test('should seperate spectators from voters', () => {
+    const store = useStore();
     const voter = buildUser();
 
     store.users = [buildSpectator(), voter];
@@ -135,10 +124,12 @@ describe('State Store', () => {
   // });
 
   test('should be initially in "login" mode', () => {
+    const store = useStore();
     expect(store.mode).toEqual('login');
   });
 
   test('should be in "results" mode', () => {
+    const store = useStore();
     store.$patch({
       name: 'user',
       results: {},
@@ -152,6 +143,7 @@ describe('State Store', () => {
     [[buildUser(1, VOTE)]],
     [[buildUser(1, VOTE), buildUser(2, NO_VOTE)]],
   ])('should be in "voting" mode %#', (users) => {
+    const store = useStore();
     store.$patch({
       name: 'user',
       users,
@@ -161,6 +153,7 @@ describe('State Store', () => {
   });
 
   test('should be in "ready" mode', () => {
+    const store = useStore();
     store.$patch({
       name: 'user',
       users: buildUsers(true, 2),
@@ -170,12 +163,15 @@ describe('State Store', () => {
   });
 
   test('should trigger showing results', async () => {
+    const store = useStore();
     await store.showResults();
 
     expect(useFetch).toHaveBeenCalledWith('/api/results');
   });
 
   test('should trigger hiding results', async () => {
+    const store = useStore();
+
     await store.resetResults();
 
     expect(useFetch).toHaveBeenCalledWith('/api/results');
@@ -187,6 +183,7 @@ describe('State Store', () => {
   ])(
     'should check name availability (http %s)',
     async (statusCode, matcherName) => {
+      const store = useStore();
       vi.mocked(useFetch, { partial: true }).mockReturnValueOnce({
         statusCode: ref(statusCode),
       });
@@ -198,4 +195,14 @@ describe('State Store', () => {
       expect(isTaken)[matcherName]();
     },
   );
+
+  test.each([
+    [true, '/plan'],
+    [false, '/'],
+  ])('should connected=%s route to %s', async (isConnected, route) => {
+    sseMock.connected.value = isConnected;
+    const store = useStore();
+
+    expect(routerMock.push).toHaveBeenCalledWith(route);
+  });
 });

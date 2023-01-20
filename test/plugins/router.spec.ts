@@ -14,20 +14,12 @@ beforeEach(() => {
   router = createRouter(createMemoryHistory());
 });
 
-test('should rout to /plan if connected', async () => {
-  stateStoreMock.connected = true;
+test.each([['/plan'], ['/'], ['/unknown', '/']])(
+  'should rout from %s to %s if connected',
+  async (path, expectedPath = path) => {
+    await router.push({ path });
+    await router.isReady();
 
-  await router.push('/plan');
-  await router.isReady();
-
-  expect(router.currentRoute.value.name).toEqual('/plan');
-});
-
-test('should not rout to /plan if not connected', async () => {
-  stateStoreMock.connected = false;
-
-  router.push('/plan');
-  await router.isReady();
-
-  expect(router.currentRoute.value.name).toEqual('/');
-});
+    expect(router.currentRoute.value.name).toEqual(expectedPath);
+  },
+);

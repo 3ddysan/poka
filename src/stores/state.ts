@@ -1,4 +1,4 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
+import { defineStore, acceptHMRUpdate, getActivePinia } from 'pinia';
 import type { StoreState } from '@/types';
 import { StateValidator } from '@/validation';
 import { useSSE } from '@/plugins/sse';
@@ -7,6 +7,14 @@ const previousName = useLocalStorage('poka', '');
 
 export const useStore = defineStore('state', () => {
   const { connect, disconnect, connected } = useSSE();
+  const router = getActivePinia()?.router;
+  watch(
+    connected,
+    async (isConnected) => {
+      await router?.push(isConnected ? '/plan' : '/');
+    },
+    { immediate: true },
+  );
   const state = reactive<StoreState>({
     name: '',
     users: [],

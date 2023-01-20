@@ -13,17 +13,6 @@ watch(
   },
   { immediate: true },
 );
-const router = useRouter();
-watch(
-  () => state.connected,
-  async (connected) => {
-    if (connected) {
-      await router.push({ name: '/plan' });
-    } else {
-      await router.push({ name: '/' });
-    }
-  },
-);
 </script>
 
 <template>
