@@ -1,4 +1,9 @@
-import { type RenderOptions, fireEvent, screen } from '@testing-library/vue';
+import {
+  type RenderOptions,
+  fireEvent,
+  screen,
+  waitFor,
+} from '@testing-library/vue';
 import Login from '@/components/Login.vue';
 
 const render = (options?: RenderOptions) => mount(Login, options);
@@ -9,7 +14,7 @@ describe('Login', () => {
   test('should login', async () => {
     const { emitted } = render();
     await fireEvent.update(screen.getByTestId('login-name'), name);
-    await fireEvent.click(screen.getByTestId('login-action'));
+    await fireEvent.click(screen.getByTestId('submit-action'));
     expect(emitted().login).toEqual([[name]]);
   });
 
@@ -22,8 +27,17 @@ describe('Login', () => {
 
   test('should spectate', async () => {
     const { emitted } = render();
+
+    const modeAction = screen.getByTestId('mode-action');
+    await fireEvent.update(modeAction);
+    expect(modeAction).toBeChecked();
+
     await fireEvent.update(screen.getByTestId('login-name'), name);
-    await fireEvent.click(screen.getByTestId('spectate-action'));
+
+    const submitAction = screen.getByTestId('submit-action');
+    expect(submitAction).toHaveTextContent('Spectate');
+
+    await fireEvent.click(submitAction);
     expect(emitted().spectate).toEqual([[name]]);
   });
 
@@ -32,7 +46,7 @@ describe('Login', () => {
     async (invalidName) => {
       const { emitted } = render();
       await fireEvent.update(screen.getByTestId('login-name'), invalidName);
-      await fireEvent.click(screen.getByTestId('login-action'));
+      await fireEvent.click(screen.getByTestId('submit-action'));
       expect(emitted().login).toBeUndefined();
     },
   );
@@ -40,7 +54,7 @@ describe('Login', () => {
   test('should trim name', async () => {
     const { emitted } = render();
     await fireEvent.update(screen.getByTestId('login-name'), `  ${name} `);
-    await fireEvent.click(screen.getByTestId('login-action'));
+    await fireEvent.click(screen.getByTestId('submit-action'));
     expect(emitted().login).toEqual([[name]]);
   });
 
@@ -60,6 +74,6 @@ describe('Login', () => {
         disabledAction: true,
       },
     });
-    expect(screen.getByTestId('login-action')).toBeDisabled();
+    expect(screen.getByTestId('submit-action')).toBeDisabled();
   });
 });

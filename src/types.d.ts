@@ -10,6 +10,5 @@ export interface StoreState {
   vote: string;
   users: User[];
   results: Results;
-  spectate: boolean;
   error: boolean;
 }

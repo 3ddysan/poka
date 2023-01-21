@@ -33,8 +33,9 @@ describe('Page -> Board', () => {
   test('should not allow voting for spectator', async () => {
     state.$patch({
       users: [buildSpectator()],
-      spectate: true,
     });
+    // @ts-expect-error testing purpose
+    state.spectate = true;
     render();
 
     // @ts-expect-error type

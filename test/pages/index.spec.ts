@@ -14,7 +14,7 @@ const render = (options?: RenderOptions) => mount(Index, options);
 
 const login = async (name = USERNAME) => {
   await fireEvent.update(screen.getByTestId('login-name'), name);
-  await fireEvent.click(screen.getByTestId('login-action'));
+  await fireEvent.click(screen.getByTestId('submit-action'));
 };
 describe('Index', () => {
   beforeEach(() => {

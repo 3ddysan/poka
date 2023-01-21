@@ -4,6 +4,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  spectate: {
+    type: Boolean,
+    default: false,
+  },
   disabledAction: {
     type: Boolean,
     default: false,
@@ -14,15 +18,16 @@ const props = defineProps({
   },
 });
 const emit = defineEmits<{
-  (event: 'login', name: string): void;
-  (event: 'spectate', name: string): void;
+  (event: 'login' | 'spectate', name: string): void;
 }>();
-
 const name = ref(props.name);
+const isSpectator = ref(props.spectate);
+const mode = computed(() => (isSpectator.value ? 'spectate' : 'login'));
 const { t } = useI18n();
+const submit = () => name.value && emit(mode.value, name.value);
 </script>
 <template>
-  <div class="has-tooltip">
+  <div class="has-tooltip relative">
     <span
       :class="!!errorMessage ? 'tooltip-show' : undefined"
       class="tooltip danger-arrow-bottom block p-2 text-white font-medium text-center rounded-lg shadow-md mb-3 bg-red-600"
@@ -37,25 +42,23 @@ const { t } = useI18n();
       class="w-full px-3 py-2 border placeholder-gray-500 text-gray-900 rounded-t-md focus:(outline-none ring-indigo-500 border-indigo-500)"
       :placeholder="t('username')"
       autocomplete="false"
-      @keydown.enter="name && emit('login', name)"
+      @keydown.enter="submit"
+    />
+    <Mode
+      v-model="isSpectator"
+      :tooltip="t('mode')"
+      class="absolute inset-y-18 right-2"
     />
     <div class="flex">
       <Btn
         :disabled="disabledAction"
         :rounded="false"
-        class="w-full rounded-bl-md uppercase"
-        data-testid="login-action"
-        @click="name && emit('login', name)"
+        class="w-full rounded-b-md uppercase"
+        data-testid="submit-action"
+        @click="submit"
       >
-        <i-mdi-login /> {{ t('login') }}
-      </Btn>
-      <Btn
-        :rounded="false"
-        class="w-full rounded-br-md uppercase"
-        data-testid="spectate-action"
-        @click="name && emit('spectate', name)"
-      >
-        <i-mdi-glasses /> {{ t('spectate') }}
+        <i-mdi-glasses v-if="isSpectator" /><i-mdi-login v-else />
+        {{ t(mode) }}
       </Btn>
     </div>
   </div>
@@ -90,10 +93,12 @@ const { t } = useI18n();
 <i18n>
 en:
   login: 'Login'
+  mode: 'Switch Mode'
   spectate: 'Spectate'
   username: 'Username'
 de:
   login: 'Anmelden'
+  mode: 'Teilnahmemodus wechseln'
   spectate: 'Zuschauen'
   username: 'Benutzername'
 </i18n>

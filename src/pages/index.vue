@@ -22,6 +22,7 @@ const login = async (name: string, spectate = false) => {
           : undefined
       "
       :name="state.previousName"
+      :spectate="state.spectate"
       @login="login"
       @spectate="login($event, true)"
     />

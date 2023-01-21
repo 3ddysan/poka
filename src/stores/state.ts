@@ -3,7 +3,8 @@ import type { StoreState } from '@/types';
 import { StateValidator } from '@/validation';
 import { useSSE } from '@/composables/sse';
 
-const previousName = useLocalStorage('poka', '');
+const previousName = useLocalStorage('poka_name', '');
+const spectate = useLocalStorage('poka_spectator', false);
 
 export const useStore = defineStore('state', () => {
   const { connect, disconnect, connected } = useSSE();
@@ -20,7 +21,6 @@ export const useStore = defineStore('state', () => {
     users: [],
     vote: '',
     results: null,
-    spectate: false,
     error: false,
   });
   const voters = computed(() =>
@@ -48,6 +48,7 @@ export const useStore = defineStore('state', () => {
       return 'ready';
     }),
     previousName: computed(() => previousName.value),
+    spectate: computed(() => spectate.value),
     async setVote(value: string) {
       const vote = state.vote === value ? '' : value;
       await useFetch('/api/vote', {
@@ -72,12 +73,14 @@ export const useStore = defineStore('state', () => {
       );
       return statusCode.value === 204;
     },
-    async login(name: string, spectate: boolean) {
+    async login(name: string, isSpectator: boolean) {
       if (!name) return;
       try {
         state.error = false;
         await connect(
-          `/api/events?name=${encodeURIComponent(name)}&spectate=${spectate}`,
+          `/api/events?name=${encodeURIComponent(
+            name,
+          )}&spectate=${isSpectator}`,
           {
             state(message: string) {
               const { users, results } = StateValidator.parse(
@@ -93,7 +96,7 @@ export const useStore = defineStore('state', () => {
         );
         previousName.value = name;
         state.name = name;
-        state.spectate = spectate;
+        spectate.value = isSpectator;
       } catch (e: unknown) {
         state.error = true;
       }
@@ -102,7 +105,6 @@ export const useStore = defineStore('state', () => {
     logout() {
       disconnect();
       state.name = '';
-      state.spectate = false;
       state.vote = '';
     },
   };
