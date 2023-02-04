@@ -15,6 +15,11 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
+  features: {
+    buildStoriesJson: true,
+    breakingChangesV7: true,
+    argTypeTargetsV7: true,
+  }
 };
 
 export default config;

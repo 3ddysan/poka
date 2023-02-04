@@ -18,22 +18,20 @@ export default {
           }</template>
       </Btn>`,
   }),
+  args: {
+    default: 'Action',
+  },
   argTypes: {
     click: { action: 'click' },
     default: {
       control: {
         type: 'text',
       },
-      defaultValue: 'Action',
     },
   },
 } as Meta<typeof Btn>;
 
-export const Playground = {
-  args: {
-    default: 'Action',
-  },
-};
+export const Playground = {};
 
 export const Icon = {
   args: {

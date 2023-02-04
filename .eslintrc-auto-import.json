@@ -199,6 +199,7 @@
     "usePreferredDark": true,
     "usePreferredLanguages": true,
     "usePreferredReducedMotion": true,
+    "usePrevious": true,
     "useRafFn": true,
     "useRefHistory": true,
     "useResizeObserver": true,

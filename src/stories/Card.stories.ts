@@ -12,13 +12,15 @@ export default {
     },
     template: `<Card v-bind="args" @click="args.click"><template #default>{{ args.default }}</template></Card>`,
   }),
+  args: {
+    default: '10',
+  },
   argTypes: {
     click: { action: 'click' },
     default: {
       control: {
         type: 'text',
       },
-      defaultValue: '10',
     },
   },
 } as Meta<typeof Card>;

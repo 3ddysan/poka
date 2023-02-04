@@ -16,25 +16,25 @@ export default {
       >
       </UserList>`,
   }),
+  args: {
+    userName: 'Joe',
+    mode: 'voting',
+    users: [
+      { name: 'Ted', vote: '', voted: false, spectate: false },
+      { name: 'Joe', vote: '1', voted: true, spectate: false },
+      { name: 'Bob', vote: '', voted: false, spectate: false },
+    ],
+  },
   argTypes: {
     'show-results': { action: 'show-results' },
     'reset-results': { action: 'reset-results' },
     logout: { action: 'logout' },
-    userName: {
-      defaultValue: 'Joe',
-    },
     mode: {
       control: 'select',
       options: ['voting', 'ready', 'results'],
-      defaultValue: 'voting',
     },
     users: {
       control: 'object',
-      defaultValue: [
-        { name: 'Ted', vote: '', voted: false },
-        { name: 'Joe', vote: '1', voted: true },
-        { name: 'Bob', vote: '', voted: false },
-      ],
     },
   },
 } as Meta<typeof UserList>;
