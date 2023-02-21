@@ -1,5 +1,4 @@
 import { useSSE } from '@/composables/sse';
-import exp from 'constants';
 
 let emitError = false;
 const EventSourceState = {

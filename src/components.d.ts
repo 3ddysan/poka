@@ -22,6 +22,7 @@ declare module '@vue/runtime-core' {
     Layout: typeof import('./components/Layout.vue')['default']
     Login: typeof import('./components/Login.vue')['default']
     Logo: typeof import('./components/Logo.vue')['default']
+    Modal: typeof import('./components/common/Modal.vue')['default']
     Mode: typeof import('./components/common/Mode.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
