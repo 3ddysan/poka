@@ -8,7 +8,7 @@ COPY package*.json pnpm-lock.yaml ./
 # install dependencies here, for better reuse of layers
 RUN npm install -g pnpm
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store/v3 pnpm fetch
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 # copy all sources in the container (exclusions in .dockerignore file)
 COPY . .
