@@ -5,6 +5,10 @@ import { createRouter } from './plugins/router';
 import 'virtual:windi.css';
 import { createI18n } from 'vue-i18n';
 
+const { language } = useNavigatorLanguage();
+const params = useUrlSearchParams('history');
+const queryLang = Array.isArray(params.lang) ? params.lang[0] : params.lang;
+const locale = queryLang || language.value?.split('-')[0] || 'en';
 const router = createRouter();
 createApp(App)
   .use(createPinia(router))
@@ -12,7 +16,7 @@ createApp(App)
   .use(
     createI18n({
       legacy: false,
-      locale: 'en',
+      locale,
       messages: {
         en: {},
         de: {},

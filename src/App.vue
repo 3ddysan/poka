@@ -3,17 +3,6 @@ import { useStore } from '@/stores/state';
 import { useDetectParallelInstance } from '@/composables/detector';
 
 const state = useStore();
-const { locale } = useI18n();
-const { language } = useNavigatorLanguage();
-const params = useUrlSearchParams('history');
-const queryLang = Array.isArray(params.lang) ? params.lang[0] : params.lang;
-watch(
-  language,
-  (lang) => {
-    locale.value = queryLang || lang?.split('-')[0] || 'en';
-  },
-  { immediate: true },
-);
 const showDuplicateInstanceWarning = ref(false);
 const { closeOther } = useDetectParallelInstance(() => {
   showDuplicateInstanceWarning.value = true;
