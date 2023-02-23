@@ -57,7 +57,7 @@ const submit = () => name.value && emit(mode.value, name.value);
         data-testid="submit-action"
         @click="submit"
       >
-        <i-mdi-glasses v-if="isSpectator" /><i-mdi-login v-else />
+        <i-fluent-glasses-48-regular v-if="isSpectator" /><i-mdi-login v-else />
         {{ t(mode) }}
       </Btn>
     </div>

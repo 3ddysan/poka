@@ -21,8 +21,16 @@ const checked = useVModel(props, 'modelValue', emit, { passive: true });
       class="opacity-0 absolute h-5 w-5"
       :title="tooltip"
     />
-    <i-mdi-eye-outline v-if="checked" data-testid="mode-icon" class="icon" />
-    <i-mdi-eye-off-outline v-else data-testid="mode-icon" class="icon" />
+    <i-fluent-glasses-48-regular
+      v-if="checked"
+      data-testid="mode-icon"
+      class="icon"
+    />
+    <i-fluent-glasses-off-48-regular
+      v-else
+      data-testid="mode-icon"
+      class="icon"
+    />
   </div>
 </template>
 
