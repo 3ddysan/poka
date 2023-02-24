@@ -29,6 +29,9 @@ const checked = useVModel(props, 'modelValue', emit, { passive: true });
 </template>
 
 <style scoped>
+.icon {
+  border: 1px solid transparent;
+}
 input:focus + .icon {
   @apply border border-indigo-500;
 }
