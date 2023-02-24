@@ -4,6 +4,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  shrink: {
+    type: Boolean,
+    default: false,
+  },
   mark: {
     type: Boolean,
     default: false,
@@ -27,7 +31,11 @@ const classes = computed(() =>
 </script>
 
 <template>
-  <div data-testid="card" class="relative">
+  <div
+    data-testid="card"
+    class="relative transform transition-transform"
+    :class="{ 'scale-80': shrink }"
+  >
     <button
       data-testid="card-action"
       :class="classes"
@@ -49,7 +57,7 @@ const classes = computed(() =>
       </div>
     </button>
     <div
-      v-show="votes !== 0"
+      v-show="votes > 0"
       data-testid="card-votes"
       class="z-1 absolute -top-3 left-18 shadow-md bg-white border-gray-500 ring-3 rounded-full h-10 w-10 rounded-full p-2 font-bold text-center"
     >
