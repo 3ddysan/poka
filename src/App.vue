@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useStore } from '@/stores/state';
 import { useDetectParallelInstance } from '@/composables/detector';
+import { useSound } from '@/composables/sound';
 
 const state = useStore();
+const { isSoundOn } = useSound();
 const showDuplicateInstanceWarning = ref(false);
 const { closeOther } = useDetectParallelInstance(() => {
   showDuplicateInstanceWarning.value = true;
@@ -14,6 +16,22 @@ const { t } = useI18n();
   <Teleport to="body">
     <div class="absolute top-0 left-3">
       <Logo :animate="state.mode === 'ready'" />
+    </div>
+  </Teleport>
+  <Teleport to="body">
+    <div class="absolute top-2 right-2">
+      <Toggle
+        v-model="isSoundOn"
+        :tooltip="isSoundOn ? t('sound-on') : t('sound-off')"
+        class="text-gray-400 hover:text-gray-600 text-xl"
+      >
+        <template #on>
+          <i-mdi-volume />
+        </template>
+        <template #off>
+          <i-mdi-volume-mute />
+        </template>
+      </Toggle>
     </div>
   </Teleport>
   <router-view v-slot="{ Component }">
@@ -55,9 +73,13 @@ body,
     duplicate-warning: 'Poka is open in another window. Click "Use Here" to use Poka in this tab.'
     close: 'Close'
     use-here: 'Use here'
+    sound-on: Disable Sound Effects
+    sound-off: Enable Sound Effects
   de:
     title: Achtung
     duplicate-warning: 'Poka ist schon in einem anderen Fenster offen. Klick "Hier nutzen" um Poka im aktuellen Tab zu nutzen.'
     close: 'Schließen'
     use-here: 'Hier nutzen'
+    sound-on: Audio ausschalten
+    sound-off: Audio anschalten
   </i18n>

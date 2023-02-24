@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import Mode from '@/components/common/Mode.vue';
+import Toggle from '@/components/common/Toggle.vue';
 
 export default {
-  component: Mode,
+  component: Toggle,
   render: (args) => ({
-    components: { Mode },
+    components: { Toggle },
     setup() {
       return { checked: ref(args.modelValue) };
     },
-    template: `<Mode
+    template: `<Toggle
         v-model="checked"
         v-bind="args"
       />`,
   }),
-} as Meta<typeof Mode>;
+} as Meta<typeof Toggle>;
 
 export const Playground = {};

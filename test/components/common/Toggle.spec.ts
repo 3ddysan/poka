@@ -1,9 +1,9 @@
 import { type RenderOptions, screen, fireEvent } from '@testing-library/vue';
-import Mode from '@/components/common/Mode.vue';
+import Toggle from '@/components/common/Toggle.vue';
 
-const render = (options?: RenderOptions) => mount(Mode, options);
+const render = (options?: RenderOptions) => mount(Toggle, options);
 
-describe('Mode', () => {
+describe('Toggle', () => {
   test.each([[false], [true]])(
     'should render checked=%s',
     async (modelValue) => {

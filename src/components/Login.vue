@@ -44,11 +44,18 @@ const submit = () => name.value && emit(mode.value, name.value);
       autocomplete="false"
       @keydown.enter="submit"
     />
-    <Mode
+    <Toggle
       v-model="isSpectator"
       :tooltip="t('mode')"
       class="absolute inset-y-18 right-2"
-    />
+    >
+      <template #on>
+        <i-fluent-glasses-48-regular />
+      </template>
+      <template #off>
+        <i-fluent-glasses-off-48-regular />
+      </template>
+    </Toggle>
     <div class="flex">
       <Btn
         :disabled="disabledAction"

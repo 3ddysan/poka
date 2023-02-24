@@ -2,12 +2,14 @@ import { defineStore, acceptHMRUpdate, getActivePinia } from 'pinia';
 import type { StoreState } from '@/types';
 import { StateValidator } from '@/validation';
 import { useSSE } from '@/composables/sse';
+import { useSound } from '@/composables/sound';
 
 const previousName = useLocalStorage('poka_name', '');
 const spectate = useLocalStorage('poka_spectator', false);
 
 export const useStore = defineStore('state', () => {
   const { connect, disconnect, connected } = useSSE();
+  const { play } = useSound();
   const router = getActivePinia()?.router;
   watch(
     connected,
@@ -51,6 +53,11 @@ export const useStore = defineStore('state', () => {
     spectate: computed(() => spectate.value),
     async setVote(value: string) {
       const vote = state.vote === value ? '' : value;
+      if (vote) {
+        play('select');
+      } else {
+        play('deselect');
+      }
       await useFetch('/api/vote', {
         afterFetch: (ctx) => {
           state.vote = vote;
@@ -88,12 +95,17 @@ export const useStore = defineStore('state', () => {
               );
               if (state.results != null && results == null) {
                 state.vote = '';
+                play('reset');
+              }
+              if (state.vote && state.results == null && results != null) {
+                play('results');
               }
               state.users = users;
               state.results = results;
             },
           },
         );
+        play('login');
         previousName.value = name;
         state.name = name;
         spectate.value = isSpectator;
@@ -106,6 +118,7 @@ export const useStore = defineStore('state', () => {
       disconnect();
       state.name = '';
       state.vote = '';
+      play('logout');
     },
   };
 });

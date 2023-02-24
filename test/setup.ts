@@ -45,3 +45,9 @@ global.mount = (component: unknown, { global, ...options } = {}) =>
     },
     ...options,
   });
+
+function Audio(url: string) {
+  // ignore
+}
+Audio.prototype.play = vi.fn();
+vi.stubGlobal('Audio', Audio);

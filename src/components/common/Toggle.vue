@@ -21,16 +21,10 @@ const checked = useVModel(props, 'modelValue', emit, { passive: true });
       class="opacity-0 absolute h-5 w-5"
       :title="tooltip"
     />
-    <i-fluent-glasses-48-regular
-      v-if="checked"
-      data-testid="mode-icon"
-      class="icon"
-    />
-    <i-fluent-glasses-off-48-regular
-      v-else
-      data-testid="mode-icon"
-      class="icon"
-    />
+    <div data-testid="mode-icon" class="icon flex items-center">
+      <slot v-if="checked" name="on">✓</slot>
+      <slot v-else name="off">×</slot>
+    </div>
   </div>
 </template>
 
