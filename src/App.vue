@@ -17,8 +17,6 @@ const { t } = useI18n();
     <div class="absolute top-0 left-3">
       <Logo :animate="state.mode === 'ready'" />
     </div>
-  </Teleport>
-  <Teleport to="body">
     <div class="absolute top-2 right-2">
       <Toggle
         v-model="isSoundOn"
