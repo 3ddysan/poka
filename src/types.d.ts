@@ -10,5 +10,5 @@ export interface StoreState {
   vote: string;
   users: User[];
   results: Results;
-  error: boolean;
+  error: 'server' | 'name' | null;
 }

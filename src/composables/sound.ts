@@ -7,6 +7,7 @@ const sounds = [
   'deselect',
   'results',
   'reset',
+  'error',
 ] as const;
 export type Sound = (typeof sounds)[number];
 

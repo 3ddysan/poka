@@ -3,6 +3,7 @@ import {
   buildSpectator,
   buildUser,
   buildUsers,
+  mockIsNameTaken,
   NO_VOTE,
   VOTE,
 } from 'test/fixtures';
@@ -36,6 +37,7 @@ describe('State Store', () => {
   });
 
   test('should login', async () => {
+    mockIsNameTaken();
     const store = useStore();
     const name = 'test';
 
@@ -176,25 +178,6 @@ describe('State Store', () => {
 
     expect(useFetch).toHaveBeenCalledWith('/api/results');
   });
-
-  test.each([
-    [204, 'toBeTruthy'],
-    [404, 'toBeFalsy'],
-  ])(
-    'should check name availability (http %s)',
-    async (statusCode, matcherName) => {
-      const store = useStore();
-      vi.mocked(useFetch, { partial: true }).mockReturnValueOnce({
-        statusCode: ref(statusCode),
-      });
-      const name = 'new_user';
-
-      const isTaken = await store.isNameTaken(name);
-
-      expect(useFetch).toHaveBeenCalledWith(`/api/users/${name}`);
-      expect(isTaken)[matcherName]();
-    },
-  );
 
   test.each([
     [true, '/plan'],

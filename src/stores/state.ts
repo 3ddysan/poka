@@ -23,11 +23,17 @@ export const useStore = defineStore('state', () => {
     users: [],
     vote: '',
     results: null,
-    error: false,
+    error: null,
   });
   const voters = computed(() =>
     state.users.filter(({ spectate }) => !spectate),
   );
+  const isNameTaken = async (name: string) => {
+    const { statusCode } = await useFetch(
+      `/api/users/${encodeURIComponent(name)}`,
+    );
+    return statusCode.value === 204;
+  };
   return {
     ...toRefs(state),
     highestVote: computed(() =>
@@ -74,16 +80,15 @@ export const useStore = defineStore('state', () => {
     async resetResults() {
       await useFetch('/api/results').delete();
     },
-    async isNameTaken(name: string) {
-      const { statusCode } = await useFetch(
-        `/api/users/${encodeURIComponent(name)}`,
-      );
-      return statusCode.value === 204;
-    },
     async login(name: string, isSpectator: boolean) {
       if (!name) return;
       try {
-        state.error = false;
+        state.error = null;
+        if (await isNameTaken(name)) {
+          state.error = 'name';
+          play('error');
+          return;
+        }
         await connect(
           `/api/events?name=${encodeURIComponent(
             name,
@@ -110,7 +115,7 @@ export const useStore = defineStore('state', () => {
         state.name = name;
         spectate.value = isSpectator;
       } catch (e: unknown) {
-        state.error = true;
+        state.error = 'server';
       }
     },
     connected,

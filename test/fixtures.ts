@@ -27,3 +27,9 @@ export const buildSpectator = (id: string | number = PREFIX_SPECTATOR) => ({
 
 export const buildUsers = (voted = false, length = 3) =>
   Array.from({ length }, (_, i) => buildUser(i, voted ? VOTE : NO_VOTE));
+
+export const mockIsNameTaken = (isTaken = false) => {
+  vi.mocked(useFetch, { partial: true }).mockReturnValueOnce({
+    statusCode: ref(isTaken ? 204 : 400),
+  });
+};

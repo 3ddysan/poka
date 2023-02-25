@@ -3,28 +3,17 @@ import { useStore } from '@/stores/state';
 
 const state = useStore();
 const { t } = useI18n();
-const isNameTaken = ref(false);
-const login = async (name: string, spectate = false) => {
-  isNameTaken.value = await state.isNameTaken(name);
-  if (!isNameTaken.value) state.login(name, spectate);
-};
 </script>
 
 <template>
   <div class="h-full flex justify-center items-center">
     <Login
       :error="state.error"
-      :error-message="
-        isNameTaken
-          ? t('error.name')
-          : state.error
-          ? t('error.server')
-          : undefined
-      "
+      :error-message="state.error ? t(`error.${state.error}`) : undefined"
       :name="state.previousName"
       :spectate="state.spectate"
-      @login="login"
-      @spectate="login($event, true)"
+      @login="state.login($event, false)"
+      @spectate="state.login($event, true)"
     />
   </div>
 </template>

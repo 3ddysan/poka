@@ -6,6 +6,7 @@ import {
 } from '@testing-library/vue';
 import Index from '@/pages/index.vue';
 import { useStore } from '@/stores/state';
+import { mockIsNameTaken } from 'test/fixtures';
 
 const USERNAME = 'anon';
 const STORED_USERNAME = 'previous name';
@@ -30,12 +31,13 @@ describe('Index', () => {
   });
 
   test('should show name error', async () => {
-    vi.mocked(state.isNameTaken).mockReturnValueOnce(Promise.resolve(true));
+    vi.mocked(state.login).mockImplementationOnce(async () => {
+      state.error = 'name';
+    });
     render();
 
     await login();
 
-    expect(state.login).not.toHaveBeenCalled();
     await waitFor(() =>
       expect(screen.getByTestId('login-error')).toHaveTextContent(
         'Please, choose a different name!',
@@ -44,15 +46,13 @@ describe('Index', () => {
   });
 
   test('should show server error', async () => {
-    vi.mocked(state.isNameTaken).mockReturnValueOnce(Promise.resolve(false));
     vi.mocked(state.login).mockImplementationOnce(async () => {
-      state.error = true;
+      state.error = 'server';
     });
     render();
 
     await login();
 
-    expect(state.login).toHaveBeenCalled();
     await waitFor(() =>
       expect(screen.getByTestId('login-error')).toHaveTextContent(
         'Server does not responde.',
