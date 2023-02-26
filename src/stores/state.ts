@@ -3,21 +3,12 @@ import type { StoreState } from '@/types';
 import { StateValidator } from '@/validation';
 import { useSSE } from '@/composables/sse';
 import { useSound } from '@/composables/sound';
+import { useIntervalFnInBackground } from '@/composables/detector';
 
 const previousName = useLocalStorage('poka_name', '');
 const spectate = useLocalStorage('poka_spectator', false);
 
 export const useStore = defineStore('state', () => {
-  const { connect, disconnect, connected } = useSSE();
-  const { play } = useSound();
-  const router = getActivePinia()?.router;
-  watch(
-    connected,
-    async (isConnected) => {
-      await router?.push(isConnected ? '/plan' : '/');
-    },
-    { immediate: true },
-  );
   const state = reactive<StoreState>({
     name: '',
     users: [],
@@ -25,15 +16,38 @@ export const useStore = defineStore('state', () => {
     results: null,
     error: null,
   });
-  const voters = computed(() =>
-    state.users.filter(({ spectate }) => !spectate),
-  );
-  const isNameTaken = async (name: string) => {
+  const { connect, disconnect, connected } = useSSE();
+  const { play } = useSound();
+  const checkUser = async (name: string, path = '') => {
     const { statusCode } = await useFetch(
-      `/api/users/${encodeURIComponent(name)}`,
+      `/api/users/${encodeURIComponent(name)}${path}`,
     );
     return statusCode.value === 204;
   };
+  const logout = () => {
+    disconnect();
+    state.name = '';
+    state.vote = '';
+    play('logout');
+  };
+  const { resume, pause } = useIntervalFnInBackground(async () => {
+    if (!(await checkUser(state.name, '/status'))) {
+      logout();
+    }
+  });
+  const router = getActivePinia()?.router;
+  watch(
+    connected,
+    async (isConnected) => {
+      if (isConnected) resume();
+      else pause();
+      await router?.push(isConnected ? '/plan' : '/');
+    },
+    { immediate: true },
+  );
+  const voters = computed(() =>
+    state.users.filter(({ spectate }) => !spectate),
+  );
   return {
     ...toRefs(state),
     highestVote: computed(() =>
@@ -84,7 +98,7 @@ export const useStore = defineStore('state', () => {
       if (!name) return;
       try {
         state.error = null;
-        if (await isNameTaken(name)) {
+        if (await checkUser(name)) {
           state.error = 'name';
           play('error');
           return;
@@ -119,12 +133,7 @@ export const useStore = defineStore('state', () => {
       }
     },
     connected,
-    logout() {
-      disconnect();
-      state.name = '';
-      state.vote = '';
-      play('logout');
-    },
+    logout,
   };
 });
 

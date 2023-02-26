@@ -31,3 +31,33 @@ export function useDetectParallelInstance(
   };
   return { closeOther };
 }
+
+export function useIntervalFnInBackground(cb: Fn) {
+  const { pause: pauseInterval, resume: resumeInterval } = useIntervalFn(
+    cb,
+    3000,
+    {
+      immediate: false,
+    },
+  );
+
+  const { pause, resume } = watchPausable(
+    useDocumentVisibility(),
+    (current, previous) => {
+      if (current === 'hidden' && previous === 'visible') {
+        resumeInterval();
+      } else {
+        pauseInterval();
+      }
+    },
+    { immediate: false },
+  );
+
+  return {
+    resume,
+    pause: () => {
+      pause();
+      pauseInterval();
+    },
+  };
+}

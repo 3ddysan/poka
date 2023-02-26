@@ -176,6 +176,21 @@ export const build = (opts = {}, root: string) => {
     },
   );
 
+  fastify.get<{ Params: { name: string } }>(
+    '/api/users/:name/status',
+    function (req, res) {
+      const user = users.get(req.params.name);
+      if (user != null) {
+        const token = getSessionToken(req);
+        if (token != null && user.token !== token) {
+          res.code(401).send();
+        } else {
+          res.code(204).send();
+        }
+      } else res.code(404).send();
+    },
+  );
+
   fastify.post<{
     Body: { name: string; vote: string };
   }>('/api/vote', async (req, res) => {
