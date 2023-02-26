@@ -182,14 +182,10 @@ export const build = (opts = {}, { root, testUsers }: AppOptions) => {
     '/api/users/:name/status',
     function (req, res) {
       const user = users.get(req.params.name);
-      if (user != null) {
-        const token = getSessionToken(req);
-        if (token != null && user.token !== token) {
-          res.code(401).send();
-        } else {
-          res.code(204).send();
-        }
-      } else res.code(404).send();
+      const token = getSessionToken(req);
+      if (user != null && user.token === token) {
+        res.code(204).send();
+      } else res.code(401).send();
     },
   );
 

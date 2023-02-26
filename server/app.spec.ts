@@ -53,6 +53,19 @@ describe('Real Server', () => {
     });
   }
 
+  function results(): http.IncomingMessage | PromiseLike<http.IncomingMessage> {
+    return new Promise((resolve, reject) => {
+      const req = http.get(
+        getBaseUrl(`/api/results`),
+        { timeout: 100 },
+        (res) => {
+          resolve(res);
+        },
+      );
+      req.on('error', reject);
+    });
+  }
+
   function vote(
     vote: string,
     name = TEST_USERNAME,
@@ -81,6 +94,29 @@ describe('Real Server', () => {
       req.on('error', reject);
       req.write(dataEncoded);
       req.end();
+    });
+  }
+
+  function getUser(
+    path = '',
+    { name = TEST_USERNAME, token = '' } = {},
+  ): PromiseLike<http.IncomingMessage> {
+    return new Promise((resolve, reject) => {
+      const req = http.get(
+        getBaseUrl(`/api/users/${name}${path}`),
+        {
+          timeout: 100,
+          headers: token
+            ? {
+                Cookie: `${COOKIE_NAME}=${token}`,
+              }
+            : undefined,
+        },
+        (res) => {
+          resolve(res);
+        },
+      );
+      req.on('error', reject);
     });
   }
 
@@ -113,5 +149,85 @@ describe('Real Server', () => {
 
     expect(testUsers.get(TEST_USERNAME)?.vote).toEqual(VOTE);
     expect(testUsers.get(TEST_USERNAME)?.voted).toBeTruthy();
+  });
+
+  test('should broadcast state after vote request', async () => {
+    const write = vi.fn();
+    testUsers.set(TEST_USERNAME, {
+      token: '123',
+      vote: '',
+      voted: false,
+      spectate: false,
+      // @ts-expect-error ignore missing properties
+      response: {
+        write,
+      },
+    });
+    await vote(VOTE);
+
+    expect(write).toHaveBeenCalledWith('event: state\n');
+    expect(write).toHaveBeenLastCalledWith(
+      `data: ${JSON.stringify({
+        users: [
+          { name: TEST_USERNAME, vote: '', voted: true, spectate: false },
+        ],
+        results: null,
+      })}\n\n`,
+    );
+  });
+
+  test('should broadcast state after results request', async () => {
+    const write = vi.fn();
+    testUsers.set(TEST_USERNAME, {
+      token: '123',
+      vote: VOTE,
+      voted: true,
+      spectate: false,
+      // @ts-expect-error ignore missing properties
+      response: {
+        write,
+      },
+    });
+    await results();
+
+    expect(write).toHaveBeenCalledWith('event: state\n');
+    expect(write).toHaveBeenLastCalledWith(
+      `data: ${JSON.stringify({
+        users: [
+          { name: TEST_USERNAME, vote: VOTE, voted: true, spectate: false },
+        ],
+        results: { [VOTE]: 1 },
+      })}\n\n`,
+    );
+  });
+
+  test('should check existing user', async () => {
+    await login();
+
+    const res = await getUser();
+
+    expect(res.statusCode).toEqual(204);
+  });
+
+  test('should check non existing user', async () => {
+    const res = await getUser();
+
+    expect(res.statusCode).toEqual(404);
+  });
+
+  test('should reject unauthenticated user', async () => {
+    const res = await getUser('/status');
+
+    expect(res.statusCode).toEqual(401);
+  });
+
+  test('should check online user status', async () => {
+    await login();
+
+    const res = await getUser('/status', {
+      token: testUsers.get(TEST_USERNAME)?.token,
+    });
+
+    expect(res.statusCode).toEqual(204);
   });
 });
