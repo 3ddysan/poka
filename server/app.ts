@@ -19,18 +19,20 @@ type EventsRequest = {
   };
 };
 
-type ServerUser = Omit<User, 'name'> & {
+export type ServerUser = Omit<User, 'name'> & {
   token: string;
   response: ServerResponse;
 };
+
+type AppOptions = { root: string; testUsers?: Map<string, ServerUser> };
 
 const COOKIE_NAME = process.env.COOKIE_NAME || '_poka_session';
 const ORIGIN = process.env.ORIGIN || 'localhost';
 const getSessionToken = (req: FastifyRequest) => req.cookies[COOKIE_NAME] ?? '';
 
-export const build = (opts = {}, root: string) => {
+export const build = (opts = {}, { root, testUsers }: AppOptions) => {
   const fastify = Fastify(opts);
-  const users = new Map<string, ServerUser>();
+  const users = testUsers || new Map<string, ServerUser>();
   let results: Results = null;
 
   fastify.addHook(

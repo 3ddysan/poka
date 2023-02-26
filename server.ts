@@ -16,7 +16,7 @@ const fastify = build(
         }
       : true,
   },
-  fileURLToPath(new URL('./dist', import.meta.url)),
+  { root: fileURLToPath(new URL('./dist', import.meta.url)) },
 );
 
 process.on('SIGINT', async (signal) => {
