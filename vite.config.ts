@@ -13,7 +13,7 @@ import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   server: {
     https: true,
     proxy: {
@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => ({
     VueRouter({
       dts: './src/typed-router.d.ts',
     }),
-    ...(mode !== 'test' ? [mkcert()] : []),
+    mkcert(),
     vue(),
     Components({
       dts: 'src/components.d.ts',
@@ -74,4 +74,4 @@ export default defineConfig(({ mode }) => ({
     setupFiles: ['test/setup.ts'],
     clearMocks: true,
   },
-}));
+});
