@@ -21,15 +21,17 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div class="py-4 px-8 bg-light-200 shadow-lg rounded-md min-w-65 max-h-180">
+  <div
+    class="py-4 px-8 bg-light-200 dark:bg-[#6a6577] shadow-lg rounded-md min-w-65 max-h-180"
+  >
     <div>
       <h2
         data-testid="user-list-title"
-        class="text-gray-800 font-semibold text-center"
+        class="text-gray-800 dark:text-[#f8f8f3] font-semibold text-center"
       >
         {{ t('title') }} ({{ users.length }})
       </h2>
-      <ul class="mt-2 text-gray-600">
+      <ul class="mt-2 text-gray-600 dark:text-[#f8f8f3]">
         <li
           class="flex"
           data-testid="user-list-entry"

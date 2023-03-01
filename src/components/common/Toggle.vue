@@ -33,6 +33,6 @@ const checked = useVModel(props, 'modelValue', emit, { passive: true });
   border: 1px solid transparent;
 }
 input:focus + .icon {
-  @apply border border-indigo-500;
+  @apply border border-indigo-500 dark:border-[#8be9fd];
 }
 </style>

@@ -20,6 +20,8 @@ declare module '@vue/runtime-core' {
     IMdiVolume: typeof import('~icons/mdi/volume')['default']
     IMdiVolumeMute: typeof import('~icons/mdi/volume-mute')['default']
     IMdiVote: typeof import('~icons/mdi/vote')['default']
+    IMdiWeatherNight: typeof import('~icons/mdi/weather-night')['default']
+    IMdiWeatherSunny: typeof import('~icons/mdi/weather-sunny')['default']
     Layout: typeof import('./components/Layout.vue')['default']
     Login: typeof import('./components/Login.vue')['default']
     Logo: typeof import('./components/Logo.vue')['default']

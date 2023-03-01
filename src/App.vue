@@ -10,12 +10,29 @@ const { closeOther } = useDetectParallelInstance(() => {
   showDuplicateInstanceWarning.value = true;
 }, state.logout);
 const { t } = useI18n();
+const isDark = useDark({
+  selector: 'html',
+});
 </script>
 
 <template>
   <Teleport to="body">
     <div class="absolute top-0 left-3">
       <Logo :animate="state.mode === 'ready'" />
+    </div>
+    <div class="absolute top-2 right-10">
+      <Toggle
+        v-model="isDark"
+        :tooltip="isDark ? t('dark-mode') : t('light-mode')"
+        class="text-gray-400 hover:text-gray-600 text-xl"
+      >
+        <template #on>
+          <i-mdi-weather-night />
+        </template>
+        <template #off>
+          <i-mdi-weather-sunny />
+        </template>
+      </Toggle>
     </div>
     <div class="absolute top-2 right-2">
       <Toggle
@@ -63,6 +80,11 @@ body,
 #app {
   height: 100%;
 }
+
+html.dark {
+  color-scheme: dark;
+  background-color: #282a36;
+}
 </style>
 
 <i18n>
@@ -73,6 +95,8 @@ body,
     use-here: 'Use here'
     sound-on: Disable Sound Effects
     sound-off: Enable Sound Effects
+    dark-mode: Toggle Light Mode
+    light-mode: Toggle Dark Mode
   de:
     title: Achtung
     duplicate-warning: 'Poka ist schon in einem anderen Fenster offen. Klick "Hier nutzen" um Poka im aktuellen Tab zu nutzen.'
@@ -80,4 +104,6 @@ body,
     use-here: 'Hier nutzen'
     sound-on: Audio ausschalten
     sound-off: Audio anschalten
+    dark-mode: Hellen Modus aktivieren
+    light-mode: Dunklen Modus aktivieren
   </i18n>
