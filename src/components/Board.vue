@@ -2,8 +2,6 @@
 import type { Results } from '@/types';
 import type { PropType } from 'vue';
 
-const values = ['0', '1', '2', '3', '5', '8', '13', '20', '?', '☕'] as const;
-// type Vote = typeof values[number] | null;
 defineProps({
   selected: {
     type: String as PropType<string | null>,
@@ -20,6 +18,10 @@ defineProps({
   disabled: {
     type: Boolean,
     default: false,
+  },
+  values: {
+    type: Array as PropType<string[]>,
+    default: () => [],
   },
 });
 defineEmits<{

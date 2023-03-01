@@ -6,12 +6,17 @@ import UserList from '@/components/UserList.vue';
 export default {
   component: Layout,
   subcomponents: { Board, UserList },
-  render: () => ({
+  render: (args) => ({
     components: { Layout, Board, UserList },
+    setup() {
+      return {
+        args,
+      };
+    },
     template: `
       <Layout style="width: 90vw;">
           <template #main>
-              <Board />
+              <Board :values="args.values" />
           </template>
           <template #sidebar>
               <UserList />
@@ -20,6 +25,9 @@ export default {
       `,
   }),
   argTypes: {},
+  args: {
+    values: ['0', '1', '2', '3', '5', '8', '13', '20', '?', '☕'],
+  },
 } as Meta<typeof Layout>;
 
 export const Playground: StoryObj<typeof Layout> = {};

@@ -18,12 +18,16 @@ export default {
         :results="args.results"
         :marked="args.marked"
         :disabled="args.disabled"
+        :values="values"
         @update:selected="args['update:selected']"
       />`,
   }),
   argTypes: {
     selected: { control: 'text' },
     'update:selected': { action: 'update:selected' },
+  },
+  args: {
+    values: ['0', '1', '2', '3', '5', '8', '13', '20', '?', '☕'],
   },
 } as Meta<typeof Board>;
 

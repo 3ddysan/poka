@@ -16,6 +16,7 @@ export const useStore = defineStore('state', () => {
     results: null,
     error: null,
   });
+  const values = ['0', '1', '2', '3', '5', '8', '13', '20', '?', '☕'] as const;
   const { connect, disconnect, connected } = useSSE();
   const { play } = useSound();
   const checkUser = async (name: string, path = '') => {
@@ -50,17 +51,18 @@ export const useStore = defineStore('state', () => {
   );
   return {
     ...toRefs(state),
-    highestVote: computed(() =>
-      state.results == null
-        ? ''
-        : Object.keys(state.results).reduce(
-            (prev: string, current: string) =>
-              (state.results?.[prev] ?? 0) > (state.results?.[current] ?? 0)
-                ? prev
-                : current,
-            '',
-          ),
-    ),
+    values,
+    highestVote: computed(() => {
+      const results = state.results;
+      if (results == null) return '';
+      const i = values.reduce((prev, current, index, keys) => {
+        const prev_votes = results[keys[prev]] ?? 0;
+        const current_votes = results[current] ?? 0;
+        if (current_votes >= prev_votes) return index;
+        else return prev;
+      }, 0);
+      return values[i] in results ? values[i] : '';
+    }),
     voters,
     mode: computed(() => {
       if (!state.name) return 'login';

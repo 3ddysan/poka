@@ -1,8 +1,9 @@
 import { type RenderOptions, fireEvent } from '@testing-library/vue';
 import Board from '@/components/Board.vue';
 
-const render = (options?: RenderOptions) => mount(Board, options);
 const values = ['0', '1', '2', '3', '5', '8', '13', '20', '?', '☕'] as const;
+const render = (options?: RenderOptions) =>
+  mount(Board, { props: { values }, ...options });
 
 describe('Board', () => {
   test('should render', () => {
