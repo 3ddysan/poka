@@ -22,7 +22,6 @@ const state = useStore();
         :marked="state.highestVote"
         :selected="state.vote"
         :results="state.results"
-        :values="state.values"
         @update:selected="state.setVote($event)"
       />
     </template>

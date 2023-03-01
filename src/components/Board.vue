@@ -1,3 +1,18 @@
+<script lang="ts">
+export const values = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '5',
+  '8',
+  '13',
+  '20',
+  '?',
+  '☕',
+] as const;
+</script>
+
 <script setup lang="ts">
 import type { Results } from '@/types';
 import type { PropType } from 'vue';
@@ -18,10 +33,6 @@ defineProps({
   disabled: {
     type: Boolean,
     default: false,
-  },
-  values: {
-    type: Array as PropType<string[]>,
-    default: () => [],
   },
 });
 defineEmits<{

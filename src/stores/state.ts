@@ -4,6 +4,7 @@ import { StateValidator } from '@/validation';
 import { useSSE } from '@/composables/sse';
 import { useSound } from '@/composables/sound';
 import { useIntervalFnInBackground } from '@/composables/detector';
+import { values } from '@/components/Board.vue';
 
 const previousName = useLocalStorage('poka_name', '');
 const spectate = useLocalStorage('poka_spectator', false);
@@ -16,7 +17,6 @@ export const useStore = defineStore('state', () => {
     results: null,
     error: null,
   });
-  const values = ['0', '1', '2', '3', '5', '8', '13', '20', '?', '☕'] as const;
   const { connect, disconnect, connected } = useSSE();
   const { play } = useSound();
   const checkUser = async (name: string, path = '') => {
@@ -51,7 +51,6 @@ export const useStore = defineStore('state', () => {
   );
   return {
     ...toRefs(state),
-    values,
     highestVote: computed(() => {
       const results = state.results;
       if (results == null) return '';

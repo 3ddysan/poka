@@ -16,7 +16,7 @@ export default {
     template: `
       <Layout style="width: 90vw;">
           <template #main>
-              <Board :values="args.values" />
+              <Board />
           </template>
           <template #sidebar>
               <UserList />
@@ -25,9 +25,6 @@ export default {
       `,
   }),
   argTypes: {},
-  args: {
-    values: ['0', '1', '2', '3', '5', '8', '13', '20', '?', '☕'],
-  },
 } as Meta<typeof Layout>;
 
 export const Playground: StoryObj<typeof Layout> = {};
