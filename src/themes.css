@@ -25,3 +25,8 @@
   --error: #dc2626;
   --on-error: #fafafa;
 }
+
+html.dark {
+  color-scheme: dark;
+  background-color: var(--background-variant);
+}

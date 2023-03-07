@@ -87,11 +87,6 @@ html,
 body,
 #app {
   height: 100%;
-  background-color: var(--background-variant);
-}
-
-html.dark {
-  color-scheme: dark;
 }
 </style>
 
