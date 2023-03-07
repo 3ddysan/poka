@@ -28,9 +28,32 @@ const classes = computed(() => ({
   <button
     :disabled="disabled"
     :class="classes"
-    class="bg-blue-600 dark:bg-[#6371a4] text-white font-medium shadow-md hover:(bg-blue-700 dark:text-[#8be9fd] dark:bg-[#6371a4] shadow-lg) focus:(bg-blue-700 dark:bg-[#6371a4] shadow-lg outline-none ring-0) active:(bg-blue-800 shadow-lg) disabled:(bg-gray-200 dark:bg-[#44475a] text-gray-500 dark:text-[#282a36] shadow-none) inline-flex items-center justify-center gap-1"
+    class="btn font-medium shadow-md hover:(shadow-lg) focus:(shadow-lg outline-none ring-0) active:(shadow-lg) disabled:(shadow-none)"
     @click="$emit('click')"
   >
-    <slot />
+    <span class="text inline-flex items-center justify-center gap-1 h-full">
+      <slot />
+    </span>
   </button>
 </template>
+<style scoped>
+.btn {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+.btn:disabled {
+  background-color: var(--background);
+}
+.btn:disabled .text {
+  filter: brightness(0.7);
+}
+.btn:hover {
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+}
+.btn:active {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+}
+</style>

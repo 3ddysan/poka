@@ -3,6 +3,7 @@ import { setup } from '@storybook/vue3';
 import type { DecoratorFunction, Parameters } from '@storybook/csf';
 import { createI18n } from 'vue-i18n';
 import { withDarkMode } from './withDarkMode.decorator'
+import '@/themes.css';
 
 setup((app) => {
   app.use(createI18n({}));

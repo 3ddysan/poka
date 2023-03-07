@@ -21,17 +21,12 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div
-    class="py-4 px-8 bg-light-200 dark:bg-[#6a6577] shadow-lg rounded-md min-w-65 max-h-180"
-  >
+  <div class="card py-4 px-8 shadow-lg rounded-md min-w-65 max-h-180">
     <div>
-      <h2
-        data-testid="user-list-title"
-        class="text-gray-800 dark:text-[#f8f8f3] font-semibold text-center"
-      >
+      <h2 data-testid="user-list-title" class="font-semibold text-center">
         {{ t('title') }} ({{ users.length }})
       </h2>
-      <ul class="mt-2 text-gray-600 dark:text-[#f8f8f3]">
+      <ul class="mt-2 users">
         <li
           class="flex"
           data-testid="user-list-entry"
@@ -87,6 +82,15 @@ const { t } = useI18n();
 <style scoped>
 .user-list-entry-name {
   max-width: 200px;
+}
+
+.card {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}
+
+.users {
+  filter: brightness(2);
 }
 </style>
 

@@ -34,7 +34,7 @@ useEventListener(dialog, 'close', () => {
 <template>
   <div
     v-if="overlay && isOpen"
-    class="fixed inset-0 backdrop-filter backdrop-grayscale overflow-y-auto h-full w-full"
+    class="fixed inset-0 overflow-y-auto h-full w-full"
   ></div>
   <dialog
     ref="dialog"
@@ -46,7 +46,7 @@ useEventListener(dialog, 'close', () => {
     :open="isOpen ? true : undefined"
   >
     <template v-if="!!title">
-      <h1 class="p-2 truncate">
+      <h1 class="p-2 truncate font-bold">
         {{ title }}
       </h1>
       <hr v-if="separator" class="mb-2" />
@@ -65,6 +65,8 @@ useEventListener(dialog, 'close', () => {
 
 <style scoped>
 .modal {
+  background-color: var(--surface);
+  color: var(--on-surface);
   position: fixed;
   top: 50%;
   left: v-bind(width);

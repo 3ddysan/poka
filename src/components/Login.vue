@@ -30,7 +30,7 @@ const submit = () => name.value && emit(mode.value, name.value);
   <div class="has-tooltip relative">
     <span
       :class="!!errorMessage ? 'tooltip-show' : undefined"
-      class="tooltip danger-arrow-bottom block p-2 text-white font-medium text-center rounded-lg shadow-md mb-3 bg-red-600"
+      class="tooltip danger-arrow-bottom block p-2 font-medium text-center rounded-lg shadow-md mb-3"
       data-testid="login-error"
       >{{ errorMessage }}</span
     >
@@ -38,8 +38,8 @@ const submit = () => name.value && emit(mode.value, name.value);
       v-model.trim="name"
       type="text"
       data-testid="login-name"
-      :class="!!errorMessage ? 'border-red-300' : 'border-gray-300'"
-      class="w-full px-3 py-2 border dark:border-[#6371a4] placeholder-gray-500 text-gray-900 dark:text-[#f8f8f3] dark:bg-[#44475a] rounded-t-md focus:(outline-none ring-indigo-500 border-indigo-500) dark:focus:(outline-none ring-[#8be9fd] border-[#8be9fd])"
+      :class="errorMessage ? 'border-red-300' : ''"
+      class="name w-full px-3 py-2 border rounded-t-md focus:(outline-none)"
       :placeholder="t('username')"
       autocomplete="false"
       @keydown.enter="submit"
@@ -47,7 +47,7 @@ const submit = () => name.value && emit(mode.value, name.value);
     <Toggle
       v-model="isSpectator"
       :tooltip="t('mode')"
-      class="absolute inset-y-18 right-2"
+      class="mode absolute inset-y-18 right-2"
     >
       <template #on>
         <i-fluent-glasses-48-regular />
@@ -72,7 +72,21 @@ const submit = () => name.value && emit(mode.value, name.value);
 </template>
 
 <style scoped>
+.name {
+  border-color: var(--on-background);
+  color: var(--on-surface);
+}
+
+.mode {
+  color: var(--on-surface);
+}
+
+.name:focus {
+  border-color: var(--primary);
+}
 .tooltip {
+  background-color: var(--error);
+  color: var(--on-error);
   @apply invisible absolute;
   min-height: 40px;
 }

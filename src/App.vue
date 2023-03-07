@@ -24,7 +24,7 @@ const isDark = useDark({
       <Toggle
         v-model="isDark"
         :tooltip="isDark ? t('dark-mode') : t('light-mode')"
-        class="text-gray-400 hover:text-gray-600 text-xl"
+        class="toggle text-xl"
       >
         <template #on>
           <i-mdi-weather-night />
@@ -38,7 +38,7 @@ const isDark = useDark({
       <Toggle
         v-model="isSoundOn"
         :tooltip="isSoundOn ? t('sound-on') : t('sound-off')"
-        class="text-gray-400 hover:text-gray-600 text-xl"
+        class="toggle text-xl"
       >
         <template #on>
           <i-mdi-volume />
@@ -73,17 +73,25 @@ const isDark = useDark({
 .fade-leave-to {
   opacity: 0;
 }
+.toggle {
+  color: var(--on-background);
+}
+.toggle:hover {
+  filter: brightness(0.7);
+}
 </style>
 <style>
+@import url(themes.css);
+
 html,
 body,
 #app {
   height: 100%;
+  background-color: var(--background-variant);
 }
 
 html.dark {
   color-scheme: dark;
-  background-color: #282a36;
 }
 </style>
 
