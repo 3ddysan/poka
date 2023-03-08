@@ -43,9 +43,10 @@ const classes = computed(() => ({
 }
 .btn:disabled {
   background-color: var(--background);
+  filter: opacity(0.5);
 }
 .btn:disabled .text {
-  filter: brightness(0.7);
+  filter: brightness(0.5);
 }
 .btn:hover {
   background-image: linear-gradient(
