@@ -46,8 +46,8 @@ devDependencies:
     specifier: ^1.1.49
     version: 1.1.49
   '@intlify/unplugin-vue-i18n':
-    specifier: ^0.8.2
-    version: 0.8.2(vue-i18n@9.2.2)
+    specifier: ^0.9.1
+    version: 0.9.1(vue-i18n@9.2.2)
   '@pinia/testing':
     specifier: ^0.0.15
     version: 0.0.15(pinia@2.0.33)(vue@3.2.47)
@@ -2043,8 +2043,8 @@ packages:
       - supports-color
     dev: true
 
-  /@intlify/bundle-utils@4.0.0(vue-i18n@9.2.2):
-    resolution: {integrity: sha512-klXrYT9VXyKEXsD6UY3pShg0O5MPC07n0TZ5RrSs5ry6T1eZVolIFGJi9c3qcDrh1qjJxgikRnPBmD7qGDqbjw==}
+  /@intlify/bundle-utils@5.0.1(vue-i18n@9.2.2):
+    resolution: {integrity: sha512-qF6reZHDm+h7jUId2npzwNZYCvrUcr0bAYnJXgiShKBxTFpxOq7nrqy7UrRWj8M2w4GTCJczeQZmQGFxc/GdFA==}
     engines: {node: '>= 12'}
     peerDependencies:
       petite-vue-i18n: '*'
@@ -2055,12 +2055,16 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
+      '@babel/parser': 7.21.2
+      '@babel/traverse': 7.21.2
       '@intlify/message-compiler': 9.3.0-beta.16
       '@intlify/shared': 9.3.0-beta.16
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       vue-i18n: 9.2.2(vue@3.2.47)
       yaml-eslint-parser: 0.3.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@intlify/core-base@9.2.2:
@@ -2102,8 +2106,8 @@ packages:
     engines: {node: '>= 14'}
     dev: true
 
-  /@intlify/unplugin-vue-i18n@0.8.2(vue-i18n@9.2.2):
-    resolution: {integrity: sha512-cRnzPqSEZQOmTD+p4pwc3RTS9HxreLqfID0keoqZDZweCy/CGRMLLTNd15S4TUf1vSBhPF03DItEFDr1F+8MDA==}
+  /@intlify/unplugin-vue-i18n@0.9.1(vue-i18n@9.2.2):
+    resolution: {integrity: sha512-7HLs5VjzK702Bqofrq9aA2yujcg8EJEtikspr0Zx6wXuI5rYq5VnejUWns+ZTdRjqfbd6DkFGNBooOLVfkezBQ==}
     engines: {node: '>= 14.16'}
     peerDependencies:
       petite-vue-i18n: '*'
@@ -2117,9 +2121,9 @@ packages:
       vue-i18n-bridge:
         optional: true
     dependencies:
-      '@intlify/bundle-utils': 4.0.0(vue-i18n@9.2.2)
+      '@intlify/bundle-utils': 5.0.1(vue-i18n@9.2.2)
       '@intlify/shared': 9.3.0-beta.16
-      '@rollup/pluginutils': 4.2.1
+      '@rollup/pluginutils': 5.0.2
       '@vue/compiler-sfc': 3.2.47
       debug: 4.3.4
       fast-glob: 3.2.12
@@ -2131,6 +2135,7 @@ packages:
       unplugin: 1.1.0
       vue-i18n: 9.2.2(vue@3.2.47)
     transitivePeerDependencies:
+      - rollup
       - supports-color
     dev: true
 
@@ -2526,14 +2531,6 @@ packages:
 
   /@polka/url@1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
-    dev: true
-
-  /@rollup/pluginutils@4.2.1:
-    resolution: {integrity: sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==}
-    engines: {node: '>= 8.0.0'}
-    dependencies:
-      estree-walker: 2.0.2
-      picomatch: 2.3.1
     dev: true
 
   /@rollup/pluginutils@5.0.2:
@@ -3497,13 +3494,13 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.21.1
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint@8.21.1:
     resolution: {integrity: sha512-rc9K8ZpVjNcLs8Fp0dkozd5Pt2Apk1glO4Vgz8ix1u6yFByxfqo5Yavpy65o+93TAe24jr7v+eSBtFLvOQtCRQ==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: true
 
@@ -4790,7 +4787,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001462
-      electron-to-chromium: 1.4.322
+      electron-to-chromium: 1.4.324
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10(browserslist@4.21.5)
     dev: true
@@ -5485,8 +5482,8 @@ packages:
       jake: 10.8.5
     dev: true
 
-  /electron-to-chromium@1.4.322:
-    resolution: {integrity: sha512-KovjizNC9XB7dno/2GjxX8VS0SlfPpCjtyoKft+bCO+UfD8bFy16hY4Sh9s0h9BDxbRH2U0zX5VBjpM1LTcNlg==}
+  /electron-to-chromium@1.4.324:
+    resolution: {integrity: sha512-m+eBs/kh3TXnCuqDF6aHLLRwLK2U471JAbZ1KYigf0TM96fZglxv0/ZFBvyIxnLKsIWUoDiVnHTA2mhYz1fqdA==}
     dev: true
 
   /emoji-regex@8.0.0:
