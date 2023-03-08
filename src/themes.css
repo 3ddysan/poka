@@ -1,5 +1,17 @@
 .dark:root {
   --background: #333345;
+  /**
+logo 1: #d863bb
+logo 2: #282942
+logo 3: #393a59
+logo 4: #6a6577
+
+bg 1: #44475a
+bg 2: #282a36
+text 1 (action?): #8be9fd
+text2 (static): #f8f8f3
+text highlight: #6371a4
+  */
   --background-variant: #3a3a4f;
   --on-background: #767693;
   --surface: #4e4e69;
@@ -14,6 +26,18 @@
 
 :root {
   --background: #e5e7eb;
+  /*
+bg1: #e5e7eb
+btn disabled: #e5e7eb
+btn active: #2563eb
+btn active (card): #60a5fa
+btn hover: #1d4ed8
+bg2: #f3f4f6
+surface 1: #fafafa
+surface 2: #ffffff
+on-surface: #1f2937
+on-surface2: #374151
+  */
   --on-background: #9ca3af;
   --background-variant: #f3f4f6;
   --surface: #fafafa;

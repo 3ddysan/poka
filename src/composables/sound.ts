@@ -8,6 +8,7 @@ const sounds = [
   'results',
   'reset',
   'error',
+  'toggle',
 ] as const;
 export type Sound = (typeof sounds)[number];
 

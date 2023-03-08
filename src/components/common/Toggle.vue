@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useSound } from '@/composables/sound';
+
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -10,6 +12,10 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue']);
 const checked = useVModel(props, 'modelValue', emit, { passive: true });
+const { play } = useSound();
+watch(checked, () => {
+  play('toggle');
+});
 </script>
 
 <template>
