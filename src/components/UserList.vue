@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { User } from '@/types';
-import type { PropType } from 'vue';
 type Mode = 'results' | 'voting' | 'ready';
 const props = defineProps({
   userName: {

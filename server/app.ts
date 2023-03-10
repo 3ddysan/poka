@@ -1,4 +1,4 @@
-import Fastify, { fastify, type FastifyRequest } from 'fastify';
+import Fastify, { type FastifyRequest } from 'fastify';
 import FastifyCors from '@fastify/cors';
 import FastifyStatic from '@fastify/static';
 import type { ServerResponse } from 'node:http';

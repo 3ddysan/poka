@@ -15,7 +15,6 @@ export const values = [
 
 <script setup lang="ts">
 import type { Results } from '@/types';
-import type { PropType } from 'vue';
 
 defineProps({
   selected: {
