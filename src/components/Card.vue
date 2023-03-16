@@ -71,6 +71,10 @@ const classes = computed(() => ({
 .card {
   background-color: var(--surface);
   color: var(--on-surface);
+
+  &:not(.shrink) .disabled .value {
+    filter: opacity(1);
+  }
 }
 
 .selected {
@@ -84,10 +88,6 @@ const classes = computed(() => ({
 
 .disabled .value {
   filter: opacity(0.5);
-}
-
-.card:not(.shrink) .disabled .value {
-  filter: opacity(1);
 }
 
 .marked {

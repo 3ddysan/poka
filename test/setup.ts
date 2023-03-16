@@ -41,6 +41,13 @@ global.mount = (component: unknown, { global, ...options } = {}) =>
           },
         }),
       ],
+      stubs: {
+        VDropdown: {
+          props: ['shown'],
+          template: '<div><slot v-if="shown" name="popper" /><slot /></div>',
+        },
+        VMenu: '<div><slot name="popper" /><slot /></div>',
+      },
       ...global,
     },
     ...options,

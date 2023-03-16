@@ -20,33 +20,36 @@ const isDark = useDark({
     <div class="absolute top-0 left-3">
       <Logo :animate="state.mode === 'ready'" />
     </div>
-    <div class="absolute top-2 right-10">
-      <Toggle
-        v-model="isDark"
-        :tooltip="isDark ? t('dark-mode') : t('light-mode')"
-        class="toggle text-xl"
-      >
-        <template #on>
-          <i-mdi-weather-night />
-        </template>
-        <template #off>
-          <i-mdi-weather-sunny />
-        </template>
-      </Toggle>
-    </div>
     <div class="absolute top-2 right-2">
-      <Toggle
-        v-model="isSoundOn"
-        :tooltip="isSoundOn ? t('sound-on') : t('sound-off')"
-        class="toggle text-xl"
-      >
-        <template #on>
-          <i-mdi-volume />
+      <VMenu theme="settings" eager>
+        <i-mdi-cog class="toggle" />
+        <template #popper>
+          <Toggle
+            v-model="isDark"
+            :tooltip="isDark ? t('dark-mode') : t('light-mode')"
+            class="toggle text-xl"
+          >
+            <template #on>
+              <i-mdi-weather-night />
+            </template>
+            <template #off>
+              <i-mdi-weather-sunny />
+            </template>
+          </Toggle>
+          <Toggle
+            v-model="isSoundOn"
+            :tooltip="isSoundOn ? t('sound-on') : t('sound-off')"
+            class="toggle text-xl"
+          >
+            <template #on>
+              <i-mdi-volume />
+            </template>
+            <template #off>
+              <i-mdi-volume-mute />
+            </template>
+          </Toggle>
         </template>
-        <template #off>
-          <i-mdi-volume-mute />
-        </template>
-      </Toggle>
+      </VMenu>
     </div>
   </Teleport>
   <router-view v-slot="{ Component }">
@@ -75,9 +78,11 @@ const isDark = useDark({
 }
 .toggle {
   color: var(--on-background);
-}
-.toggle:hover {
-  filter: brightness(0.7);
+  font-size: 1.5em;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
 }
 </style>
 <style>
@@ -87,6 +92,25 @@ html,
 body,
 #app {
   height: 100%;
+}
+
+.v-popper--theme-settings {
+  color: var(--on-background);
+  display: flex;
+  align-items: center;
+
+  & .v-popper__inner {
+    padding: 4px;
+    background-color: var(--background);
+  }
+
+  & .v-popper__arrow-outer {
+    visibility: hidden;
+  }
+
+  & .v-popper__arrow-inner {
+    visibility: hidden;
+  }
 }
 </style>
 

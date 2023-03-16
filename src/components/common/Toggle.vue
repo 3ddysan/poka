@@ -19,13 +19,12 @@ watch(checked, () => {
 </script>
 
 <template>
-  <div class="flex items-center">
+  <div class="flex items-center" @click="checked = !checked" :title="tooltip">
     <input
       v-model="checked"
       data-testid="mode-action"
       type="checkbox"
       class="opacity-0 absolute h-5 w-5"
-      :title="tooltip"
     />
     <div data-testid="mode-icon" class="icon flex items-center">
       <slot v-if="checked" name="on">✓</slot>

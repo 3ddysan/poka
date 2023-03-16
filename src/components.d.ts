@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     Card: typeof import('./components/Card.vue')['default']
     IFluentGlasses48Regular: typeof import('~icons/fluent/glasses48-regular')['default']
     IFluentGlassesOff48Regular: typeof import('~icons/fluent/glasses-off48-regular')['default']
+    IMdiCog: typeof import('~icons/mdi/cog')['default']
     IMdiLogin: typeof import('~icons/mdi/login')['default']
     IMdiLogout: typeof import('~icons/mdi/logout')['default']
     IMdiRestart: typeof import('~icons/mdi/restart')['default']

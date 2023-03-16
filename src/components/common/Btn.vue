@@ -40,19 +40,22 @@ const classes = computed(() => ({
 .btn {
   background-color: var(--primary);
   color: var(--on-primary);
-}
-.btn:disabled {
-  background-color: var(--background);
-  filter: opacity(0.5);
-}
-.btn:disabled .text {
-  filter: brightness(0.5);
-}
-.btn:hover {
-  background-image: linear-gradient(
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.1)
-  );
+
+  &:disabled {
+    background-color: var(--background);
+    filter: opacity(0.5);
+  }
+
+  &:disabled .text {
+    filter: brightness(0.5);
+  }
+
+  &:hover {
+    background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    );
+  }
 }
 .btn:active {
   background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
