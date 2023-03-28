@@ -139,5 +139,6 @@ export const useStore = defineStore('state', () => {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useStore, import.meta.hot));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  import.meta.hot.accept(acceptHMRUpdate(useStore as any, import.meta.hot));
 }
