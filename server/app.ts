@@ -178,6 +178,21 @@ export const build = (opts = {}, { root, testUsers }: AppOptions) => {
     },
   );
 
+  fastify.delete<{ Params: { name: string } }>(
+    '/api/users/:name',
+    function (req, res) {
+      const user = users.get(req.params.name);
+      if (user != null) {
+        users.delete(req.params.name);
+        res.code(204).send();
+        send(user.response, 'logout', '');
+        broadcastState();
+      } else {
+        res.code(404).send();
+      }
+    },
+  );
+
   fastify.get<{ Params: { name: string } }>(
     '/api/users/:name/status',
     function (req, res) {

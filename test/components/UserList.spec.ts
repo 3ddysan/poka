@@ -1,4 +1,4 @@
-import type { RenderOptions } from '@testing-library/vue';
+import { fireEvent, type RenderOptions } from '@testing-library/vue';
 import UserList from '@/components/UserList.vue';
 import {
   buildUsers,
@@ -81,4 +81,29 @@ describe('UserList', () => {
     expect(votes[0]).toHaveTextContent('×');
     expect(votes[1]).toHaveTextContent(VOTE);
   });
+
+  test.each([['results'], ['voting'], ['ready']])(
+    'should kick other user in %s mode',
+    async (mode) => {
+      const currentUser = buildUser(1);
+      const otherUser = buildUser(2);
+      const { getAllByTestId } = render({
+        props: {
+          userName: currentUser.name,
+          users: [currentUser, otherUser],
+          mode,
+        },
+      });
+      const [me, other] = getAllByTestId('user-list-entry');
+
+      await fireEvent.mouseOver(me);
+      expect(me).not.toHaveTextContent(`Remove ${currentUser.name}?`);
+      await fireEvent.mouseLeave(me);
+
+      await fireEvent.mouseOver(other);
+      expect(other).toHaveTextContent(`Remove ${otherUser.name}?`);
+      await fireEvent.mouseLeave(other);
+      expect(other).not.toHaveTextContent(`Remove ${otherUser.name}?`);
+    },
+  );
 });

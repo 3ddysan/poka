@@ -14,6 +14,7 @@ const state = useStore();
         @show-results="state.showResults()"
         @reset-results="state.resetResults()"
         @logout="state.logout()"
+        @kick="state.kick($event)"
       />
     </template>
     <template #main>

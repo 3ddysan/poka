@@ -15,8 +15,16 @@ const props = defineProps({
     default: 'voting',
   },
 });
-defineEmits(['show-results', 'reset-results', 'logout']);
+const emit = defineEmits(['show-results', 'reset-results', 'logout', 'kick']);
 const { t } = useI18n();
+const promptUserLogout = ref('');
+const truncate = (name: string) =>
+  name.substring(0, Math.min(10, name.length)) +
+  (name.length > 10 ? '...' : '');
+const kick = (name: string) => {
+  promptUserLogout.value = '';
+  emit('kick', name);
+};
 </script>
 
 <template>
@@ -31,7 +39,20 @@ const { t } = useI18n();
           data-testid="user-list-entry"
           v-for="{ name, voted, vote, spectate } in users"
           :key="name"
+          @mouseover="promptUserLogout = name"
+          @mouseleave="promptUserLogout = ''"
         >
+          <span
+            v-if="promptUserLogout !== userName && promptUserLogout === name"
+            class="user-list-entry-kick"
+          >
+            <a
+              href="#"
+              data-testid="user-list-entry-kick-action"
+              @click.prevent="kick(name)"
+              >{{ t('kick', { name: truncate(name) }) }}</a
+            >
+          </span>
           <span
             :class="{ 'font-bold': userName === name }"
             data-testid="user-list-entry-name"
@@ -52,7 +73,7 @@ const { t } = useI18n();
         key="restart"
         dense
         data-testid="user-list-restart-action"
-        @click="$emit('reset-results')"
+        @click="emit('reset-results')"
       >
         <i-mdi-restart /> {{ t('restart') }}
       </Btn>
@@ -61,7 +82,7 @@ const { t } = useI18n();
         key="results"
         dense
         data-testid="user-list-results-action"
-        @click="$emit('show-results')"
+        @click="emit('show-results')"
         :disabled="mode !== 'ready'"
       >
         <i-mdi-vote /> {{ t('results') }}
@@ -70,7 +91,7 @@ const { t } = useI18n();
         key="logout"
         dense
         data-testid="user-list-logout-action"
-        @click="$emit('logout')"
+        @click="emit('logout')"
       >
         <i-mdi-logout /> {{ t('logout') }}
       </Btn>
@@ -81,6 +102,16 @@ const { t } = useI18n();
 <style scoped>
 .user-list-entry-name {
   max-width: 200px;
+}
+
+.user-list-entry-kick {
+  filter: brightness(0.5);
+  background-color: var(--surface);
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  color: var(--on-surface);
 }
 
 .card {
@@ -97,11 +128,13 @@ const { t } = useI18n();
 en:
   title: 'User'
   logout: 'Logout'
+  kick: 'Remove {name}?'
   results: 'Result'
   restart: 'Restart'
 de:
   title: 'Benutzer'
   logout: 'Abmelden'
+  kick: '{name} entfernen?'
   results: 'Ergebnis'
   restart: 'Neustart'
 </i18n>

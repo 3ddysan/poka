@@ -31,6 +31,9 @@ export const useStore = defineStore('state', () => {
     state.vote = '';
     play('logout');
   };
+  const kick = async (name: string) => {
+    await useFetch(`/api/users/${encodeURIComponent(name)}`).delete();
+  };
   const { resume, pause } = useIntervalFnInBackground(async () => {
     if (!(await checkUser(state.name, '/status'))) {
       logout();
@@ -109,6 +112,7 @@ export const useStore = defineStore('state', () => {
             name,
           )}&spectate=${isSpectator}`,
           {
+            logout,
             state(message: string) {
               const { users, results } = StateValidator.parse(
                 JSON.parse(message),
@@ -135,6 +139,7 @@ export const useStore = defineStore('state', () => {
     },
     connected,
     logout,
+    kick,
   };
 });
 

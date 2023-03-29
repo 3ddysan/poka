@@ -13,6 +13,7 @@ export default {
         @show-results="args['show-results']"
         @reset-results="args['reset-results']"
         @logout="args.logout"
+        @kick="args.kick"
       >
       </UserList>`,
   }),
@@ -28,6 +29,7 @@ export default {
   argTypes: {
     'show-results': { action: 'show-results' },
     'reset-results': { action: 'reset-results' },
+    kick: { action: 'kick' },
     logout: { action: 'logout' },
     mode: {
       control: 'select',
