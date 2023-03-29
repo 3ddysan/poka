@@ -34,7 +34,7 @@ const submit = () => name.value && emit(mode.value, name.value);
         type="text"
         data-testid="login-name"
         :class="errorMessage ? 'border-red-300' : ''"
-        class="name w-full px-3 py-2 border rounded-t-md focus:(outline-none)"
+        class="name w-full pl-3 pr-8 py-2 border rounded-t-md focus:(outline-none)"
         :placeholder="t('username')"
         autocomplete="false"
         @keydown.enter="submit"
