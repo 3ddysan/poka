@@ -4,6 +4,7 @@ WORKDIR /app
 
 # copy project definition/dependencies files, for better reuse of layers
 COPY package*.json pnpm-lock.yaml ./
+COPY ./patches/ ./patches/
 
 # install dependencies here, for better reuse of layers
 RUN npm install -g pnpm
