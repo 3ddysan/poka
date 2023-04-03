@@ -27,7 +27,9 @@ export function useSound(): SoundComposable {
 
   const play = (name: Sound) => {
     if (!isSoundOn.value) return;
-    files[name].play();
+    const audio = files[name];
+    audio.currentTime = 0;
+    audio.play();
   };
 
   return {
