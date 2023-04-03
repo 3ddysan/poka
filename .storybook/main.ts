@@ -17,9 +17,7 @@ const config: StorybookConfig = {
   },
   features: {
     buildStoriesJson: true,
-    breakingChangesV7: true,
     argTypeTargetsV7: true,
-    storyStoreV7: true
   }
 };
 
