@@ -26,19 +26,16 @@ const classes = computed(() => ({
   selected: props.selected,
   disabled: !props.selected && props.disabled,
   marked: props.mark,
+  shrink: props.shrink,
 }));
 </script>
 
 <template>
-  <div
-    data-testid="card"
-    class="card relative transform transition-transform"
-    :class="{ shrink }"
-  >
+  <div data-testid="card" class="relative">
     <button
       data-testid="card-action"
       :class="classes"
-      class="flex flex-col px-3 select-none border hover:shadow-md rounded w-6em h-8em font-sans"
+      class="card flex flex-col px-3 select-none border hover:shadow-md rounded w-6em h-8em font-sans transform transition-transform"
       @click="disabled || $emit('click')"
     >
       <div data-testid="card-top-value" class="value text-left text-xs w-full">
@@ -72,7 +69,7 @@ const classes = computed(() => ({
   background-color: var(--surface);
   color: var(--on-surface);
 
-  &:not(.shrink) .disabled .value {
+  &:not(.shrink).disabled .value {
     filter: opacity(1);
   }
 }
