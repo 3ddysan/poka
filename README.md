@@ -4,7 +4,9 @@
 
 Planning Poker App
 
-![Poka Screenshot](.github/example.png)
+|                Normal                |                      Dark                       |                    Mobile                     |
+| :----------------------------------: | :---------------------------------------------: | :-------------------------------------------: |
+| ![Poka Screenshot](.github/vote.png) | ![Dark Theme Screenshot](.github/vote-dark.png) | ![Mobile View Screenshot](.github/mobile.png) |
 
 ## How to start
 
