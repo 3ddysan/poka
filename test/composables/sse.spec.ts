@@ -2,10 +2,10 @@ import { useSSE } from '@/composables/sse';
 
 let emitError = false;
 const EventSourceState = {
-  set onopen(fn: any) {
+  set onopen(fn: () => void) {
     fn();
   },
-  set onerror(fn: any) {
+  set onerror(fn: () => void) {
     if (emitError) fn();
   },
   addEventListener: vi.fn((event, fn) => fn({ data: event })),
