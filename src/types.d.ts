@@ -12,3 +12,5 @@ export interface StoreState {
   results: Results;
   error: 'server' | 'name' | null;
 }
+
+export type Mode = 'results' | 'voting' | 'ready' | 'login';

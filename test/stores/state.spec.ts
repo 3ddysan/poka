@@ -6,7 +6,7 @@ import {
   mockIsNameTaken,
   NO_VOTE,
   VOTE,
-} from 'test/fixtures';
+} from '../fixtures';
 import { useFetch } from '@vueuse/core';
 import { setActivePinia, createPinia } from 'pinia';
 

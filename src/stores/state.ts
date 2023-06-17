@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate, getActivePinia } from 'pinia';
-import type { StoreState } from '@/types';
+import type { StoreState, Mode } from '@/types';
 import { StateValidator } from '@/validation';
 import { useSSE } from '@/composables/sse';
 import { useSound } from '@/composables/sound';
@@ -66,7 +66,7 @@ export const useStore = defineStore('state', () => {
       return values[i] in results ? values[i] : '';
     }),
     voters,
-    mode: computed(() => {
+    mode: computed<Mode>(() => {
       if (!state.name) return 'login';
       if (state.results != null) return 'results';
       if (voters.value.length <= 1 || voters.value.some(({ voted }) => !voted))

@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/vue';
 import Plan from '@/pages/plan.vue';
 import { useStore } from '@/stores/state';
-import { buildUser, VOTE, NO_VOTE, buildSpectator } from 'test/fixtures';
+import { buildUser, VOTE, NO_VOTE, buildSpectator } from '../fixtures';
 
 const state = useStore();
 const render = () => mount(Plan);

@@ -6,7 +6,7 @@ import {
   buildSpectator,
   VOTE,
   NO_VOTE,
-} from 'test/fixtures';
+} from '../fixtures';
 
 const render = (options?: RenderOptions) => mount(UserList, options);
 

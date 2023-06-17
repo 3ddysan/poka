@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { User } from '@/types';
-type Mode = 'results' | 'voting' | 'ready';
+import type { User, Mode } from '@/types';
+
 const props = defineProps({
   userName: {
     type: String,
