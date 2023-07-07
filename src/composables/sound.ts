@@ -12,10 +12,13 @@ const sounds = [
 ] as const;
 export type Sound = (typeof sounds)[number];
 
-const files = sounds.reduce((acc, name) => {
-  acc[name] = new Audio(`/sounds/${name}.ogg`);
-  return acc;
-}, {} as Record<Sound, HTMLAudioElement>);
+const files = sounds.reduce(
+  (acc, name) => {
+    acc[name] = new Audio(`/sounds/${name}.ogg`);
+    return acc;
+  },
+  {} as Record<Sound, HTMLAudioElement>,
+);
 
 export interface SoundComposable {
   isSoundOn: RemovableRef<boolean>;

@@ -88,13 +88,17 @@ const classes = computed(() => ({
 }
 
 .marked {
-  box-shadow: 0 10px 15px -3px var(--secondary), 0 4px 6px -4px var(--secondary);
+  box-shadow:
+    0 10px 15px -3px var(--secondary),
+    0 4px 6px -4px var(--secondary);
 }
 
 .votes {
   background-color: var(--surface);
   color: var(--on-surface);
-  box-shadow: 0 4px 6px -1px var(--secondary), 0 2px 4px -2px var(--secondary);
+  box-shadow:
+    0 4px 6px -1px var(--secondary),
+    0 2px 4px -2px var(--secondary);
   border-color: var(--secondary);
   border-width: 1px;
 }
