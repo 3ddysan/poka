@@ -1,4 +1,4 @@
-FROM node:18 as builder
+FROM node:20 as builder
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ COPY . .
 RUN pnpm build
 
 # release layer (the only one in the final image)
-FROM gcr.io/distroless/nodejs:18 AS release
+FROM gcr.io/distroless/nodejs20-debian11 AS release
 
 WORKDIR /app
 
