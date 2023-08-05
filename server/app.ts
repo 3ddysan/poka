@@ -58,7 +58,7 @@ export const build = (opts = {}, { root, testUsers }: AppOptions) => {
     res.code(200).send({ statusCode: 200, status: 'ok' });
   });
 
-  fastify.setNotFoundHandler(function (request, reply) {
+  fastify.setNotFoundHandler(function (_request, reply) {
     reply.sendFile('index.html');
   });
 

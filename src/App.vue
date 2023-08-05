@@ -17,10 +17,10 @@ const isDark = useDark({
 
 <template>
   <Teleport to="body">
-    <div class="absolute top-0 left-3">
+    <div class="absolute left-3 top-0">
       <Logo :animate="state.mode === 'ready'" />
     </div>
-    <div class="absolute top-2 right-2">
+    <div class="absolute right-2 top-2">
       <VMenu theme="settings" eager>
         <i-mdi-cog class="toggle" />
         <template #popper>
@@ -52,7 +52,7 @@ const isDark = useDark({
       </VMenu>
     </div>
   </Teleport>
-  <router-view v-slot="{ Component }">
+  <router-view v-slot="{ Component }" class="font-sans">
     <transition name="fade" mode="out-in">
       <component :is="Component" />
     </transition>
@@ -92,6 +92,7 @@ html,
 body,
 #app {
   height: 100%;
+  margin: 0;
 }
 
 .v-popper--theme-settings {

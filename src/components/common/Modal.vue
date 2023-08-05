@@ -34,7 +34,7 @@ useEventListener(dialog, 'close', () => {
 <template>
   <div
     v-if="overlay && isOpen"
-    class="fixed inset-0 overflow-y-auto h-full w-full"
+    class="fixed inset-0 h-full w-full overflow-y-auto"
   ></div>
   <dialog
     ref="dialog"
@@ -42,20 +42,20 @@ useEventListener(dialog, 'close', () => {
       minWidth: width,
       maxWidth: width,
     }"
-    class="modal relative p-0 rounded shadow-lg border border-gray-500/10"
+    class="modal relative border border-gray-500/10 rounded p-0 shadow-lg"
     :open="isOpen ? true : undefined"
   >
     <template v-if="!!title">
-      <h1 class="p-2 truncate font-bold">
+      <h1 class="truncate p-2 font-bold">
         {{ title }}
       </h1>
       <hr v-if="separator" class="mb-2" />
     </template>
     <form method="dialog">
-      <p class="p-2 overflow-auto"><slot /></p>
+      <p class="overflow-auto p-2"><slot /></p>
       <template v-if="$slots.actions != null">
         <hr v-if="separator" class="mb-2" />
-        <div class="pb-2 px-2 flex justify-end">
+        <div class="flex justify-end px-2 pb-2">
           <slot name="actions" />
         </div>
       </template>

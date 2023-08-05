@@ -6,7 +6,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div class="h-full flex justify-center items-center">
+  <div class="h-full flex items-center justify-center">
     <Login
       :error="state.error"
       :error-message="state.error ? t(`error.${state.error}`) : undefined"

@@ -6,7 +6,7 @@ import Components from 'unplugin-vue-components/vite';
 import AutoImport from 'unplugin-auto-import/vite';
 import VueRouter from 'unplugin-vue-router/vite';
 import { VueRouterAutoImports } from 'unplugin-vue-router';
-import WindiCSS from 'vite-plugin-windicss';
+import UnoCSS from 'unocss/vite';
 import Inspect from 'vite-plugin-inspect';
 import VueI18n from '@intlify/unplugin-vue-i18n/vite';
 import Icons from 'unplugin-icons/vite';
@@ -53,7 +53,7 @@ export default defineConfig(({ mode }) => ({
       },
       imports: ['vue', VueRouterAutoImports, 'vue-i18n', '@vueuse/core'],
     }),
-    WindiCSS(),
+    UnoCSS(),
     Inspect(),
     VueI18n({
       defaultSFCLang: 'yml',

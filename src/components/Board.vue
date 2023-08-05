@@ -40,7 +40,7 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="grid <sm:grid-cols-3 grid-cols-4 gap-5">
+  <div class="grid grid-cols-4 gap-5 <sm:grid-cols-3">
     <Card
       v-for="value in values"
       :key="value"

@@ -24,7 +24,7 @@ watch(checked, () => {
       v-model="checked"
       data-testid="mode-action"
       type="checkbox"
-      class="opacity-0 absolute h-5 w-5"
+      class="absolute h-5 w-5 opacity-0"
     />
     <div data-testid="mode-icon" class="icon flex items-center">
       <slot v-if="checked" name="on">✓</slot>

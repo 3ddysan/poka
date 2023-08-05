@@ -28,10 +28,10 @@ const classes = computed(() => ({
   <button
     :disabled="disabled"
     :class="classes"
-    class="btn font-medium shadow-md hover:(shadow-lg) focus:(shadow-lg outline-none ring-0) active:(shadow-lg) disabled:(shadow-none)"
+    class="btn font-medium border-none shadow-md active:(shadow-lg) disabled:(shadow-none) focus:(shadow-lg outline-none ring-0) hover:(shadow-lg)"
     @click="$emit('click')"
   >
-    <span class="text inline-flex items-center justify-center gap-1 h-full">
+    <span class="text h-full inline-flex items-center justify-center gap-1">
       <slot />
     </span>
   </button>

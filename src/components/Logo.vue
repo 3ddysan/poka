@@ -9,13 +9,13 @@ defineProps({
 <template>
   <h1
     :class="{ 'animate-bounce': animate }"
-    class="logo text-[11px] bg-opacity-90 bg-gray-400 dark:bg-[#393a59] select-none tracking-3px uppercase box-content pt-2 w-8 h-14 flex items-center justify-center shadow-xl"
+    class="logo box-content h-14 w-8 flex select-none items-center justify-center bg-gray-400 bg-opacity-90 pt-2 text-[11px] tracking-3px uppercase shadow-xl dark:bg-[#393a59]"
   >
-    <span class="text-white dark:text-[#f8f8f3] write-vertical-right font-bold"
+    <span class="font-bold text-white write-vertical-right dark:text-[#f8f8f3]"
       >Poka</span
     >
     <div
-      class="w-8 h-2 bg-gray-300 dark:bg-[#6a6577] absolute top-15 border-b-2 dark:border-[#d863bb]"
+      class="absolute top-15 h-2 w-8 border-b-2 bg-gray-300 dark:border-[#d863bb] dark:bg-[#6a6577]"
     ></div>
   </h1>
 </template>

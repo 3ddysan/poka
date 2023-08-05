@@ -1,4 +1,5 @@
-import 'virtual:windi.css';
+import '@unocss/reset/tailwind.css';
+import 'virtual:uno.css';
 import { setup } from '@storybook/vue3';
 import type { DecoratorFunction, Parameters } from '@storybook/csf';
 import { createI18n } from 'vue-i18n';

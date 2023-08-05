@@ -34,7 +34,7 @@ const submit = () => name.value && emit(mode.value, name.value);
         type="text"
         data-testid="login-name"
         :class="errorMessage ? 'border-red-300' : ''"
-        class="name w-full pl-3 pr-8 py-2 border rounded-t-md focus:(outline-none)"
+        class="name w-full border rounded-t-md py-2 pl-3 pr-8 focus:(outline-none)"
         :placeholder="t('username')"
         autocomplete="false"
         @keydown.enter="submit"
@@ -46,7 +46,7 @@ const submit = () => name.value && emit(mode.value, name.value);
     <Toggle
       v-model="isSpectator"
       :tooltip="t('mode')"
-      class="mode absolute top-2 right-2"
+      class="mode absolute right-1 top-2"
     >
       <template #on>
         <i-fluent-glasses-48-regular />
@@ -72,6 +72,7 @@ const submit = () => name.value && emit(mode.value, name.value);
 
 <style scoped>
 .name {
+  width: 250px;
   border-color: var(--on-background);
   color: var(--on-surface);
   &:focus {

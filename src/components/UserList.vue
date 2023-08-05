@@ -28,12 +28,12 @@ const kick = (name: string) => {
 </script>
 
 <template>
-  <div class="card py-4 px-8 shadow-lg rounded-md min-w-65 max-h-180">
+  <div class="card max-h-180 min-w-65 rounded-md px-8 py-4 shadow-lg">
     <div>
-      <h2 data-testid="user-list-title" class="font-semibold text-center">
+      <h2 data-testid="user-list-title" class="text-center">
         {{ t('title') }} ({{ users.length }})
       </h2>
-      <ul class="mt-2 users">
+      <ul class="users mt-2">
         <li
           class="flex"
           data-testid="user-list-entry"
@@ -56,7 +56,7 @@ const kick = (name: string) => {
           <span
             :class="{ 'font-bold': userName === name }"
             data-testid="user-list-entry-name"
-            class="user-list-entry-name truncate flex-grow"
+            class="user-list-entry-name flex-grow truncate"
             :title="name"
           >
             {{ name }}
@@ -67,7 +67,7 @@ const kick = (name: string) => {
         </li>
       </ul>
     </div>
-    <div class="flex space-x-2 justify-around mt-4">
+    <div class="mt-4 flex justify-around space-x-2">
       <Btn
         v-if="mode === 'results'"
         key="restart"
