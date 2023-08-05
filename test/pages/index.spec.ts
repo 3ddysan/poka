@@ -6,7 +6,6 @@ import {
 } from '@testing-library/vue';
 import Index from '@/pages/index.vue';
 import { useStore } from '@/stores/state';
-import { mockIsNameTaken } from 'test/fixtures';
 
 const USERNAME = 'anon';
 const STORED_USERNAME = 'previous name';
