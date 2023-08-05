@@ -120,7 +120,7 @@ export const build = (opts = {}, { root, testUsers }: AppOptions) => {
   };
 
   function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
-    const { heartbeat = 3000, name, spectate = false } = req.query;
+    const { name, spectate = false } = req.query;
     const token = crypto.randomUUID();
     response.writeHead(200, {
       'Access-Control-Allow-Origin': '*',
@@ -135,7 +135,7 @@ export const build = (opts = {}, { root, testUsers }: AppOptions) => {
     response.write('retry: 5000\n\n');
     const heartbeatInterval = setInterval(
       () => response.write(': heartbeat\n'),
-      heartbeat,
+      3000,
     );
     users.set(name, {
       token,
