@@ -20,7 +20,9 @@ const props = defineProps({
 const emit = defineEmits<{
   (event: 'login' | 'spectate', name: string): void;
 }>();
+// eslint-disable-next-line vue/no-setup-props-destructure
 const name = ref(props.name);
+// eslint-disable-next-line vue/no-setup-props-destructure
 const isSpectator = ref(props.spectate);
 const mode = computed(() => (isSpectator.value ? 'spectate' : 'login'));
 const { t } = useI18n();
