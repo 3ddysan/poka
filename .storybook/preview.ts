@@ -30,7 +30,7 @@ export const decorators: DecoratorFunction[] = [
   (story) => ({
     components: { story },
     template:
-      '<div style="display: flex; align-items: center; justify-content: center;"><story /></div>',
+      '<div style="display: flex; justify-content: center;"><story /></div>',
   }),
 ];
 
