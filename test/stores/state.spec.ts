@@ -10,6 +10,8 @@ import {
 import { useFetch } from '@vueuse/core';
 import { setActivePinia, createPinia } from 'pinia';
 
+vi.mock('@vueuse/core', async () => (await import('../mocks')).vueuseModule());
+
 const sseMock = {
   connect: vi.fn(),
   disconnect: vi.fn(),
