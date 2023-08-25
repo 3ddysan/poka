@@ -1,10 +1,10 @@
 import { build, type ServerUser } from './app';
-import { fileURLToPath, URL } from 'node:url';
 import type { AddressInfo } from 'node:net';
 import type { FastifyInstance } from 'fastify';
 import http from 'node:http';
+import { resolve } from 'node:path';
 
-const root = fileURLToPath(new URL('__fixtures__', import.meta.url));
+const root = resolve(__dirname, '__fixtures__');
 
 const testUsers = new Map<string, ServerUser>();
 const TEST_USERNAME = 'test';

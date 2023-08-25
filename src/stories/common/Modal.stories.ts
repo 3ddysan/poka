@@ -8,11 +8,11 @@ export default {
   render: (args) => ({
     components: { Modal },
     setup() {
-      return { args, isOpen: ref(args.modelValue) };
+      return { args };
     },
     template: `Background
       <Modal
-        v-model="isOpen"
+        v-model="args.modelValue"
         v-bind="args"
       >
         {{ args.content }}

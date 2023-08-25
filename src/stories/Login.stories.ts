@@ -10,13 +10,13 @@ export default {
     },
     template: `<Login
         v-bind="args"
-        @login="args.login"
-        @spectate="args.spectate"
+        @login="args.onLogin"
+        @spectate="args.onSpectate"
       />`,
   }),
   argTypes: {
-    login: { action: 'login' },
-    spectate: { action: 'spectate' },
+    onLogin: { action: 'login' },
+    onSpectate: { action: 'spectate' },
   },
 } as Meta<typeof Login>;
 

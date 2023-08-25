@@ -2,12 +2,14 @@ import '@unocss/reset/tailwind.css';
 import 'virtual:uno.css';
 import { setup } from '@storybook/vue3';
 import type { DecoratorFunction, Parameters } from '@storybook/csf';
-import { createI18n } from 'vue-i18n';
-import { withDarkMode } from './withDarkMode.decorator'
+import { createFloatingElements } from '../src/plugins/floating';
+import { createInternationalization } from '../src/plugins/i18n';
+import { withDarkMode } from './withDarkMode.decorator';
 import '@/themes.css';
 
 setup((app) => {
-  app.use(createI18n({}));
+  app.use(createFloatingElements())
+    .use(createInternationalization());
 });
 
 export const parameters: Parameters = {

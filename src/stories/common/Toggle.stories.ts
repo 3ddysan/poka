@@ -6,7 +6,7 @@ export default {
   render: (args) => ({
     components: { Toggle },
     setup() {
-      return { checked: ref(args.modelValue) };
+      return { args, checked: ref(args.modelValue) };
     },
     template: `<Toggle
         v-model="checked"

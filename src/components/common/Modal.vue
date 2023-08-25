@@ -27,9 +27,12 @@ const dialog = ref();
 useEventListener(dialog, 'close', () => {
   isOpen.value = false;
 });
-// onClickOutside(dialog, () => {
-//   dialog.value.close();
-// });
+const inheritAttrs = useAttrs();
+</script>
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+};
 </script>
 <template>
   <div
@@ -44,6 +47,7 @@ useEventListener(dialog, 'close', () => {
     }"
     class="modal relative border border-gray-500/10 rounded p-0 shadow-lg"
     :open="isOpen ? true : undefined"
+    v-bind="inheritAttrs"
   >
     <template v-if="!!title">
       <h1 class="truncate p-2 font-bold">

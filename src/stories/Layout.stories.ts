@@ -5,7 +5,6 @@ import UserList from '@/components/UserList.vue';
 
 export default {
   component: Layout,
-  subcomponents: { Board, UserList },
   render: (args) => ({
     components: { Layout, Board, UserList },
     setup() {
