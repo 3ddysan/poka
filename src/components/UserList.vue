@@ -25,6 +25,16 @@ const kick = (name: string) => {
   promptUserLogout.value = '';
   emit('kick', name);
 };
+const resetResultsDisabled = ref(false);
+whenever(
+  () => props.mode === 'results',
+  () => {
+    resetResultsDisabled.value = true;
+    useTimeoutFn(() => {
+      resetResultsDisabled.value = false;
+    }, 3000);
+  },
+);
 </script>
 
 <template>
@@ -74,6 +84,7 @@ const kick = (name: string) => {
         dense
         data-testid="user-list-restart-action"
         @click="emit('reset-results')"
+        :disabled="resetResultsDisabled"
       >
         <i-mdi-restart /> {{ t('restart') }}
       </Btn>
