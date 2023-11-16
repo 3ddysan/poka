@@ -1,7 +1,9 @@
 import { type RenderOptions, screen, fireEvent } from '@testing-library/vue';
 import Toggle from '@/components/common/Toggle.vue';
 
-const render = (options?: RenderOptions) => mount(Toggle, options);
+const tooltip = 'TOOLTIP';
+const render = ({ props = {}, ...options } = {}) =>
+  mount(Toggle, { props: { tooltip, ...props }, ...options });
 
 describe('Toggle', () => {
   test.each([[false], [true]])(

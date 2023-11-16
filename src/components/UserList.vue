@@ -15,7 +15,12 @@ const props = defineProps({
     default: 'voting',
   },
 });
-const emit = defineEmits(['show-results', 'reset-results', 'logout', 'kick']);
+const emit = defineEmits<{
+  'show-results': [value: void];
+  'reset-results': [value: void];
+  logout: [value: void];
+  kick: [value: string];
+}>();
 const { t } = useI18n();
 const promptUserLogout = ref('');
 const truncate = (name: string) =>
@@ -45,10 +50,10 @@ whenever(
       </h2>
       <ul class="users mt-2">
         <li
-          class="flex"
-          data-testid="user-list-entry"
           v-for="{ name, voted, vote, spectate } in users"
           :key="name"
+          class="flex"
+          data-testid="user-list-entry"
           @mouseover="promptUserLogout = name"
           @mouseleave="promptUserLogout = ''"
         >
@@ -83,8 +88,8 @@ whenever(
         key="restart"
         dense
         data-testid="user-list-restart-action"
-        @click="emit('reset-results')"
         :disabled="resetResultsDisabled"
+        @click="emit('reset-results')"
       >
         <i-mdi-restart /> {{ t('restart') }}
       </Btn>
@@ -93,8 +98,8 @@ whenever(
         key="results"
         dense
         data-testid="user-list-results-action"
-        @click="emit('show-results')"
         :disabled="mode !== 'ready'"
+        @click="emit('show-results')"
       >
         <i-mdi-vote /> {{ t('results') }}
       </Btn>

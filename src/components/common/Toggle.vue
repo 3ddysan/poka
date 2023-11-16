@@ -8,9 +8,16 @@ const props = defineProps({
   },
   tooltip: {
     type: String,
+    required: true,
   },
 });
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean];
+}>();
+defineSlots<{
+  on(props: Record<string, never>): unknown;
+  off(props: Record<string, never>): unknown;
+}>();
 const checked = useVModel(props, 'modelValue', emit, { passive: true });
 const { play } = useSound();
 watch(checked, () => {
@@ -19,7 +26,7 @@ watch(checked, () => {
 </script>
 
 <template>
-  <div class="flex items-center" @click="checked = !checked" :title="tooltip">
+  <div class="flex items-center" :title="tooltip" @click="checked = !checked">
     <input
       v-model="checked"
       data-testid="mode-action"

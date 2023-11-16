@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/vue3-vite';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
     {
@@ -16,6 +16,7 @@ const config: StorybookConfig = {
     disableTelemetry: true,
   },
   features: {
+    storyStoreV7: true,
     buildStoriesJson: true,
     argTypeTargetsV7: true,
   }

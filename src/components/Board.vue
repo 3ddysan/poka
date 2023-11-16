@@ -35,7 +35,7 @@ defineProps({
   },
 });
 defineEmits<{
-  (e: 'update:selected', value: string): void;
+  'update:selected': [value: string];
 }>();
 </script>
 

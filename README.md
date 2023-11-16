@@ -16,5 +16,5 @@ Requirements:
 - [mkcert](https://github.com/FiloSottile/mkcert)
 
 1.  Install dependencies `pnpm i`
-2.  Start server and frontend `pnpm run serve`
+2.  Start server and frontend `pnpm run dev`
 3.  Open `https://localhost:5173/`

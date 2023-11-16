@@ -14,7 +14,10 @@ const props = defineProps({
   },
 });
 defineEmits<{
-  (e: 'click'): void;
+  click: [value: void];
+}>();
+defineSlots<{
+  default(props: Record<string, never>): unknown;
 }>();
 const classes = computed(() => ({
   rounded: props.rounded,
