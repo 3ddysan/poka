@@ -1,7 +1,7 @@
 import {
   type RenderOptions,
-  screen,
   fireEvent,
+  screen,
   waitFor,
 } from '@testing-library/vue';
 import Index from '@/pages/index.vue';
@@ -30,8 +30,9 @@ describe('Index', () => {
   });
 
   test('should show name error', async () => {
-    vi.mocked(state.login).mockImplementationOnce(async () => {
+    vi.mocked(state.login).mockImplementationOnce(() => {
       state.error = 'name';
+      return Promise.resolve();
     });
     render();
 
@@ -45,8 +46,9 @@ describe('Index', () => {
   });
 
   test('should show server error', async () => {
-    vi.mocked(state.login).mockImplementationOnce(async () => {
+    vi.mocked(state.login).mockImplementationOnce(() => {
       state.error = 'server';
+      return Promise.resolve();
     });
     render();
 
@@ -59,7 +61,7 @@ describe('Index', () => {
     );
   });
 
-  test('should reuse previous name', async () => {
+  test('should reuse previous name', () => {
     // @ts-expect-error overwrite getter for testing
     state.previousName = STORED_USERNAME;
 

@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import UserList from '@/components/UserList.vue';
 
+type Story = StoryObj<typeof UserList>;
+
 export default {
   component: UserList,
   render: (args) => ({
@@ -8,13 +10,7 @@ export default {
     setup() {
       return { args };
     },
-    template: `<UserList
-        v-bind="args"
-        @show-results="args['show-results']"
-        @reset-results="args['reset-results']"
-        @logout="args.logout"
-        @kick="args.kick"
-      >
+    template: `<UserList v-bind="args">
       </UserList>`,
   }),
   args: {
@@ -27,10 +23,10 @@ export default {
     ],
   },
   argTypes: {
-    'show-results': { action: 'show-results' },
-    'reset-results': { action: 'reset-results' },
-    kick: { action: 'kick' },
-    logout: { action: 'logout' },
+    onShowResults: { action: 'show-results' },
+    onResetResults: { action: 'reset-results' },
+    onLogout: { action: 'logout' },
+    onKick: { action: 'kick' },
     mode: {
       control: 'select',
       options: ['voting', 'ready', 'results'],
@@ -39,6 +35,6 @@ export default {
       control: 'object',
     },
   },
-} as Meta<typeof UserList>;
+} satisfies Meta<typeof UserList>;
 
-export const Playground: StoryObj<typeof UserList> = {};
+export const Playground: Story = {};

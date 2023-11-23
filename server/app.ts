@@ -1,9 +1,9 @@
+import type { ServerResponse } from 'node:http';
+import crypto from 'node:crypto';
 import Fastify, { type FastifyRequest } from 'fastify';
 import FastifyCors from '@fastify/cors';
 import FastifyStatic from '@fastify/static';
-import type { ServerResponse } from 'node:http';
-import crypto from 'node:crypto';
-import type { User, StateEvent, Results } from '@/types';
+import type { Results, StateEvent, User } from '@/types';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -115,7 +115,7 @@ export const build = (opts = {}, { root, testUsers }: AppOptions) => {
       params === 'false' ||
       params === '0' ||
       params === '' ||
-      params == undefined
+      params == null
     );
   };
 
@@ -206,7 +206,7 @@ export const build = (opts = {}, { root, testUsers }: AppOptions) => {
 
   fastify.post<{
     Body: { name: string; vote: string };
-  }>('/api/vote', async (req, res) => {
+  }>('/api/vote', (req, res) => {
     const { name, vote } = req.body;
     const user = users.get(name);
     if (user) {
@@ -224,13 +224,13 @@ export const build = (opts = {}, { root, testUsers }: AppOptions) => {
     }
   });
 
-  fastify.get('/api/results', async (req, res) => {
+  fastify.get('/api/results', (req, res) => {
     results = calcResults();
     res.code(204).send();
     broadcastState();
   });
 
-  fastify.delete('/api/results', async (req, res) => {
+  fastify.delete('/api/results', (req, res) => {
     results = null;
     users.forEach((user) => {
       user.vote = '';

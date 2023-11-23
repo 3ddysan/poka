@@ -1,9 +1,4 @@
-import {
-  type RenderOptions,
-  fireEvent,
-  screen,
-  waitFor,
-} from '@testing-library/vue';
+import { type RenderOptions, fireEvent, screen } from '@testing-library/vue';
 import Login from '@/components/Login.vue';
 
 const render = (options?: RenderOptions) => mount(Login, options);
@@ -58,7 +53,7 @@ describe('Login', () => {
     expect(emitted().login).toEqual([[name]]);
   });
 
-  test('should show error', async () => {
+  test('should show error', () => {
     const errorMessage = 'error';
     render({
       props: {
@@ -68,7 +63,7 @@ describe('Login', () => {
     expect(screen.getByTestId('login-error')).toHaveTextContent(errorMessage);
   });
 
-  test('should render disabled', async () => {
+  test('should render disabled', () => {
     render({
       props: {
         disabledAction: true,

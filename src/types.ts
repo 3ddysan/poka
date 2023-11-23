@@ -1,5 +1,9 @@
-import { z } from 'zod';
-import { UserValidator, ResultsValidator, StateValidator } from '@/validation';
+import type { z } from 'zod';
+import type {
+  ResultsValidator,
+  StateValidator,
+  UserValidator,
+} from '@/validation';
 
 export type User = z.infer<typeof UserValidator>;
 export type Results = z.infer<typeof ResultsValidator>;

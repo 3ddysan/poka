@@ -23,9 +23,8 @@ export default {
   }),
   argTypes: {
     selected: { control: 'text' },
-    'update:selected': { action: 'update:selected' },
   },
-} as Meta<typeof Board>;
+} satisfies Meta<typeof Board>;
 
 export const Selected: Story = {
   args: {

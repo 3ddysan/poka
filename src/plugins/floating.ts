@@ -1,4 +1,4 @@
-import { type Plugin } from 'vue';
+import type { Plugin } from 'vue';
 import FloatingVue from 'floating-vue';
 import 'floating-vue/dist/style.css';
 

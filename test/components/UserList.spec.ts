@@ -1,12 +1,12 @@
-import { fireEvent, type RenderOptions } from '@testing-library/vue';
-import UserList from '@/components/UserList.vue';
+import { type RenderOptions, fireEvent } from '@testing-library/vue';
 import {
-  buildUsers,
-  buildUser,
-  buildSpectator,
-  VOTE,
   NO_VOTE,
+  VOTE,
+  buildSpectator,
+  buildUser,
+  buildUsers,
 } from '../fixtures';
+import UserList from '@/components/UserList.vue';
 
 const render = (options?: RenderOptions) => mount(UserList, options);
 

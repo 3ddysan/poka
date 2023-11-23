@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/vue';
+import { NO_VOTE, VOTE, buildSpectator, buildUser } from '../fixtures';
 import Plan from '@/pages/plan.vue';
 import { useStore } from '@/stores/state';
-import { buildUser, VOTE, NO_VOTE, buildSpectator } from '../fixtures';
 
 const state = useStore();
 const render = () => mount(Plan);
@@ -47,7 +47,7 @@ describe('Page -> Board', () => {
   test('should show user count', () => {
     render();
     expect(screen.getByTestId('user-list-title')).toHaveTextContent(
-      'User (' + state.users.length + ')',
+      `User (${state.users.length})`,
     );
   });
 

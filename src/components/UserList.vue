@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { User, Mode } from '@/types';
+import type { Mode, User } from '@/types';
 
 const props = defineProps({
   userName: {
@@ -16,16 +16,15 @@ const props = defineProps({
   },
 });
 const emit = defineEmits<{
-  'show-results': [value: void];
-  'reset-results': [value: void];
-  logout: [value: void];
+  showResults: [];
+  resetResults: [];
+  logout: [];
   kick: [value: string];
 }>();
 const { t } = useI18n();
 const promptUserLogout = ref('');
 const truncate = (name: string) =>
-  name.substring(0, Math.min(10, name.length)) +
-  (name.length > 10 ? '...' : '');
+  name.slice(0, Math.min(10, name.length)) + (name.length > 10 ? '...' : '');
 const kick = (name: string) => {
   promptUserLogout.value = '';
   emit('kick', name);
@@ -89,7 +88,7 @@ whenever(
         dense
         data-testid="user-list-restart-action"
         :disabled="resetResultsDisabled"
-        @click="emit('reset-results')"
+        @click="emit('resetResults')"
       >
         <i-mdi-restart /> {{ t('restart') }}
       </Btn>
@@ -99,7 +98,7 @@ whenever(
         dense
         data-testid="user-list-results-action"
         :disabled="mode !== 'ready'"
-        @click="emit('show-results')"
+        @click="emit('showResults')"
       >
         <i-mdi-vote /> {{ t('results') }}
       </Btn>

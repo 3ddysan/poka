@@ -14,7 +14,7 @@ const props = defineProps({
   },
 });
 defineEmits<{
-  click: [value: void];
+  click: [];
 }>();
 defineSlots<{
   default(props: Record<string, never>): unknown;
@@ -27,11 +27,12 @@ const classes = computed(() => ({
   'px-2': props.dense,
 }));
 </script>
+
 <template>
   <button
     :disabled="disabled"
     :class="classes"
-    class="btn font-medium border-none shadow-md active:(shadow-lg) disabled:(shadow-none) focus:(shadow-lg outline-none ring-0) hover:(shadow-lg)"
+    class="btn border-none font-medium shadow-md active:(shadow-lg) disabled:(shadow-none) focus:(shadow-lg outline-none ring-0) hover:(shadow-lg)"
     @click="$emit('click')"
   >
     <span class="text h-full inline-flex items-center justify-center gap-1">
@@ -39,6 +40,7 @@ const classes = computed(() => ({
     </span>
   </button>
 </template>
+
 <style scoped>
 .btn {
   background-color: var(--primary);

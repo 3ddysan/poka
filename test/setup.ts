@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
+import * as util from 'node:util';
 import { setActivePinia } from 'pinia';
 import { createTestingPinia } from '@pinia/testing';
 import { render } from '@testing-library/vue';
 import { createI18n } from 'vue-i18n';
-import * as util from 'node:util';
 
 const pinia = createTestingPinia();
 setActivePinia(pinia);
@@ -35,7 +35,7 @@ global.mount = (component: unknown, { global, ...options } = {}) =>
     ...options,
   });
 
-function Audio(url: string) {
+function Audio() {
   // ignore
 }
 Audio.prototype.play = vi.fn();

@@ -4,12 +4,11 @@ import { setup } from '@storybook/vue3';
 import type { DecoratorFunction, Parameters } from '@storybook/csf';
 import { createFloatingElements } from '../src/plugins/floating';
 import { createInternationalization } from '../src/plugins/i18n';
-import { withDarkMode } from './withDarkMode.decorator';
+import { withDarkMode } from './with-dark-mode.decorator';
 import '@/themes.css';
 
 setup((app) => {
-  app.use(createFloatingElements())
-    .use(createInternationalization());
+  app.use(createFloatingElements()).use(createInternationalization());
 });
 
 export const parameters: Parameters = {
@@ -38,14 +37,14 @@ export const decorators: DecoratorFunction[] = [
 
 export const globalTypes = {
   theme: {
-    name: "Theme",
-    description: "Global theme for components",
+    name: 'Theme',
+    description: 'Global theme for components',
     toolbar: {
-      icon: "paintbrush",
+      icon: 'paintbrush',
       // Array of plain string values or MenuItem shape (see below)
       items: [
-        { value: "light", title: "Light", left: "🌞" },
-        { value: "dark", title: "Dark", left: "🌛" },
+        { value: 'light', title: 'Light', left: '🌞' },
+        { value: 'dark', title: 'Dark', left: '🌛' },
       ],
       // Change title based on selected value
       dynamicTitle: true,

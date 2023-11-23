@@ -1,8 +1,8 @@
-import { build, type ServerUser } from './app';
 import type { AddressInfo } from 'node:net';
-import type { FastifyInstance } from 'fastify';
 import http from 'node:http';
 import { resolve } from 'node:path';
+import type { FastifyInstance } from 'fastify';
+import { type ServerUser, build } from './app';
 
 const root = resolve(__dirname, '__fixtures__');
 
@@ -74,7 +74,7 @@ describe('Real Server', () => {
       vote,
       name,
     });
-    const cookie = COOKIE_NAME + '=' + testUsers.get(name)?.token;
+    const cookie = `${COOKIE_NAME}=${testUsers.get(name)?.token}`;
     return new Promise((resolve, reject) => {
       const req = http.request(
         getBaseUrl(`/api/vote`),

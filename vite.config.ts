@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from 'url';
+import { URL, fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import mkcert from 'vite-plugin-mkcert';
 import vue from '@vitejs/plugin-vue';
@@ -15,7 +15,6 @@ import IconsResolver from 'unplugin-icons/resolver';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    https: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3000',

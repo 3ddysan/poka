@@ -1,6 +1,6 @@
 import type { StorybookConfig } from '@storybook/vue3-vite';
 
-const config: StorybookConfig = {
+export default {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
@@ -19,7 +19,5 @@ const config: StorybookConfig = {
     storyStoreV7: true,
     buildStoriesJson: true,
     argTypeTargetsV7: true,
-  }
-};
-
-export default config;
+  },
+} satisfies StorybookConfig;

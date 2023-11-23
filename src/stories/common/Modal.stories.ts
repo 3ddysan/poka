@@ -26,6 +26,6 @@ export default {
     modelValue: true,
     content: 'Text',
   },
-} as Meta<typeof Modal>;
+} satisfies Meta<typeof Modal>;
 
-export const Playground = {};
+export const Playground: Story = {};

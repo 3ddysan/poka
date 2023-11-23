@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import Btn from '@/components/common/Btn.vue';
 import IconAbacus from '~icons/mdi/abacus';
 
+type Story = StoryObj<typeof Btn>;
+
 export default {
   component: Btn,
   render: (args) => ({
@@ -11,7 +13,6 @@ export default {
     },
     template: `<Btn
         v-bind="args"
-        @click="args.click"
       >
           <template #default>${
             'default' in args ? args.default : null
@@ -22,18 +23,18 @@ export default {
     default: 'Action',
   },
   argTypes: {
-    click: { action: 'click' },
+    onClick: { action: 'click' },
     default: {
       control: {
         type: 'text',
       },
     },
   },
-} as Meta<typeof Btn>;
+} satisfies Meta<typeof Btn>;
 
-export const Playground = {};
+export const Playground: Story = {};
 
-export const Icon = {
+export const Icon: Story = {
   args: {
     default: `<IconAbacus /> Action`,
   },

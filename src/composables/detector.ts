@@ -1,6 +1,6 @@
 import type { Fn } from '@vueuse/core';
 
-const uniqueId = () => Math.random().toString(36).substring(2, 15);
+const uniqueId = () => Math.random().toString(36).slice(2, 15);
 
 const EVENT_KEY = 'poka_event_bridge';
 const NEW_TAB_EVENT = `new-tab-${uniqueId()}`;

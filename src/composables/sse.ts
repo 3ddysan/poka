@@ -1,4 +1,3 @@
-import type { PiniaPlugin, Store } from 'pinia';
 import type { Ref } from 'vue';
 
 export interface ServerSentEventComposable {
@@ -14,20 +13,20 @@ export function useSSE(): ServerSentEventComposable {
   let eventSource: EventSource | undefined;
   const connected = ref<boolean>(false);
   return {
-    async connect(url, events) {
+    connect(url, events) {
       return new Promise((resolve, reject) => {
         eventSource = new EventSource(url);
         Object.entries(events).forEach(([event, fn]) => {
           eventSource?.addEventListener(event, ({ data }) => fn(data));
         });
-        eventSource.onopen = () => {
+        eventSource.addEventListener('open', () => {
           connected.value = true;
           resolve();
-        };
-        eventSource.onerror = (e) => {
+        });
+        eventSource.addEventListener('error', (e) => {
           connected.value = false;
           reject(e);
-        };
+        });
       });
     },
     disconnect() {

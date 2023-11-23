@@ -1,4 +1,4 @@
-import { type RenderOptions, screen, fireEvent } from '@testing-library/vue';
+import { fireEvent, screen } from '@testing-library/vue';
 import Toggle from '@/components/common/Toggle.vue';
 
 const tooltip = 'TOOLTIP';
@@ -6,15 +6,12 @@ const render = ({ props = {}, ...options } = {}) =>
   mount(Toggle, { props: { tooltip, ...props }, ...options });
 
 describe('Toggle', () => {
-  test.each([[false], [true]])(
-    'should render checked=%s',
-    async (modelValue) => {
-      render({ props: { modelValue } });
-      const matcher = expect(screen.getByTestId('mode-action'));
+  test.each([[false], [true]])('should render checked=%s', (modelValue) => {
+    render({ props: { modelValue } });
+    const matcher = expect(screen.getByTestId('mode-action'));
 
-      (modelValue ? matcher : matcher.not).toBeChecked();
-    },
-  );
+    (modelValue ? matcher : matcher.not).toBeChecked();
+  });
 
   test('should check', async () => {
     const { emitted } = render();

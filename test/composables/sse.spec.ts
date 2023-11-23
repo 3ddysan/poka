@@ -3,12 +3,16 @@ import { useSSE } from '@/composables/sse';
 let emitError = false;
 const EventSourceState = {
   set onopen(fn: () => void) {
-    fn();
+    if (!emitError) fn();
   },
   set onerror(fn: () => void) {
     if (emitError) fn();
   },
-  addEventListener: vi.fn((event, fn) => fn({ data: event })),
+  addEventListener: vi.fn((event, fn) => {
+    if ((event === 'open' && emitError) || (event === 'error' && !emitError))
+      return;
+    fn({ data: event });
+  }),
   close: vi.fn(),
 };
 const EventSourceMock = vi.fn(() => EventSourceState);
@@ -33,7 +37,7 @@ describe('sse', () => {
     emitError = true;
     const { connect, connected } = useSSE();
 
-    await connect(URL, {});
+    await expect(() => connect(URL, {})).rejects.toThrowError();
 
     expect(connected.value).toBeFalsy();
   });
@@ -47,7 +51,7 @@ describe('sse', () => {
 
     await connect(URL, listeners);
 
-    expect(listeners.event).toBeCalledWith(event);
+    expect(listeners[event]).toBeCalledWith(event);
   });
 
   test('should close connection on disconnect', async () => {

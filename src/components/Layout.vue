@@ -4,6 +4,7 @@ defineSlots<{
   sidebar(props: Record<string, never>): unknown;
 }>();
 </script>
+
 <template>
   <div class="grid h-full md:grid-flow-col md:grid-rows-1">
     <div class="sidebar flex items-center justify-center p-5 md:justify-end">
@@ -14,6 +15,7 @@ defineSlots<{
     </div>
   </div>
 </template>
+
 <style scoped>
 .sidebar {
   background-color: var(--background);

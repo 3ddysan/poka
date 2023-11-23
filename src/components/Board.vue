@@ -1,4 +1,6 @@
 <script lang="ts">
+import type { Results } from '@/types';
+
 export const values = [
   '0',
   '1',
@@ -14,8 +16,6 @@ export const values = [
 </script>
 
 <script setup lang="ts">
-import type { Results } from '@/types';
-
 defineProps({
   selected: {
     type: String as PropType<string | null>,

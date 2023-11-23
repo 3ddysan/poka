@@ -1,5 +1,5 @@
 import { URL, fileURLToPath } from 'node:url';
-import { build } from './server/app';
+import { build } from './server/app.js';
 
 const isDev = process.env.NODE_ENV === 'dev';
 const SERVER_PORT = Number(process.env.SERVER_PORT || 3000);
@@ -24,14 +24,7 @@ process.on('SIGINT', async (signal) => {
   process.kill(process.pid, signal);
 });
 
-(async () => {
-  try {
-    await fastify.listen({
-      host: isDev ? 'localhost' : '0.0.0.0',
-      port: SERVER_PORT,
-    });
-  } catch (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
-})();
+await fastify.listen({
+  host: isDev ? 'localhost' : '0.0.0.0',
+  port: SERVER_PORT,
+});

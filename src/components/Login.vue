@@ -28,6 +28,7 @@ const mode = computed(() => (isSpectator.value ? 'spectate' : 'login'));
 const { t } = useI18n();
 const submit = () => name.value && emit(mode.value, name.value);
 </script>
+
 <template>
   <div class="relative">
     <VDropdown theme="alert" :shown="!!errorMessage">
@@ -86,6 +87,7 @@ const submit = () => name.value && emit(mode.value, name.value);
   color: var(--on-surface);
 }
 </style>
+
 <style>
 .v-popper--theme-alert {
   & .v-popper__inner {
@@ -99,6 +101,7 @@ const submit = () => name.value && emit(mode.value, name.value);
   }
 }
 </style>
+
 <i18n>
 en:
   login: 'Login'

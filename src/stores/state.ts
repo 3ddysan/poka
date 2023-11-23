@@ -1,5 +1,5 @@
-import { defineStore, acceptHMRUpdate, getActivePinia } from 'pinia';
-import type { StoreState, Mode } from '@/types';
+import { acceptHMRUpdate, defineStore, getActivePinia } from 'pinia';
+import type { Mode, StoreState } from '@/types';
 import { StateValidator } from '@/validation';
 import { useSSE } from '@/composables/sse';
 import { useSound } from '@/composables/sound';
@@ -133,7 +133,7 @@ export const useStore = defineStore('state', () => {
         previousName.value = name;
         state.name = name;
         spectate.value = isSpectator;
-      } catch (e: unknown) {
+      } catch {
         state.error = 'server';
       }
     },

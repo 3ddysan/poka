@@ -1,14 +1,14 @@
-import { useStore } from '@/stores/state';
+import { useFetch } from '@vueuse/core';
+import { createPinia, setActivePinia } from 'pinia';
 import {
+  NO_VOTE,
+  VOTE,
   buildSpectator,
   buildUser,
   buildUsers,
   mockIsNameTaken,
-  NO_VOTE,
-  VOTE,
 } from '../fixtures';
-import { useFetch } from '@vueuse/core';
-import { setActivePinia, createPinia } from 'pinia';
+import { useStore } from '@/stores/state';
 
 vi.mock('@vueuse/core', async () => (await import('../mocks')).vueuseModule());
 
@@ -51,14 +51,14 @@ describe('State Store', () => {
 
   test('should try login and handle error', async () => {
     const store = useStore();
-    sseMock.connect.mockRejectedValueOnce(new Error());
+    sseMock.connect.mockRejectedValueOnce(new Error('ignore'));
 
     await store.login('ignore', false);
 
     expect(store.error).toBeTruthy();
   });
 
-  test('should logout and reset state', async () => {
+  test('should logout and reset state', () => {
     const store = useStore();
     store.$patch({
       name: 'test',
@@ -184,9 +184,9 @@ describe('State Store', () => {
   test.each([
     [true, '/plan'],
     [false, '/'],
-  ])('should connected=%s route to %s', async (isConnected, route) => {
+  ])('should connected=%s route to %s', (isConnected, route) => {
     sseMock.connected.value = isConnected;
-    const store = useStore();
+    useStore();
 
     expect(routerMock.push).toHaveBeenCalledWith(route);
   });

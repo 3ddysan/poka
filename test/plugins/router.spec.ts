@@ -1,4 +1,4 @@
-import { createMemoryHistory, type Router } from 'vue-router';
+import { type Router, createMemoryHistory } from 'vue-router';
 import { createRouter } from '@/plugins/router';
 import { useStore } from '@/stores/state';
 

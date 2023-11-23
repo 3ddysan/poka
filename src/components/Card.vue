@@ -38,7 +38,7 @@ const classes = computed(() => ({
     <button
       data-testid="card-action"
       :class="classes"
-      class="card h-8em w-6em flex flex-col transform border-solid select-none border rounded px-3 transition-transform hover:shadow-md"
+      class="card h-8em w-6em flex flex-col transform select-none border rounded border-solid px-3 transition-transform hover:shadow-md"
       @click="disabled || $emit('click')"
     >
       <div data-testid="card-top-value" class="value w-full text-left text-xs">
@@ -47,7 +47,7 @@ const classes = computed(() => ({
       <div
         data-testid="card-value"
         :class="{ selected }"
-        class="card-value w-full border-solid flex flex-grow items-center justify-center border text-5xl"
+        class="card-value w-full flex flex-grow items-center justify-center border border-solid text-5xl"
       >
         <span class="value"><slot /></span>
       </div>
@@ -61,12 +61,13 @@ const classes = computed(() => ({
     <div
       v-show="votes > 0"
       data-testid="card-votes"
-      class="votes border-solid absolute left-18 z-1 h-10 w-10 rounded-full rounded-full p-2 text-center font-bold -top-3"
+      class="votes absolute left-18 z-1 h-10 w-10 rounded-full rounded-full border-solid p-2 text-center font-bold -top-3"
     >
       {{ votes }}
     </div>
   </div>
 </template>
+
 <style scoped>
 .card {
   border-color: var(--background);

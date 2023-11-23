@@ -1,4 +1,7 @@
 <script setup lang="ts">
+defineOptions({
+  inheritAttrs: false,
+});
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -33,18 +36,13 @@ const dialog = ref();
 useEventListener(dialog, 'close', () => {
   isOpen.value = false;
 });
-const inheritAttrs = useAttrs();
 </script>
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
+
 <template>
   <div
     v-if="overlay && isOpen"
     class="fixed inset-0 h-full w-full overflow-y-auto"
-  ></div>
+  />
   <dialog
     ref="dialog"
     :style="{
@@ -53,7 +51,7 @@ export default {
     }"
     class="modal relative border border-gray-500/10 rounded p-0 shadow-lg"
     :open="isOpen ? true : undefined"
-    v-bind="inheritAttrs"
+    v-bind="$attrs"
   >
     <template v-if="!!title">
       <h1 class="truncate p-2 font-bold">

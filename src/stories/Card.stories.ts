@@ -10,20 +10,19 @@ export default {
     setup() {
       return { args };
     },
-    template: `<Card v-bind="args" @click="args.click"><template #default>{{ args.default }}</template></Card>`,
+    template: `<Card v-bind="args"><template #default>{{ args.default }}</template></Card>`,
   }),
   args: {
     default: '10',
   },
   argTypes: {
-    click: { action: 'click' },
     default: {
       control: {
         type: 'text',
       },
     },
   },
-} as Meta<typeof Card>;
+} satisfies Meta<typeof Card>;
 
 export const Selected: Story = {
   args: {

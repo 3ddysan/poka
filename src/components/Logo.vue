@@ -6,6 +6,7 @@ defineProps({
   },
 });
 </script>
+
 <template>
   <h1
     :class="{ 'animate-bounce': animate }"
@@ -16,9 +17,10 @@ defineProps({
     >
     <div
       class="absolute top-15 h-2 w-8 border-b-2 bg-gray-300 dark:border-[#d863bb] dark:bg-[#6a6577]"
-    ></div>
+    />
   </h1>
 </template>
+
 <style scoped>
 .logo {
   text-shadow: #fff 0px 0px 5px;

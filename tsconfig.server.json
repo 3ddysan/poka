@@ -1,12 +1,12 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
-  "include": ["server/**/*", "server.ts"],
   "compilerOptions": {
     "composite": true,
-    "skipLibCheck": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
-  }
+    },
+    "skipLibCheck": false
+  },
+  "include": ["server/**/*", "server.ts"]
 }
