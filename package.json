@@ -9,7 +9,7 @@
     "dev": "run-p --race -l dev:server dev:ui",
     "dev:server": "NODE_ENV=dev tsx watch server.ts",
     "dev:ui": "vite --open",
-    "lint": "eslint . --fix",
+    "lint": "eslint --fix .",
     "postinstall": "rm -rf ./node_modules/@types/react",
     "storybook": "storybook dev -p 6006 -h localhost",
     "test": "vitest run",
@@ -85,6 +85,6 @@
     }
   },
   "lint-staged": {
-    "*": "eslint --fix"
+    "*": "eslint --fix --cache"
   }
 }
