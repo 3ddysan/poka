@@ -12,6 +12,7 @@ export default sxzz([
       '.husky/*',
       'server.mjs',
       '.vscode/*',
+      '.prettierrc',
     ],
   },
   {
