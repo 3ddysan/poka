@@ -189,8 +189,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /@adobe/css-tools@4.3.1:
-    resolution: {integrity: sha512-/62yikz7NLScCGAAST5SHdnjaDJQBDq0M2muyRTpf2VQhw6StBg2ALiu73zSJQ4fMVLA+0uBhBHAle7Wg+2kSg==}
+  /@adobe/css-tools@4.3.2:
+    resolution: {integrity: sha512-DA5a1C0gD/pLOvhv33YMrbf2FK3oUzwNl9oOJqE4XVjuEtt6XIakRcsd7eLiOSPkp1kTRQGICTA8cKra/vFbjw==}
     dev: true
 
   /@ampproject/remapping@2.2.1:
@@ -3957,7 +3957,7 @@ packages:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.3.9(typescript@5.3.2)
-      vue-component-type-helpers: 1.8.22
+      vue-component-type-helpers: 1.8.24
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -4032,7 +4032,7 @@ packages:
       vitest:
         optional: true
     dependencies:
-      '@adobe/css-tools': 4.3.1
+      '@adobe/css-tools': 4.3.2
       '@babel/runtime': 7.23.4
       aria-query: 5.3.0
       chalk: 3.0.0
@@ -5028,7 +5028,7 @@ packages:
     dependencies:
       js-beautify: 1.14.11
       vue: 3.3.9(typescript@5.3.2)
-      vue-component-type-helpers: 1.8.22
+      vue-component-type-helpers: 1.8.24
     dev: true
 
   /@vue/tsconfig@0.4.0:
@@ -11473,8 +11473,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /vue-component-type-helpers@1.8.22:
-    resolution: {integrity: sha512-LK3wJHs3vJxHG292C8cnsRusgyC5SEZDCzDCD01mdE/AoREFMl2tzLRuzwyuEsOIz13tqgBcnvysN3Lxsa14Fw==}
+  /vue-component-type-helpers@1.8.24:
+    resolution: {integrity: sha512-lqWs/7fdRXoSBAlbouHBX+LNuaY6gI9xWW34m/ZIz9zVPYHEyw0b2/zaCBwlKx0NtKTeF/6pOpvrxVkh7nhIYg==}
     dev: true
 
   /vue-demi@0.14.6(vue@3.3.9):
