@@ -16,10 +16,6 @@ export default {
         @spectate="args.onSpectate"
       />`,
   }),
-  argTypes: {
-    onLogin: { action: 'login' },
-    onSpectate: { action: 'spectate' },
-  },
 } satisfies Meta<typeof Login>;
 
 export const Playground: Story = {};

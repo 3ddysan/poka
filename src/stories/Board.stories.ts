@@ -10,15 +10,10 @@ export default {
     setup() {
       return {
         args,
-        selection: ref(args.selected),
       };
     },
     template: `<Board
-        v-model:selected="selection"
-        :results="args.results"
-        :marked="args.marked"
-        :disabled="args.disabled"
-        @update:selected="args['update:selected']"
+        v-bind="args"
       />`,
   }),
   argTypes: {

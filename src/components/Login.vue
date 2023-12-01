@@ -18,13 +18,18 @@ const props = defineProps({
   },
 });
 const emit = defineEmits<{
-  (event: 'login' | 'spectate', name: string): void;
+  login: [name: string];
+  spectate: [name: string];
 }>();
 const name = ref(props.name);
 const isSpectator = ref(props.spectate);
 const mode = computed(() => (isSpectator.value ? 'spectate' : 'login'));
 const { t } = useI18n();
-const submit = () => name.value && emit(mode.value, name.value);
+const submit = () =>
+  name.value &&
+  (isSpectator.value
+    ? emit('spectate', name.value)
+    : emit('login', name.value));
 </script>
 
 <template>

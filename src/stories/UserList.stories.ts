@@ -23,10 +23,6 @@ export default {
     ],
   },
   argTypes: {
-    onShowResults: { action: 'show-results' },
-    onResetResults: { action: 'reset-results' },
-    onLogout: { action: 'logout' },
-    onKick: { action: 'kick' },
     mode: {
       control: 'select',
       options: ['voting', 'ready', 'results'],
