@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import UserList from '@/components/UserList.vue';
 
-type Story = StoryObj<typeof UserList>;
-
-export default {
+const meta: Meta<typeof UserList> = {
   component: UserList,
   render: (args) => ({
     components: { UserList },
@@ -31,6 +29,9 @@ export default {
       control: 'object',
     },
   },
-} satisfies Meta<typeof UserList>;
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};

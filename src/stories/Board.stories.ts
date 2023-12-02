@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Board from '@/components/Board.vue';
 
-type Story = StoryObj<typeof Board>;
-
-export default {
+const meta: Meta<typeof Board> = {
   component: Board,
   render: (args) => ({
     components: { Board },
@@ -19,7 +17,10 @@ export default {
   argTypes: {
     selected: { control: 'text' },
   },
-} satisfies Meta<typeof Board>;
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Selected: Story = {
   args: {

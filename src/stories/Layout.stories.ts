@@ -3,9 +3,7 @@ import Layout from '@/components/Layout.vue';
 import Board from '@/components/Board.vue';
 import UserList from '@/components/UserList.vue';
 
-type Story = StoryObj<typeof UserList>;
-
-export default {
+const meta: Meta<typeof Layout> = {
   component: Layout,
   render: (args) => ({
     components: { Layout, Board, UserList },
@@ -26,6 +24,9 @@ export default {
       `,
   }),
   argTypes: {},
-} satisfies Meta<typeof Layout>;
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};

@@ -8,8 +8,7 @@ import { createI18n } from 'vue-i18n';
 const pinia = createTestingPinia();
 setActivePinia(pinia);
 
-// @ts-expect-error type
-global.mount = (component: unknown, { global, ...options } = {}) =>
+global.mount = (component: unknown, { global = {}, ...options } = {}) =>
   render(component, {
     global: {
       plugins: [
@@ -28,7 +27,7 @@ global.mount = (component: unknown, { global, ...options } = {}) =>
           props: ['shown'],
           template: '<div><slot v-if="shown" name="popper" /><slot /></div>',
         },
-        VMenu: '<div><slot name="popper" /><slot /></div>',
+        VMenu: { template: '<div><slot name="popper" /><slot /></div>' },
       },
       ...global,
     },

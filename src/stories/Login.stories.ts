@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Login from '@/components/Login.vue';
 
-type Story = StoryObj<typeof Login>;
-
-export default {
+const meta: Meta<typeof Login> = {
   component: Login,
   render: (args) => ({
     components: { Login },
@@ -16,6 +14,9 @@ export default {
         @spectate="args.onSpectate"
       />`,
   }),
-} satisfies Meta<typeof Login>;
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};

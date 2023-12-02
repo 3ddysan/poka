@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Modal from '@/components/common/Modal.vue';
 
-type Story = StoryObj<typeof Modal>;
-
-export default {
+const meta: Meta<typeof Modal> = {
   component: Modal,
   render: (args) => ({
     components: { Modal },
@@ -15,7 +13,7 @@ export default {
         v-model="args.modelValue"
         v-bind="args"
       >
-        {{ args.content }}
+        {{ args.default }}
         <template #actions>
           <button>Close</button>
         </template>
@@ -24,8 +22,11 @@ export default {
   args: {
     title: 'Title',
     modelValue: true,
-    content: 'Text',
+    default: 'Text',
   },
-} satisfies Meta<typeof Modal>;
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};

@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Toggle from '@/components/common/Toggle.vue';
 
-type Story = StoryObj<typeof Toggle>;
-
-export default {
+const meta: Meta<typeof Toggle> = {
   component: Toggle,
   render: (args) => ({
     components: { Toggle },
@@ -15,6 +13,9 @@ export default {
         v-bind="args"
       />`,
   }),
-} satisfies Meta<typeof Toggle>;
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};

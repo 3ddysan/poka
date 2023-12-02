@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Card from '../components/Card.vue';
 
-type Story = StoryObj<typeof Card>;
-
-export default {
+const meta: Meta<typeof Card> = {
   component: Card,
   render: (args) => ({
     components: { Card },
@@ -22,7 +20,10 @@ export default {
       },
     },
   },
-} satisfies Meta<typeof Card>;
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Selected: Story = {
   args: {

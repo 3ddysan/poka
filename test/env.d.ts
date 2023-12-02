@@ -1,5 +1,7 @@
+/* eslint-disable */
+
 declare global {
-  const mount: (typeof import('@testing-library/vue'))['render'];
+  var mount: (typeof import('@testing-library/vue'))['render'];
 }
 
 export {};
