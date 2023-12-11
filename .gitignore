@@ -23,3 +23,4 @@ server.mjs
 .eslintcache
 docker-compose.override.yml
 storybook-static
+*.tsbuildinfo

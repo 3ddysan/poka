@@ -69,6 +69,7 @@ export default defineConfig(({ mode }) => ({
   },
   test: {
     globals: true,
+    dir: 'test',
     environment: 'happy-dom',
     setupFiles: ['test/setup.ts'],
     clearMocks: true,
