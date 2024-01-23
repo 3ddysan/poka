@@ -1,20 +1,20 @@
 {
   "references": [
     {
-      "path": "./tsconfig.node.json"
+      "path": "./tsconfig.node.json",
     },
     {
-      "path": "./tsconfig.app.json"
+      "path": "./tsconfig.app.json",
     },
     {
-      "path": "./tsconfig.vitest.json"
+      "path": "./tsconfig.vitest.json",
     },
     {
-      "path": "./tsconfig.server.json"
+      "path": "./tsconfig.server.json",
     },
     {
-      "path": "./tsconfig.storybook.json"
-    }
+      "path": "./tsconfig.storybook.json",
+    },
   ],
-  "files": []
+  "files": [],
 }
