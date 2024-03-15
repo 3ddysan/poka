@@ -22,7 +22,7 @@ const files = sounds.reduce(
 
 export interface SoundComposable {
   isSoundOn: RemovableRef<boolean>;
-  play(name: Sound): void;
+  play: (name: Sound) => void;
 }
 
 export function useSound(): SoundComposable {

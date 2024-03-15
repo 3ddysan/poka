@@ -1,5 +1,6 @@
 import type { ServerResponse } from 'node:http';
-import crypto from 'node:crypto';
+import { randomUUID } from 'node:crypto';
+import { env } from 'node:process';
 import Fastify, { type FastifyRequest } from 'fastify';
 import FastifyCors from '@fastify/cors';
 import FastifyStatic from '@fastify/static';
@@ -26,8 +27,8 @@ export type ServerUser = Omit<User, 'name'> & {
 
 type AppOptions = { root: string; testUsers?: Map<string, ServerUser> };
 
-const COOKIE_NAME = process.env.COOKIE_NAME || '_poka_session';
-const ORIGIN = process.env.ORIGIN || 'localhost';
+const COOKIE_NAME = env.COOKIE_NAME || '_poka_session';
+const ORIGIN = env.ORIGIN || 'localhost';
 const getSessionToken = (req: FastifyRequest) => req.cookies[COOKIE_NAME] ?? '';
 
 export const build = (opts = {}, { root, testUsers }: AppOptions) => {
@@ -121,7 +122,7 @@ export const build = (opts = {}, { root, testUsers }: AppOptions) => {
 
   function setup(req: FastifyRequest<EventsRequest>, response: ServerResponse) {
     const { name, spectate = false } = req.query;
-    const token = crypto.randomUUID();
+    const token = randomUUID();
     response.writeHead(200, {
       'Access-Control-Allow-Origin': '*',
       'Cache-Control': 'no-cache, no-transform',

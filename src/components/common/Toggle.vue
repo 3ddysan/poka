@@ -15,8 +15,8 @@ const emit = defineEmits<{
   'update:modelValue': [value: boolean];
 }>();
 defineSlots<{
-  on(props: Record<string, never>): unknown;
-  off(props: Record<string, never>): unknown;
+  on: (props: Record<string, never>) => unknown;
+  off: (props: Record<string, never>) => unknown;
 }>();
 const checked = useVModel(props, 'modelValue', emit, { passive: true });
 const { play } = useSound();

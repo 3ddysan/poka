@@ -1,8 +1,10 @@
 import type { AddressInfo } from 'node:net';
 import http from 'node:http';
 import { resolve } from 'node:path';
+import { Buffer } from 'node:buffer';
 import type { FastifyInstance } from 'fastify';
-import { type ServerUser, build } from './app';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { type ServerUser, build } from './app.js';
 
 const root = resolve(__dirname, '__fixtures__');
 

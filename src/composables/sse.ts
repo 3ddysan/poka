@@ -1,11 +1,11 @@
 import type { Ref } from 'vue';
 
 export interface ServerSentEventComposable {
-  connect(
+  connect: (
     url: string,
     events: Record<string, (event: string) => void>,
-  ): Promise<void>;
-  disconnect(): void;
+  ) => Promise<void>;
+  disconnect: () => void;
   connected: Ref<boolean>;
 }
 

@@ -1,4 +1,4 @@
-import { type Router, createMemoryHistory } from 'vue-router';
+import { createMemoryHistory } from 'vue-router';
 import { createRouter } from '@/plugins/router';
 import { useStore } from '@/stores/state';
 
@@ -8,7 +8,7 @@ const stateStoreMock = {
 };
 vi.mocked(useStore, { partial: true }).mockReturnValue(stateStoreMock);
 
-let router: Router;
+let router: ReturnType<typeof createRouter>;
 
 beforeEach(() => {
   router = createRouter(createMemoryHistory());

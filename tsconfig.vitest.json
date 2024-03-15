@@ -3,7 +3,13 @@
   "compilerOptions": {
     "composite": true,
     "lib": [],
-    "types": ["node", "jsdom", "vitest/globals"]
+    "types": [
+      "unplugin-icons/types/vue",
+      "unplugin-vue-router/client",
+      "node",
+      "jsdom",
+      "vitest/globals"
+    ]
   },
   "include": ["env.d.ts", "test/**/*", "src/**/*", "server/**/*"]
 }

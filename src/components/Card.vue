@@ -23,7 +23,7 @@ const props = defineProps({
 });
 defineEmits(['click']);
 defineSlots<{
-  default(props: Record<string, never>): unknown;
+  default: (props: Record<string, never>) => unknown;
 }>();
 const classes = computed(() => ({
   selected: props.selected,

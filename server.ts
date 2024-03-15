@@ -1,4 +1,5 @@
 import { URL, fileURLToPath } from 'node:url';
+import process from 'node:process';
 import { build } from './server/app.js';
 
 const isDev = process.env.NODE_ENV === 'dev';

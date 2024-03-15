@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineSlots<{
-  main(props: Record<string, never>): unknown;
-  sidebar(props: Record<string, never>): unknown;
+  main: (props: Record<string, never>) => unknown;
+  sidebar: (props: Record<string, never>) => unknown;
 }>();
 </script>
 

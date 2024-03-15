@@ -1,5 +1,7 @@
 import { createPinia as _createPinia } from 'pinia';
-import type { Router } from 'vue-router';
+import type { createRouter } from 'vue-router/auto';
+
+type Router = ReturnType<typeof createRouter>;
 
 declare module 'pinia' {
   export interface Pinia {

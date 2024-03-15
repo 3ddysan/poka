@@ -28,8 +28,8 @@ const emit = defineEmits<{
   'update:modelValue': [value: boolean];
 }>();
 defineSlots<{
-  default(props: Record<string, never>): unknown;
-  actions(props: Record<string, never>): unknown;
+  default: (props: Record<string, never>) => unknown;
+  actions: (props: Record<string, never>) => unknown;
 }>();
 const isOpen = useVModel(props, 'modelValue', emit, { passive: true });
 const dialog = ref();
