@@ -1,8 +1,8 @@
-import { type RenderOptions, fireEvent } from '@testing-library/vue';
+import { fireEvent } from '@testing-library/vue';
 import Card from '@/components/Card.vue';
 
 const value = 'V';
-const render = (options?: RenderOptions) =>
+const render = (options = {}) =>
   mount(Card, { slots: { default: value }, ...options });
 
 describe('Card', () => {

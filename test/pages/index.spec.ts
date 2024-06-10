@@ -1,16 +1,11 @@
-import {
-  type RenderOptions,
-  fireEvent,
-  screen,
-  waitFor,
-} from '@testing-library/vue';
+import { fireEvent, screen, waitFor } from '@testing-library/vue';
 import Index from '@/pages/index.vue';
 import { useStore } from '@/stores/state';
 
 const USERNAME = 'anon';
 const STORED_USERNAME = 'previous name';
 const state = useStore();
-const render = (options?: RenderOptions) => mount(Index, options);
+const render = (options = {}) => mount(Index, options);
 
 const login = async (name = USERNAME) => {
   await fireEvent.update(screen.getByTestId('login-name'), name);

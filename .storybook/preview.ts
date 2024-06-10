@@ -38,7 +38,7 @@ export default {
         components: { story },
         setup() {
           const events = // eslint-disable-next-line dot-notation
-            (context.component['__docgenInfo']?.events || []).map(
+            (context.component?.['__docgenInfo']?.events || []).map(
               ({ name }: { name: string }) => {
                 const eventHandlerName = `on${
                   name.charAt(0).toUpperCase() + name.slice(1)

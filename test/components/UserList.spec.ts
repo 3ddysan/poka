@@ -1,4 +1,4 @@
-import { type RenderOptions, fireEvent } from '@testing-library/vue';
+import { fireEvent } from '@testing-library/vue';
 import {
   NO_VOTE,
   VOTE,
@@ -8,7 +8,7 @@ import {
 } from '../fixtures';
 import UserList from '@/components/UserList.vue';
 
-const render = (options?: RenderOptions) => mount(UserList, options);
+const render = (options = {}) => mount(UserList, options);
 
 describe('UserList', () => {
   test.each([

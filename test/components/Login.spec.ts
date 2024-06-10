@@ -1,7 +1,7 @@
-import { type RenderOptions, fireEvent, screen } from '@testing-library/vue';
+import { fireEvent, screen } from '@testing-library/vue';
 import Login from '@/components/Login.vue';
 
-const render = (options?: RenderOptions) => mount(Login, options);
+const render = (options = {}) => mount(Login, options);
 
 describe('Login', () => {
   const name = 'anon';

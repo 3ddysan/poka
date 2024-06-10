@@ -8,7 +8,7 @@ import { createI18n } from 'vue-i18n';
 const pinia = createTestingPinia();
 setActivePinia(pinia);
 
-global.mount = (component: unknown, { global = {}, ...options } = {}) =>
+global.mount = (component, { global = {}, ...options } = {}) =>
   render(component, {
     global: {
       plugins: [

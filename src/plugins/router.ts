@@ -9,5 +9,6 @@ export const createRouter = (history = createWebHistory()) => {
   });
   return create({
     history,
+    routes,
   });
 };
